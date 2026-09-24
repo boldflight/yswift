@@ -4,6 +4,7 @@ use crate::map::YrsMap;
 use crate::text::YrsText;
 use crate::xml::YrsXmlNode;
 use crate::xml::YrsXmlResolvedPosition;
+use crate::awareness::YrsAwareness;
 use crate::transaction::YrsTransaction;
 use std::sync::Arc;
 use std::{borrow::Borrow, cell::RefCell};
@@ -49,6 +50,10 @@ impl YrsDoc {
     pub(crate) fn get_xml_fragment(&self, name: String) -> Arc<YrsXmlNode> {
         let fragment = self.0.borrow().get_or_insert_xml_fragment(name.as_str());
         Arc::new(YrsXmlNode::from_fragment(fragment))
+    }
+
+    pub(crate) fn make_awareness(&self) -> Arc<YrsAwareness> {
+        Arc::new(YrsAwareness::new(self.0.borrow().clone()))
     }
 
     pub(crate) fn resolve_xml_relative_position(

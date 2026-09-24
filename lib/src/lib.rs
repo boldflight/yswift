@@ -1,4 +1,5 @@
 mod array;
+mod awareness;
 mod attrs;
 mod change;
 mod delta;
@@ -15,6 +16,7 @@ mod subscription;
 use crate::doc::YrsCollectionPtr;
 use crate::doc::YrsOrigin;
 use crate::array::YrsArray;
+use crate::awareness::{YrsAwareness, YrsAwarenessChanges, YrsAwarenessState};
 use crate::array::YrsArrayEachDelegate;
 use crate::array::YrsArrayObservationDelegate;
 use crate::change::YrsChange;

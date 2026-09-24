@@ -1,0 +1,12 @@
+{
+  "producer": "y-protocols 1.0.7 with Yjs 13.6.32",
+  "clientID": 42,
+  "state": {
+    "user": {"name": "Ada"},
+    "cursor": {"anchor": 1, "head": 3}
+  },
+  "added": "ASoBNnsidXNlciI6eyJuYW1lIjoiQWRhIn0sImN1cnNvciI6eyJhbmNob3IiOjEsImhlYWQiOjN9fQ==",
+  "heartbeat": "ASoCNnsidXNlciI6eyJuYW1lIjoiQWRhIn0sImN1cnNvciI6eyJhbmNob3IiOjEsImhlYWQiOjN9fQ==",
+  "equalClockRemoval": "ASoBBG51bGw=",
+  "removal": "ASoDBG51bGw="
+}

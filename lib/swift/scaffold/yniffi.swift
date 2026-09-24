@@ -804,6 +804,173 @@ public func FfiConverterTypeYrsArray_lower(_ value: YrsArray) -> UnsafeMutableRa
 
 
 
+public protocol YrsAwarenessProtocol : AnyObject {
+    
+    func applyUpdate(encoded: [UInt8]) throws  -> YrsAwarenessChanges?
+    
+    func clearLocalState() 
+    
+    func clientId()  -> UInt64
+    
+    func encodeUpdate() throws  -> [UInt8]
+    
+    func encodeUpdateForClients(clientIds: [UInt64]) throws  -> [UInt8]
+    
+    func removeRemoteState(clientId: UInt64) throws  -> YrsAwarenessChanges?
+    
+    func setLocalState(json: String) throws 
+    
+    func states()  -> [YrsAwarenessState]
+    
+}
+
+open class YrsAwareness:
+    YrsAwarenessProtocol {
+    fileprivate let pointer: UnsafeMutableRawPointer!
+
+    /// Used to instantiate a [FFIObject] without an actual pointer, for fakes in tests, mostly.
+    public struct NoPointer {
+        public init() {}
+    }
+
+    // TODO: We'd like this to be `private` but for Swifty reasons,
+    // we can't implement `FfiConverter` without making this `required` and we can't
+    // make it `required` without making it `public`.
+    required public init(unsafeFromRawPointer pointer: UnsafeMutableRawPointer) {
+        self.pointer = pointer
+    }
+
+    /// This constructor can be used to instantiate a fake object.
+    /// - Parameter noPointer: Placeholder value so we can have a constructor separate from the default empty one that may be implemented for classes extending [FFIObject].
+    ///
+    /// - Warning:
+    ///     Any object instantiated with this constructor cannot be passed to an actual Rust-backed object. Since there isn't a backing [Pointer] the FFI lower functions will crash.
+    public init(noPointer: NoPointer) {
+        self.pointer = nil
+    }
+
+    public func uniffiClonePointer() -> UnsafeMutableRawPointer {
+        return try! rustCall { uniffi_uniffi_yniffi_fn_clone_yrsawareness(self.pointer, $0) }
+    }
+    // No primary constructor declared for this class.
+
+    deinit {
+        guard let pointer = pointer else {
+            return
+        }
+
+        try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsawareness(pointer, $0) }
+    }
+
+    
+
+    
+open func applyUpdate(encoded: [UInt8])throws  -> YrsAwarenessChanges? {
+    return try  FfiConverterOptionTypeYrsAwarenessChanges.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_apply_update(self.uniffiClonePointer(),
+        FfiConverterSequenceUInt8.lower(encoded),$0
+    )
+})
+}
+    
+open func clearLocalState() {try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_clear_local_state(self.uniffiClonePointer(),$0
+    )
+}
+}
+    
+open func clientId() -> UInt64 {
+    return try!  FfiConverterUInt64.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_client_id(self.uniffiClonePointer(),$0
+    )
+})
+}
+    
+open func encodeUpdate()throws  -> [UInt8] {
+    return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_encode_update(self.uniffiClonePointer(),$0
+    )
+})
+}
+    
+open func encodeUpdateForClients(clientIds: [UInt64])throws  -> [UInt8] {
+    return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_encode_update_for_clients(self.uniffiClonePointer(),
+        FfiConverterSequenceUInt64.lower(clientIds),$0
+    )
+})
+}
+    
+open func removeRemoteState(clientId: UInt64)throws  -> YrsAwarenessChanges? {
+    return try  FfiConverterOptionTypeYrsAwarenessChanges.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_remove_remote_state(self.uniffiClonePointer(),
+        FfiConverterUInt64.lower(clientId),$0
+    )
+})
+}
+    
+open func setLocalState(json: String)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_set_local_state(self.uniffiClonePointer(),
+        FfiConverterString.lower(json),$0
+    )
+}
+}
+    
+open func states() -> [YrsAwarenessState] {
+    return try!  FfiConverterSequenceTypeYrsAwarenessState.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsawareness_states(self.uniffiClonePointer(),$0
+    )
+})
+}
+    
+
+}
+
+public struct FfiConverterTypeYrsAwareness: FfiConverter {
+
+    typealias FfiType = UnsafeMutableRawPointer
+    typealias SwiftType = YrsAwareness
+
+    public static func lift(_ pointer: UnsafeMutableRawPointer) throws -> YrsAwareness {
+        return YrsAwareness(unsafeFromRawPointer: pointer)
+    }
+
+    public static func lower(_ value: YrsAwareness) -> UnsafeMutableRawPointer {
+        return value.uniffiClonePointer()
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsAwareness {
+        let v: UInt64 = try readInt(&buf)
+        // The Rust code won't compile if a pointer won't fit in a UInt64.
+        // We have to go via `UInt` because that's the thing that's the size of a pointer.
+        let ptr = UnsafeMutableRawPointer(bitPattern: UInt(truncatingIfNeeded: v))
+        if (ptr == nil) {
+            throw UniffiInternalError.unexpectedNullPointer
+        }
+        return try lift(ptr!)
+    }
+
+    public static func write(_ value: YrsAwareness, into buf: inout [UInt8]) {
+        // This fiddling is because `Int` is the thing that's the same size as a pointer.
+        // The Rust code won't compile if a pointer won't fit in a `UInt64`.
+        writeInt(&buf, UInt64(bitPattern: Int64(Int(bitPattern: lower(value)))))
+    }
+}
+
+
+
+
+public func FfiConverterTypeYrsAwareness_lift(_ pointer: UnsafeMutableRawPointer) throws -> YrsAwareness {
+    return try FfiConverterTypeYrsAwareness.lift(pointer)
+}
+
+public func FfiConverterTypeYrsAwareness_lower(_ value: YrsAwareness) -> UnsafeMutableRawPointer {
+    return FfiConverterTypeYrsAwareness.lower(value)
+}
+
+
+
+
 public protocol YrsDocProtocol : AnyObject {
     
     func encodeDiffV1(tx: YrsTransaction, stateVector: [UInt8]) throws  -> [UInt8]
@@ -815,6 +982,8 @@ public protocol YrsDocProtocol : AnyObject {
     func getText(name: String)  -> YrsText
     
     func getXmlFragment(name: String)  -> YrsXmlNode
+    
+    func makeAwareness()  -> YrsAwareness
     
     func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8]) throws  -> YrsXmlResolvedPosition?
     
@@ -909,6 +1078,13 @@ open func getXmlFragment(name: String) -> YrsXmlNode {
     return try!  FfiConverterTypeYrsXmlNode.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_get_xml_fragment(self.uniffiClonePointer(),
         FfiConverterString.lower(name),$0
+    )
+})
+}
+    
+open func makeAwareness() -> YrsAwareness {
+    return try!  FfiConverterTypeYrsAwareness.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_make_awareness(self.uniffiClonePointer(),$0
     )
 })
 }
@@ -2256,6 +2432,144 @@ public func FfiConverterTypeYrsXmlNode_lower(_ value: YrsXmlNode) -> UnsafeMutab
 }
 
 
+public struct YrsAwarenessChanges {
+    public var added: [UInt64]
+    public var updated: [UInt64]
+    public var removed: [UInt64]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(added: [UInt64], updated: [UInt64], removed: [UInt64]) {
+        self.added = added
+        self.updated = updated
+        self.removed = removed
+    }
+}
+
+
+
+extension YrsAwarenessChanges: Equatable, Hashable {
+    public static func ==(lhs: YrsAwarenessChanges, rhs: YrsAwarenessChanges) -> Bool {
+        if lhs.added != rhs.added {
+            return false
+        }
+        if lhs.updated != rhs.updated {
+            return false
+        }
+        if lhs.removed != rhs.removed {
+            return false
+        }
+        return true
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(added)
+        hasher.combine(updated)
+        hasher.combine(removed)
+    }
+}
+
+
+public struct FfiConverterTypeYrsAwarenessChanges: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsAwarenessChanges {
+        return
+            try YrsAwarenessChanges(
+                added: FfiConverterSequenceUInt64.read(from: &buf), 
+                updated: FfiConverterSequenceUInt64.read(from: &buf), 
+                removed: FfiConverterSequenceUInt64.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: YrsAwarenessChanges, into buf: inout [UInt8]) {
+        FfiConverterSequenceUInt64.write(value.added, into: &buf)
+        FfiConverterSequenceUInt64.write(value.updated, into: &buf)
+        FfiConverterSequenceUInt64.write(value.removed, into: &buf)
+    }
+}
+
+
+public func FfiConverterTypeYrsAwarenessChanges_lift(_ buf: RustBuffer) throws -> YrsAwarenessChanges {
+    return try FfiConverterTypeYrsAwarenessChanges.lift(buf)
+}
+
+public func FfiConverterTypeYrsAwarenessChanges_lower(_ value: YrsAwarenessChanges) -> RustBuffer {
+    return FfiConverterTypeYrsAwarenessChanges.lower(value)
+}
+
+
+public struct YrsAwarenessState {
+    public var clientId: UInt64
+    public var clock: UInt32
+    public var lastUpdatedMillis: UInt64
+    public var json: String?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(clientId: UInt64, clock: UInt32, lastUpdatedMillis: UInt64, json: String?) {
+        self.clientId = clientId
+        self.clock = clock
+        self.lastUpdatedMillis = lastUpdatedMillis
+        self.json = json
+    }
+}
+
+
+
+extension YrsAwarenessState: Equatable, Hashable {
+    public static func ==(lhs: YrsAwarenessState, rhs: YrsAwarenessState) -> Bool {
+        if lhs.clientId != rhs.clientId {
+            return false
+        }
+        if lhs.clock != rhs.clock {
+            return false
+        }
+        if lhs.lastUpdatedMillis != rhs.lastUpdatedMillis {
+            return false
+        }
+        if lhs.json != rhs.json {
+            return false
+        }
+        return true
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(clientId)
+        hasher.combine(clock)
+        hasher.combine(lastUpdatedMillis)
+        hasher.combine(json)
+    }
+}
+
+
+public struct FfiConverterTypeYrsAwarenessState: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsAwarenessState {
+        return
+            try YrsAwarenessState(
+                clientId: FfiConverterUInt64.read(from: &buf), 
+                clock: FfiConverterUInt32.read(from: &buf), 
+                lastUpdatedMillis: FfiConverterUInt64.read(from: &buf), 
+                json: FfiConverterOptionString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: YrsAwarenessState, into buf: inout [UInt8]) {
+        FfiConverterUInt64.write(value.clientId, into: &buf)
+        FfiConverterUInt32.write(value.clock, into: &buf)
+        FfiConverterUInt64.write(value.lastUpdatedMillis, into: &buf)
+        FfiConverterOptionString.write(value.json, into: &buf)
+    }
+}
+
+
+public func FfiConverterTypeYrsAwarenessState_lift(_ buf: RustBuffer) throws -> YrsAwarenessState {
+    return try FfiConverterTypeYrsAwarenessState.lift(buf)
+}
+
+public func FfiConverterTypeYrsAwarenessState_lower(_ value: YrsAwarenessState) -> RustBuffer {
+    return FfiConverterTypeYrsAwarenessState.lower(value)
+}
+
+
 public struct YrsMapChange {
     public var key: String
     public var change: YrsEntryChange
@@ -3555,6 +3869,27 @@ fileprivate struct FfiConverterOptionTypeYrsXmlNode: FfiConverterRustBuffer {
     }
 }
 
+fileprivate struct FfiConverterOptionTypeYrsAwarenessChanges: FfiConverterRustBuffer {
+    typealias SwiftType = YrsAwarenessChanges?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeYrsAwarenessChanges.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeYrsAwarenessChanges.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
 fileprivate struct FfiConverterOptionTypeYrsXmlResolvedPosition: FfiConverterRustBuffer {
     typealias SwiftType = YrsXmlResolvedPosition?
 
@@ -3619,6 +3954,28 @@ fileprivate struct FfiConverterSequenceUInt8: FfiConverterRustBuffer {
     }
 }
 
+fileprivate struct FfiConverterSequenceUInt64: FfiConverterRustBuffer {
+    typealias SwiftType = [UInt64]
+
+    public static func write(_ value: [UInt64], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterUInt64.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [UInt64] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [UInt64]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterUInt64.read(from: &buf))
+        }
+        return seq
+    }
+}
+
 fileprivate struct FfiConverterSequenceString: FfiConverterRustBuffer {
     typealias SwiftType = [String]
 
@@ -3636,6 +3993,28 @@ fileprivate struct FfiConverterSequenceString: FfiConverterRustBuffer {
         seq.reserveCapacity(Int(len))
         for _ in 0 ..< len {
             seq.append(try FfiConverterString.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+fileprivate struct FfiConverterSequenceTypeYrsAwarenessState: FfiConverterRustBuffer {
+    typealias SwiftType = [YrsAwarenessState]
+
+    public static func write(_ value: [YrsAwarenessState], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeYrsAwarenessState.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [YrsAwarenessState] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [YrsAwarenessState]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeYrsAwarenessState.read(from: &buf))
         }
         return seq
     }
@@ -3924,6 +4303,30 @@ private var initializationResult: InitializationResult {
     if (uniffi_uniffi_yniffi_checksum_method_yrsarray_to_a() != 10731) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_apply_update() != 39700) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_clear_local_state() != 43474) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_client_id() != 48736) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_encode_update() != 62782) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_encode_update_for_clients() != 53495) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_remove_remote_state() != 40845) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_set_local_state() != 61630) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsawareness_states() != 19562) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_encode_diff_v1() != 16238) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -3937,6 +4340,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_xml_fragment() != 10703) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness() != 29566) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_resolve_xml_relative_position() != 55960) {

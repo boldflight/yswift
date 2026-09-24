@@ -31,6 +31,14 @@ merge, and relative positions for use by native editors. XML text offsets use
 UTF-16 code units; XML children use node indices. XML handles identify integrated
 branches and remain valid across transactions. Deleted branches fail cleanly.
 
+`YDocument.makeAwareness()` exposes the separate, ephemeral y-protocols awareness
+state. `YAwareness.encodeUpdate(for:)` and `applyUpdate(_:)` exchange bare
+awareness payloads; the transport adds any outer message framing. After
+`clearLocalState()`, encode `[awareness.clientID]` explicitly to send the null
+state. Callers schedule heartbeat refreshes and remove stale remote states using
+the exposed Unix-millisecond metadata and `removeRemoteState(for:)`. The library
+does not persist awareness or assign account identities.
+
 ## Decision log
 
 This project maintains a [decision log](./devnotes/DevLog.md).

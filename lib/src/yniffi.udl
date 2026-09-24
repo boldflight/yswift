@@ -18,12 +18,42 @@ interface YrsDoc {
   
   YrsText get_text(string name);
   YrsXmlNode get_xml_fragment(string name);
+  YrsAwareness make_awareness();
   [Throws=CodingError]
   YrsXmlResolvedPosition? resolve_xml_relative_position([ByRef] YrsTransaction tx, sequence<u8> encoded);
   YrsArray get_array(string name);
   YrsMap get_map(string name);
   YrsTransaction transact(YrsOrigin? origin);
   YrsUndoManager undo_manager(sequence<YrsCollectionPtr> tracked_refs);
+};
+
+dictionary YrsAwarenessState {
+  u64 client_id;
+  u32 clock;
+  u64 last_updated_millis;
+  string? json;
+};
+
+dictionary YrsAwarenessChanges {
+  sequence<u64> added;
+  sequence<u64> updated;
+  sequence<u64> removed;
+};
+
+interface YrsAwareness {
+  u64 client_id();
+  [Throws=CodingError]
+  void set_local_state(string json);
+  void clear_local_state();
+  sequence<YrsAwarenessState> states();
+  [Throws=CodingError]
+  sequence<u8> encode_update();
+  [Throws=CodingError]
+  sequence<u8> encode_update_for_clients(sequence<u64> client_ids);
+  [Throws=CodingError]
+  YrsAwarenessChanges? apply_update(sequence<u8> encoded);
+  [Throws=CodingError]
+  YrsAwarenessChanges? remove_remote_state(u64 client_id);
 };
 
 interface YrsTransaction {

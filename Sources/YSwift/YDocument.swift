@@ -90,6 +90,11 @@ public final class YDocument {
         YXmlNode(node: document.getXmlFragment(name: named), document: self)
     }
 
+    /// Creates ephemeral Yjs awareness for this document's client identity.
+    public func makeAwareness() -> YAwareness {
+        YAwareness(awareness: document.makeAwareness(), document: self)
+    }
+
     /// Resolves an encoded Yjs relative position to its integrated XML node.
     /// The caller remains responsible for binding the position to its document scope.
     public func resolveXmlRelativePosition(_ encoded: Data, in transaction: YrsTransaction? = nil) throws -> YXmlResolvedPosition? {
