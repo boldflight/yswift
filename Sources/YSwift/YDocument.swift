@@ -95,6 +95,13 @@ public final class YDocument {
         YAwareness(awareness: document.makeAwareness(), document: self)
     }
 
+    /// Reports Yrs updates still waiting for missing predecessor structures or
+    /// delete targets. A state vector alone cannot report these pending pieces.
+    public func integrationStatus(in transaction: YrsTransaction? = nil) -> YIntegrationStatus {
+        if let transaction { return YIntegrationStatus(transaction.integrationStatus()) }
+        return transactSync { YIntegrationStatus($0.integrationStatus()) }
+    }
+
     /// Resolves an encoded Yjs relative position to its integrated XML node.
     /// The caller remains responsible for binding the position to its document scope.
     public func resolveXmlRelativePosition(_ encoded: Data, in transaction: YrsTransaction? = nil) throws -> YXmlResolvedPosition? {
@@ -157,4 +164,16 @@ public final class YDocument {
 
 public enum YRelativePositionError: Error {
     case invalidJSON
+}
+
+public struct YIntegrationStatus: Equatable, Sendable {
+    public let hasPendingStructs: Bool
+    public let hasPendingDeletes: Bool
+
+    public var isComplete: Bool { !hasPendingStructs && !hasPendingDeletes }
+
+    init(_ value: YrsIntegrationStatus) {
+        hasPendingStructs = value.hasPendingStructs
+        hasPendingDeletes = value.hasPendingDeletes
+    }
 }

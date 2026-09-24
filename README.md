@@ -46,6 +46,11 @@ The conversion preserves signed `assoc` values in the binding's Int32 range,
 including values beyond Yrs's before/after enum; larger values are rejected
 instead of being silently normalized.
 
+`YDocument.integrationStatus()` reports whether Yrs still holds updates whose
+predecessor structs or delete targets have not arrived. It reads Yrs's pending
+store flags and can be queried during a transaction; an update can be accepted
+while the document is still incomplete.
+
 ## Decision log
 
 This project maintains a [decision log](./devnotes/DevLog.md).

@@ -1582,6 +1582,8 @@ public protocol YrsTransactionProtocol : AnyObject {
     
     func free() 
     
+    func integrationStatus()  -> YrsIntegrationStatus
+    
     func origin()  -> YrsOrigin?
     
     func transactionApplyUpdate(update: [UInt8]) throws 
@@ -1647,6 +1649,13 @@ open func free() {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_free(self.uniffiClonePointer(),$0
     )
 }
+}
+    
+open func integrationStatus() -> YrsIntegrationStatus {
+    return try!  FfiConverterTypeYrsIntegrationStatus.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrstransaction_integration_status(self.uniffiClonePointer(),$0
+    )
+})
 }
     
 open func origin() -> YrsOrigin? {
@@ -2567,6 +2576,63 @@ public func FfiConverterTypeYrsAwarenessState_lift(_ buf: RustBuffer) throws -> 
 
 public func FfiConverterTypeYrsAwarenessState_lower(_ value: YrsAwarenessState) -> RustBuffer {
     return FfiConverterTypeYrsAwarenessState.lower(value)
+}
+
+
+public struct YrsIntegrationStatus {
+    public var hasPendingStructs: Bool
+    public var hasPendingDeletes: Bool
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(hasPendingStructs: Bool, hasPendingDeletes: Bool) {
+        self.hasPendingStructs = hasPendingStructs
+        self.hasPendingDeletes = hasPendingDeletes
+    }
+}
+
+
+
+extension YrsIntegrationStatus: Equatable, Hashable {
+    public static func ==(lhs: YrsIntegrationStatus, rhs: YrsIntegrationStatus) -> Bool {
+        if lhs.hasPendingStructs != rhs.hasPendingStructs {
+            return false
+        }
+        if lhs.hasPendingDeletes != rhs.hasPendingDeletes {
+            return false
+        }
+        return true
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(hasPendingStructs)
+        hasher.combine(hasPendingDeletes)
+    }
+}
+
+
+public struct FfiConverterTypeYrsIntegrationStatus: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsIntegrationStatus {
+        return
+            try YrsIntegrationStatus(
+                hasPendingStructs: FfiConverterBool.read(from: &buf), 
+                hasPendingDeletes: FfiConverterBool.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: YrsIntegrationStatus, into buf: inout [UInt8]) {
+        FfiConverterBool.write(value.hasPendingStructs, into: &buf)
+        FfiConverterBool.write(value.hasPendingDeletes, into: &buf)
+    }
+}
+
+
+public func FfiConverterTypeYrsIntegrationStatus_lift(_ buf: RustBuffer) throws -> YrsIntegrationStatus {
+    return try FfiConverterTypeYrsIntegrationStatus.lift(buf)
+}
+
+public func FfiConverterTypeYrsIntegrationStatus_lower(_ value: YrsIntegrationStatus) -> RustBuffer {
+    return FfiConverterTypeYrsIntegrationStatus.lower(value)
 }
 
 
@@ -4441,6 +4507,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrstransaction_free() != 42613) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrstransaction_integration_status() != 12843) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrstransaction_origin() != 47344) {
