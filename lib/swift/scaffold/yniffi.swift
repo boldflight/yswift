@@ -4248,6 +4248,20 @@ public func mergeUpdatesV1(updates: [[UInt8]])throws  -> [UInt8] {
     )
 })
 }
+public func relativePositionFromJson(json: String)throws  -> [UInt8] {
+    return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_func_relative_position_from_json(
+        FfiConverterString.lower(json),$0
+    )
+})
+}
+public func relativePositionToJson(encoded: [UInt8])throws  -> String {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_func_relative_position_to_json(
+        FfiConverterSequenceUInt8.lower(encoded),$0
+    )
+})
+}
 
 private enum InitializationResult {
     case ok
@@ -4265,6 +4279,12 @@ private var initializationResult: InitializationResult {
         return InitializationResult.contractVersionMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_func_merge_updates_v1() != 38380) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_func_relative_position_from_json() != 18436) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_func_relative_position_to_json() != 32112) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsarray_each() != 62231) {

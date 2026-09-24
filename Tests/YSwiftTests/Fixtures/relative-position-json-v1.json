@@ -1,0 +1,13 @@
+{
+  "producer": "Yjs 13.6.32 relativePositionToJSON/decodeRelativePosition and createRelativePositionFromJSON/encodeRelativePosition",
+  "positions": [
+    {"name":"nested-item-after","binary":"AJnyAQMA","json":{"item":{"client":31001,"clock":3},"assoc":0}},
+    {"name":"nested-item-before","binary":"AJnyAQZB","json":{"item":{"client":31001,"clock":6},"assoc":-1}},
+    {"name":"root-before","binary":"AQdkZWZhdWx0QQ==","json":{"tname":"default","assoc":-1}},
+    {"name":"root-after","binary":"AQdkZWZhdWx0AA==","json":{"tname":"default","assoc":0}},
+    {"name":"nested-type-negative-seven","binary":"ApnyAQFH","json":{"type":{"client":31001,"clock":1},"assoc":-7}},
+    {"name":"nested-type-positive-nine","binary":"ApnyAQEJ","json":{"type":{"client":31001,"clock":1},"assoc":9}},
+    {"name":"foreign-item-after","binary":"AJryAQMA","json":{"item":{"client":31002,"clock":3},"assoc":0}},
+    {"name":"foreign-item-end","binary":"AJryAQcA","json":{"item":{"client":31002,"clock":7},"assoc":0}}
+  ]
+}

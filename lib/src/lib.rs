@@ -7,6 +7,7 @@ mod doc;
 mod error;
 mod map;
 mod mapchange;
+mod relative_position;
 mod text;
 mod transaction;
 mod undo;
@@ -43,6 +44,7 @@ fn merge_updates_v1(updates: Vec<Vec<u8>>) -> Result<Vec<u8>, CodingError> {
     yrs::merge_updates_v1(updates.iter().map(|update| update.as_slice()))
         .map_err(|_| CodingError::DecodingError)
 }
+use crate::relative_position::{relative_position_from_json, relative_position_to_json};
 use crate::subscription::YSubscription;
 
 uniffi::include_scaffolding!("yniffi");

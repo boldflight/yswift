@@ -1,6 +1,10 @@
 namespace yniffi {
   [Throws=CodingError]
   sequence<u8> merge_updates_v1(sequence<sequence<u8>> updates);
+  [Throws=CodingError]
+  string relative_position_to_json(sequence<u8> encoded);
+  [Throws=CodingError]
+  sequence<u8> relative_position_from_json(string json);
 };
 
 [Error]

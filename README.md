@@ -39,6 +39,13 @@ state. Callers schedule heartbeat refreshes and remove stale remote states using
 the exposed Unix-millisecond metadata and `removeRemoteState(for:)`. The library
 does not persist awareness or assign account identities.
 
+For presence cursors, `YDocument.relativePositionJSON(from:)` and
+`YDocument.relativePositionBytes(fromJSON:)` convert between Yjs binary
+relative positions and the JSON objects emitted by `relativePositionToJSON`.
+The conversion preserves signed `assoc` values in the binding's Int32 range,
+including values beyond Yrs's before/after enum; larger values are rejected
+instead of being silently normalized.
+
 ## Decision log
 
 This project maintains a [decision log](./devnotes/DevLog.md).

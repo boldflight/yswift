@@ -115,6 +115,23 @@ public final class YDocument {
         Data(try Yniffi.mergeUpdatesV1(updates: updates.map(Array.init)))
     }
 
+    /// Converts a binary Yjs relative position to its JSON presence shape.
+    /// Signed associations are preserved within the Int32 range.
+    public static func relativePositionJSON(from encoded: Data) throws -> [String: Any] {
+        let json = try Yniffi.relativePositionToJson(encoded: Array(encoded))
+        guard let value = try JSONSerialization.jsonObject(with: Data(json.utf8)) as? [String: Any] else {
+            throw YRelativePositionError.invalidJSON
+        }
+        return value
+    }
+
+    /// Converts the Yjs JSON presence shape back to canonical binary bytes.
+    public static func relativePositionBytes(fromJSON value: [String: Any]) throws -> Data {
+        let data = try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys])
+        guard let json = String(data: data, encoding: .utf8) else { throw YRelativePositionError.invalidJSON }
+        return Data(try Yniffi.relativePositionFromJson(json: json))
+    }
+
     /// Retrieves or creates an Array shared data type.
     /// - Parameter named: The key you use to reference the Array shared data type.
     /// - Returns: The array shared type.
@@ -136,4 +153,8 @@ public final class YDocument {
         let mapped = trackedRefs.map { $0.pointer() }
         return YUndoManager(manager: document.undoManager(trackedRefs: mapped))
     }
+}
+
+public enum YRelativePositionError: Error {
+    case invalidJSON
 }

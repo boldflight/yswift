@@ -967,6 +967,16 @@ void uniffi_uniffi_yniffi_fn_init_callback_vtable_yrsundomanagerobservationdeleg
 RustBuffer uniffi_uniffi_yniffi_fn_func_merge_updates_v1(RustBuffer updates, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_FUNC_RELATIVE_POSITION_FROM_JSON
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_FUNC_RELATIVE_POSITION_FROM_JSON
+RustBuffer uniffi_uniffi_yniffi_fn_func_relative_position_from_json(RustBuffer json, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_FUNC_RELATIVE_POSITION_TO_JSON
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_FUNC_RELATIVE_POSITION_TO_JSON
+RustBuffer uniffi_uniffi_yniffi_fn_func_relative_position_to_json(RustBuffer encoded, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_FFI_UNIFFI_YNIFFI_RUSTBUFFER_ALLOC
 #define UNIFFI_FFIDEF_FFI_UNIFFI_YNIFFI_RUSTBUFFER_ALLOC
 RustBuffer ffi_uniffi_yniffi_rustbuffer_alloc(uint64_t size, RustCallStatus *_Nonnull out_status
@@ -1250,6 +1260,18 @@ void ffi_uniffi_yniffi_rust_future_complete_void(uint64_t handle, RustCallStatus
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_MERGE_UPDATES_V1
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_MERGE_UPDATES_V1
 uint16_t uniffi_uniffi_yniffi_checksum_func_merge_updates_v1(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_FROM_JSON
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_FROM_JSON
+uint16_t uniffi_uniffi_yniffi_checksum_func_relative_position_from_json(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_TO_JSON
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_TO_JSON
+uint16_t uniffi_uniffi_yniffi_checksum_func_relative_position_to_json(void
     
 );
 #endif

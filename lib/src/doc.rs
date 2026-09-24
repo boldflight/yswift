@@ -61,7 +61,7 @@ impl YrsDoc {
         transaction: &YrsTransaction,
         encoded: Vec<u8>,
     ) -> Result<Option<YrsXmlResolvedPosition>, CodingError> {
-        let (position, association) = crate::xml::decode_xml_relative_position(&encoded)?;
+        let (position, association) = crate::relative_position::decode_relative_position(&encoded)?;
         let tx = transaction.transaction();
         let tx = tx.as_ref().unwrap();
         let Some(offset) = position.get_offset(tx) else { return Ok(None) };

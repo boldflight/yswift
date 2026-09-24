@@ -1,12 +1,12 @@
 use crate::attrs::YrsAttrs;
 use crate::doc::YrsCollectionPtr;
 use crate::error::CodingError;
+use crate::relative_position::{association_bytes, decode_relative_position};
 use crate::transaction::YrsTransaction;
 use std::sync::Arc;
 use yrs::branch::{BranchID, BranchPtr};
 use yrs::types::text::YChange;
 use yrs::Out as Value;
-use yrs::updates::decoder::Decode;
 use yrs::updates::encoder::Encode;
 use yrs::{Any, Assoc, GetString, Map, MapRef, StickyIndex, Text, XmlElementPrelim, XmlFragment, XmlFragmentRef, XmlOut as XmlNode, XmlTextPrelim};
 
@@ -19,58 +19,6 @@ pub(crate) struct YrsXmlResolvedPosition {
     pub(crate) node: Arc<YrsXmlNode>,
     pub(crate) index: u32,
     pub(crate) association: i32,
-}
-
-// Yjs stores a signed association as the final varint of a relative position.
-// Yrs models only its sign (Before/After), so preserve the original wire value
-// here for callers that round-trip valid Yjs anchors with wider associations.
-fn association_bytes(value: i32) -> Vec<u8> {
-    let mut magnitude = value.unsigned_abs();
-    let mut first = (magnitude & 0x3f) as u8;
-    if value < 0 { first |= 0x40; }
-    magnitude >>= 6;
-    if magnitude != 0 { first |= 0x80; }
-    let mut result = vec![first];
-    while magnitude != 0 {
-        let mut next = (magnitude & 0x7f) as u8;
-        magnitude >>= 7;
-        if magnitude != 0 { next |= 0x80; }
-        result.push(next);
-    }
-    result
-}
-
-pub(crate) fn decode_xml_relative_position(encoded: &[u8]) -> Result<(StickyIndex, i32), CodingError> {
-    if encoded.is_empty() || encoded.len() > 256 { return Err(CodingError::DecodingError) }
-    let position = StickyIndex::decode_v1(encoded).map_err(|_| CodingError::DecodingError)?;
-    let canonical = position.encode_v1();
-    if canonical.is_empty() || encoded.len() < canonical.len() { return Err(CodingError::DecodingError) }
-    let prefix = &canonical[..canonical.len() - 1];
-    if !encoded.starts_with(prefix) { return Err(CodingError::DecodingError) }
-    let suffix = &encoded[prefix.len()..];
-    let mut magnitude = 0u64;
-    let mut shift = 0;
-    let mut negative = false;
-    for (index, byte) in suffix.iter().copied().enumerate() {
-        if index == 0 {
-            negative = byte & 0x40 != 0;
-            magnitude = (byte & 0x3f) as u64;
-            shift = 6;
-        } else {
-            if shift >= 64 { return Err(CodingError::DecodingError) }
-            magnitude |= ((byte & 0x7f) as u64) << shift;
-            shift += 7;
-        }
-        if byte & 0x80 == 0 {
-            if index + 1 != suffix.len() || magnitude > i32::MAX as u64 + u64::from(negative) {
-                return Err(CodingError::DecodingError)
-            }
-            let value = if negative { -(magnitude as i64) } else { magnitude as i64 } as i32;
-            if association_bytes(value) != suffix { return Err(CodingError::DecodingError) }
-            return Ok((position, value))
-        }
-    }
-    Err(CodingError::DecodingError)
 }
 
 impl YrsXmlNode {
@@ -266,7 +214,7 @@ impl YrsXmlNode {
     }
 
     pub(crate) fn resolve_relative_position(&self, transaction: &YrsTransaction, encoded: Vec<u8>) -> Result<Option<u32>, CodingError> {
-        let (position, _) = decode_xml_relative_position(&encoded)?;
+        let (position, _) = decode_relative_position(&encoded)?;
         let tx = transaction.transaction();
         let tx = tx.as_ref().unwrap();
         Ok(position.get_offset(tx)
