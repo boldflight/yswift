@@ -26,11 +26,12 @@ echo "▸ Install toolchains"
 rustup target add x86_64-apple-ios # iOS Simulator (Intel)
 rustup target add aarch64-apple-ios-sim # iOS Simulator (M1)
 rustup target add aarch64-apple-ios # iOS Device
+rustup target add aarch64-apple-visionos # visionOS Device
+rustup target add aarch64-apple-visionos-sim # visionOS Simulator
 rustup target add aarch64-apple-darwin # macOS ARM/M1
 rustup target add x86_64-apple-darwin # macOS Intel/x86
 
 echo "▸ Clean state"
-rm -rf "${BUILD_FOLDER}"
 rm -rf "${XCFRAMEWORK_FOLDER}"
 
 mkdir -p "${SWIFT_FOLDER}/scaffold"
@@ -53,6 +54,12 @@ cargo build --target aarch64-apple-ios-sim --package "${PACKAGE_NAME}" --locked 
 echo "▸ Building for aarch64-apple-ios"
 CFLAGS_aarch64_apple_ios="-target aarch64-apple-ios" \
 cargo build --target aarch64-apple-ios --package "${PACKAGE_NAME}" --locked --release
+
+echo "▸ Building for aarch64-apple-visionos"
+cargo build --target aarch64-apple-visionos --package "${PACKAGE_NAME}" --locked --release
+
+echo "▸ Building for aarch64-apple-visionos-sim"
+cargo build --target aarch64-apple-visionos-sim --package "${PACKAGE_NAME}" --locked --release
 
 echo "▸ Building for aarch64-apple-darwin"
 CFLAGS_aarch64_apple_darwin="-target aarch64-apple-darwin" \
@@ -91,6 +98,10 @@ xcodebuild -create-xcframework \
     -library "./${BUILD_FOLDER}/ios-simulator/release/${LIB_NAME}" \
     -headers "./${BUILD_FOLDER}/includes" \
     -library "./$BUILD_FOLDER/apple-darwin/release/$LIB_NAME" \
+    -headers "./${BUILD_FOLDER}/includes" \
+    -library "./$BUILD_FOLDER/aarch64-apple-visionos/release/$LIB_NAME" \
+    -headers "./${BUILD_FOLDER}/includes" \
+    -library "./$BUILD_FOLDER/aarch64-apple-visionos-sim/release/$LIB_NAME" \
     -headers "./${BUILD_FOLDER}/includes" \
     -output "./${XCFRAMEWORK_FOLDER}"
 

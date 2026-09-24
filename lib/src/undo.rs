@@ -1,28 +1,30 @@
 use std::fmt::Debug;
 use std::sync::{Arc, Mutex, MutexGuard};
 use yrs::undo::EventKind;
+use yrs::Doc;
 use crate::doc::{YrsCollectionPtr, YrsOrigin};
 use crate::subscription::YSubscription;
+use crate::subscription::subscription_key;
 
-pub(crate) struct YrsUndoManager(Mutex<yrs::undo::UndoManager<u64>>);
+pub(crate) struct YrsUndoManager {
+    manager: Arc<Mutex<yrs::undo::UndoManager<u64>>>,
+    doc: Doc,
+}
 
 unsafe impl Send for YrsUndoManager {}
 unsafe impl Sync for YrsUndoManager {}
 
-impl From<yrs::undo::UndoManager<u64>> for YrsUndoManager {
-    fn from(value: yrs::undo::UndoManager<u64>) -> Self {
-        YrsUndoManager(Mutex::new(value))
-    }
-}
-
 impl YrsUndoManager {
+    pub(crate) fn new(manager: yrs::undo::UndoManager<u64>, doc: Doc) -> Self {
+        Self { manager: Arc::new(Mutex::new(manager)), doc }
+    }
 
     #[inline]
-    fn acquire_lock(&self) -> MutexGuard<yrs::undo::UndoManager<u64>> {
+    fn acquire_lock(&self) -> MutexGuard<'_, yrs::undo::UndoManager<u64>> {
         // unwrap should be safe, as the only occasion to cause error would be a panic
         // while holding a lock and all operations holding a lock here only do so for
         // a time needed to perform a non-panicing operation
-        self.0.lock().unwrap()
+        self.manager.lock().unwrap()
     }
 
     pub(crate) fn add_origin(&self, origin: YrsOrigin) {
@@ -37,22 +39,23 @@ impl YrsUndoManager {
 
     pub(crate) fn add_scope(&self, tracked_ref: YrsCollectionPtr) {
         let mut m = self.acquire_lock();
-        m.expand_scope(&tracked_ref);
+        m.expand_scope(&self.doc, &tracked_ref);
     }
 
     pub(crate) fn undo(&self) -> Result<bool, YrsUndoError> {
         let mut m = self.acquire_lock();
-        m.undo().map_err(|_| YrsUndoError::PendingTransaction)
+        Ok(m.undo_blocking())
     }
 
     pub(crate) fn redo(&self) -> Result<bool, YrsUndoError> {
         let mut m = self.acquire_lock();
-        m.redo().map_err(|_| YrsUndoError::PendingTransaction)
+        Ok(m.redo_blocking())
     }
 
     pub(crate) fn clear(&self) -> Result<(), YrsUndoError> {
         let mut m = self.acquire_lock();
-        m.clear().map_err(|_| YrsUndoError::PendingTransaction)
+        m.clear_all();
+        Ok(())
     }
 
     pub(crate) fn wrap_changes(&self) {
@@ -61,27 +64,30 @@ impl YrsUndoManager {
     }
 
     pub(crate) fn observe_added(&self, delegate: Box<dyn YrsUndoManagerObservationDelegate>) -> Arc<YSubscription> {
-        let m = self.acquire_lock();
-        let subscription = m.observe_item_added(move |_, e| {
+        let key = subscription_key();
+        let manager = self.manager.clone();
+        self.acquire_lock().observe_item_added(key.clone(), move |_, e| {
             *e.meta_mut() = delegate.call(YrsUndoEvent::new(e), *e.meta_mut());
         });
-        Arc::new(YSubscription::new(subscription))
+        Arc::new(YSubscription::new(move || { manager.lock().unwrap().unobserve_item_added(key); }))
     }
 
     pub(crate) fn observe_updated(&self, delegate: Box<dyn YrsUndoManagerObservationDelegate>) -> Arc<YSubscription> {
-        let m = self.acquire_lock();
-        let subscription = m.observe_item_updated(move |_, e| {
+        let key = subscription_key();
+        let manager = self.manager.clone();
+        self.acquire_lock().observe_item_updated(key.clone(), move |_, e| {
             *e.meta_mut() = delegate.call(YrsUndoEvent::new(e), *e.meta_mut());
         });
-        Arc::new(YSubscription::new(subscription))
+        Arc::new(YSubscription::new(move || { manager.lock().unwrap().unobserve_item_updated(key); }))
     }
 
     pub(crate) fn observe_popped(&self, delegate: Box<dyn YrsUndoManagerObservationDelegate>) -> Arc<YSubscription> {
-        let m = self.acquire_lock();
-        let subscription = m.observe_item_popped(move |_, e| {
+        let key = subscription_key();
+        let manager = self.manager.clone();
+        self.acquire_lock().observe_item_popped(key.clone(), move |_, e| {
             *e.meta_mut() = delegate.call(YrsUndoEvent::new(e), *e.meta_mut());
         });
-        Arc::new(YSubscription::new(subscription))
+        Arc::new(YSubscription::new(move || { manager.lock().unwrap().unobserve_item_popped(key); }))
     }
 }
 

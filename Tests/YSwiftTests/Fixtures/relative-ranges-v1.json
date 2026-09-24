@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "root": "default",
+  "seed": "AQOZ8gEABwEHZGVmYXVsdAMJcGFyYWdyYXBoBwCZ8gEABgQAmfIBAQlB8J+MjWXMgVoA",
+  "ranges": [
+    {
+      "name": "unicode_nested",
+      "range": {
+        "version": 1,
+        "anchor": "AJnyAQMA",
+        "head": "AJnyAQZB"
+      },
+      "expected": {
+        "anchor": {
+          "path": [
+            0,
+            0
+          ],
+          "index": 1,
+          "association": 0
+        },
+        "head": {
+          "path": [
+            0,
+            0
+          ],
+          "index": 5,
+          "association": -1
+        }
+      }
+    },
+    {
+      "name": "root_boundary",
+      "range": {
+        "version": 1,
+        "anchor": "AQdkZWZhdWx0QQ==",
+        "head": "AQdkZWZhdWx0AA=="
+      },
+      "expected": {
+        "anchor": {
+          "path": [],
+          "index": 0,
+          "association": -1
+        },
+        "head": {
+          "path": [],
+          "index": 1,
+          "association": 0
+        }
+      }
+    },
+    {
+      "name": "safe_association",
+      "range": {
+        "version": 1,
+        "anchor": "ApnyAQFH",
+        "head": "ApnyAQEJ"
+      },
+      "expected": {
+        "anchor": {
+          "path": [
+            0,
+            0
+          ],
+          "index": 0,
+          "association": -7
+        },
+        "head": {
+          "path": [
+            0,
+            0
+          ],
+          "index": 6,
+          "association": 9
+        }
+      }
+    },
+    {
+      "name": "foreign_nested",
+      "range": {
+        "version": 1,
+        "anchor": "AJryAQMA",
+        "head": "AJryAQcA"
+      },
+      "expected": null
+    }
+  ]
+}

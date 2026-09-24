@@ -13,8 +13,12 @@ public struct Origin: Equatable, Codable, Sendable {
         self.origin = origin
     }
 
-    init(_ str: String) {
+    public init(_ str: String) {
         origin = [UInt8](str.utf8)
+    }
+
+    public init(bytes: [UInt8]) {
+        origin = bytes
     }
 
     init(_ u: UInt8) {

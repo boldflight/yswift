@@ -9,6 +9,7 @@ mod mapchange;
 mod text;
 mod transaction;
 mod undo;
+mod xml;
 mod subscription;
 
 use crate::doc::YrsCollectionPtr;
@@ -34,6 +35,12 @@ use crate::undo::YrsUndoError;
 use crate::undo::YrsUndoManagerObservationDelegate;
 use crate::undo::YrsUndoEvent;
 use crate::undo::YrsUndoEventKind;
+use crate::xml::{YrsXmlAttribute, YrsXmlNode, YrsXmlResolvedPosition, YrsXmlTextRun};
+
+fn merge_updates_v1(updates: Vec<Vec<u8>>) -> Result<Vec<u8>, CodingError> {
+    yrs::merge_updates_v1(updates.iter().map(|update| update.as_slice()))
+        .map_err(|_| CodingError::DecodingError)
+}
 use crate::subscription::YSubscription;
 
 uniffi::include_scaffolding!("yniffi");

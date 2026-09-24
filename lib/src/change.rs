@@ -1,4 +1,5 @@
-use yrs::types::{Change, Value};
+use yrs::types::Change;
+use yrs::Out as Value;
 
 pub enum YrsChange {
     Added { elements: Vec<String> },

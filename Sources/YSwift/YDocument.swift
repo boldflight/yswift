@@ -45,6 +45,11 @@ public final class YDocument {
         }
     }
 
+    /// Runs a throwing edit in one transaction and propagates its error.
+    public func transactSync<T>(origin: Origin? = nil, _ changes: @escaping (YrsTransaction) throws -> T) throws -> T {
+        try transactSync(origin: origin) { txn in Result { try changes(txn) } }.get()
+    }
+
     /// Creates an asynchronous transaction and provides that transaction to a trailing closure, within which you make changes to shared data types.
     /// - Parameter changes: The closure in which you make changes to the document.
     /// - Returns: The value that you return from the closure.
@@ -78,6 +83,31 @@ public final class YDocument {
     /// - Returns: The text shared type.
     public func getOrCreateText(named: String) -> YText {
         YText(text: document.getText(name: named), document: self)
+    }
+
+    /// Retrieves the named Y.XmlFragment. RelayMark uses `default`.
+    public func getOrCreateXmlFragment(named: String) -> YXmlNode {
+        YXmlNode(node: document.getXmlFragment(name: named), document: self)
+    }
+
+    /// Resolves an encoded Yjs relative position to its integrated XML node.
+    /// The caller remains responsible for binding the position to its document scope.
+    public func resolveXmlRelativePosition(_ encoded: Data, in transaction: YrsTransaction? = nil) throws -> YXmlResolvedPosition? {
+        let resolve: (YrsTransaction) throws -> YXmlResolvedPosition? = { txn in
+            guard let result = try self.document.resolveXmlRelativePosition(tx: txn, encoded: Array(encoded)) else { return nil }
+            return YXmlResolvedPosition(
+                node: YXmlNode(node: result.node, document: self),
+                index: result.index,
+                association: result.association
+            )
+        }
+        if let transaction { return try resolve(transaction) }
+        return try transactSync(resolve)
+    }
+
+    /// Merges Yjs update-v1 buffers without constructing a document.
+    public static func mergeUpdatesV1(_ updates: [Data]) throws -> Data {
+        Data(try Yniffi.mergeUpdatesV1(updates: updates.map(Array.init)))
     }
 
     /// Retrieves or creates an Array shared data type.

@@ -12,9 +12,24 @@ The repository includes two swift packages:
 `yniffiFFI` a static binary packaged as an XCFramework in the `lib` directory, built with the Rust compiler and overlaid using [UniFFI](https://github.com/mozilla/uniffi-rs/).
 `YSwift` which is an overlay to provide more idiomatic Swift language operations.
 
-To build the package from source, you need both Rust and XCode installed.
-The GitHub releases should include versioned links to the `yniffiFFI`.
-Development releases expect that you will build you own local copy using `./scripts/build-xcframework.sh`.
+The branch carries the matching `lib/yniffiFFI.xcframework` alongside its Swift
+scaffold. A SwiftPM revision dependency therefore uses the same Rust ABI without
+requiring Rust in the consuming app build. The binary contains macOS (arm64 and
+x86_64), iOS device, iOS simulator (arm64 and x86_64), visionOS device, and
+visionOS simulator slices.
+
+To rebuild it from source, install Xcode with the visionOS SDK and Rust with the
+`aarch64-apple-darwin`, `x86_64-apple-darwin`, `aarch64-apple-ios`,
+`aarch64-apple-ios-sim`, `x86_64-apple-ios`, `aarch64-apple-visionos`, and
+`aarch64-apple-visionos-sim` targets. Run `./scripts/build-xcframework.sh` from
+the repository root, then `swift test`. The script regenerates the UniFFI Swift
+scaffold, compiles each target, assembles the XCFramework, and prints a SHA-256
+for its ZIP. Commit the regenerated scaffold and framework together.
+
+This fork exposes Yrs XML fragments, elements and attributed text, Yjs update-v1
+merge, and relative positions for use by native editors. XML text offsets use
+UTF-16 code units; XML children use node indices. XML handles identify integrated
+branches and remain valid across transactions. Deleted branches fail cleanly.
 
 ## Decision log
 

@@ -1,31 +1,22 @@
 use crate::attrs::YrsAttrs;
 use crate::delta::YrsDelta;
-use crate::subscription::YSubscription;
+use crate::subscription::{subscription_key, YSubscription};
 use crate::transaction::YrsTransaction;
 use yrs::Any;
 use std::cell::RefCell;
 use std::fmt::Debug;
 use std::sync::Arc;
-use yrs::{GetString, Observable, Text, TextRef};
-use yrs::branch::Branch;
+use yrs::{Doc, GetString, Observable, Text, TextRef, Transact};
 use crate::doc::YrsCollectionPtr;
 
-pub(crate) struct YrsText(RefCell<TextRef>);
+pub(crate) struct YrsText(RefCell<TextRef>, Doc);
 
 unsafe impl Send for YrsText {}
 unsafe impl Sync for YrsText {}
 
-impl AsRef<Branch> for YrsText {
-    fn as_ref(&self) -> &Branch {
-        //FIXME: after yrs v0.18 use logical references
-        let branch = &*self.0.borrow();
-        unsafe { std::mem::transmute(branch.as_ref()) }
-    }
-}
-
-impl From<TextRef> for YrsText {
-    fn from(value: TextRef) -> Self {
-        YrsText(RefCell::from(value))
+impl YrsText {
+    pub(crate) fn new(value: TextRef, doc: Doc) -> Self {
+        YrsText(RefCell::from(value), doc)
     }
 }
 
@@ -134,16 +125,20 @@ impl YrsText {
     }
 
     pub(crate) fn observe(&self, delegate: Box<dyn YrsTextObservationDelegate>) -> Arc<YSubscription> {
-        let subscription = self
-            .0
-            .borrow_mut()
-            .observe(move |transaction, text_event| {
+        let key = subscription_key();
+        let id = { let reference = self.0.borrow(); let branch: &yrs::branch::Branch = reference.as_ref(); branch.id() };
+        let doc = self.1.clone();
+        self.0.borrow().observe(key.clone(), move |transaction, text_event| {
                 let delta = text_event.delta(transaction);
                 let result: Vec<YrsDelta> =
                     delta.iter().map(|change| YrsDelta::from(change)).collect();
                 delegate.call(result)
             });
-
-            Arc::new(YSubscription::new(subscription))
+        Arc::new(YSubscription::new(move || {
+            let tx = doc.transact();
+            if let Some(branch) = id.get_branch(&tx) {
+                TextRef::from(branch).unobserve(key);
+            }
+        }))
     }
 }

@@ -2,10 +2,13 @@ use crate::array::YrsArray;
 use crate::error::CodingError;
 use crate::map::YrsMap;
 use crate::text::YrsText;
+use crate::xml::YrsXmlNode;
+use crate::xml::YrsXmlResolvedPosition;
 use crate::transaction::YrsTransaction;
 use std::sync::Arc;
 use std::{borrow::Borrow, cell::RefCell};
 use yrs::{updates::decoder::Decode, ArrayRef, Doc, OffsetKind, Options, StateVector, Transact, Origin};
+use yrs::XmlOut;
 use yrs::{MapRef, ReadTxn};
 use yrs::branch::Branch;
 use crate::undo::YrsUndoManager;
@@ -40,17 +43,40 @@ impl YrsDoc {
 
     pub(crate) fn get_text(&self, name: String) -> Arc<YrsText> {
         let text_ref = self.0.borrow().get_or_insert_text(name.as_str());
-        Arc::from(YrsText::from(text_ref))
+        Arc::new(YrsText::new(text_ref, self.0.borrow().clone()))
+    }
+
+    pub(crate) fn get_xml_fragment(&self, name: String) -> Arc<YrsXmlNode> {
+        let fragment = self.0.borrow().get_or_insert_xml_fragment(name.as_str());
+        Arc::new(YrsXmlNode::from_fragment(fragment))
+    }
+
+    pub(crate) fn resolve_xml_relative_position(
+        &self,
+        transaction: &YrsTransaction,
+        encoded: Vec<u8>,
+    ) -> Result<Option<YrsXmlResolvedPosition>, CodingError> {
+        let (position, association) = crate::xml::decode_xml_relative_position(&encoded)?;
+        let tx = transaction.transaction();
+        let tx = tx.as_ref().unwrap();
+        let Some(offset) = position.get_offset(tx) else { return Ok(None) };
+        if offset.branch.is_deleted() { return Ok(None) }
+        let Ok(node) = XmlOut::try_from(offset.branch) else { return Ok(None) };
+        Ok(Some(YrsXmlResolvedPosition {
+            node: Arc::new(YrsXmlNode::from_node(node)),
+            index: offset.index,
+            association,
+        }))
     }
 
     pub(crate) fn get_array(&self, name: String) -> Arc<YrsArray> {
         let array_ref: ArrayRef = self.0.borrow().get_or_insert_array(name.as_str()).into();
-        Arc::from(YrsArray::from(array_ref))
+        Arc::new(YrsArray::new(array_ref, self.0.borrow().clone()))
     }
 
     pub(crate) fn get_map(&self, name: String) -> Arc<YrsMap> {
         let map_ref: MapRef = self.0.borrow().get_or_insert_map(name.as_str()).into();
-        Arc::from(YrsMap::from(map_ref))
+        Arc::new(YrsMap::new(map_ref, self.0.borrow().clone()))
     }
 
     pub(crate) fn transact<'doc>(&self, origin: Option<YrsOrigin>) -> Arc<YrsTransaction> {
@@ -65,13 +91,11 @@ impl YrsDoc {
 
     pub(crate) fn undo_manager(&self, tracked_refs: Vec<YrsCollectionPtr>) -> Arc<YrsUndoManager> {
         let doc = &*self.0.borrow();
-        let mut i = tracked_refs.into_iter();
-        let first = i.next().unwrap();
-        let mut undo_manager = yrs::undo::UndoManager::new(doc, &first);
-        while let Some(n) = i.next() {
-            undo_manager.expand_scope(&n);
+        let mut undo_manager = yrs::undo::UndoManager::new();
+        for reference in tracked_refs {
+            undo_manager.expand_scope(doc, &reference);
         }
-        Arc::new(YrsUndoManager::from(undo_manager))
+        Arc::new(YrsUndoManager::new(undo_manager, doc.clone()))
     }
 }
 

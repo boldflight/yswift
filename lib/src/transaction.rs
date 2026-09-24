@@ -77,37 +77,30 @@ impl YrsTransaction {
     }
 
     pub(crate) fn transaction_apply_update(&self, update: Vec<u8>) -> Result<(), CodingError> {
-        Update::decode_v1(update.as_slice())
-            .map_err(|_e| CodingError::DecodingError)
-            .map(|u| self.transaction().as_mut().unwrap().apply_update(u))
+        let decoded = Update::decode_v1(update.as_slice()).map_err(|_| CodingError::DecodingError)?;
+        self.transaction().as_mut().unwrap().apply_update(decoded)
+            .map_err(|_| CodingError::DecodingError)
     }
 
     pub(crate) fn transaction_get_text(&self, name: String) -> Option<Arc<YrsText>> {
-        self.transaction()
-            .as_ref()
-            .unwrap()
-            .get_text(name.as_str())
-            .map(YrsText::from)
-            .map(Arc::from)
+        let tx = self.transaction();
+        let tx = tx.as_ref().unwrap();
+        let doc = tx.doc().clone();
+        tx.get_text(name.as_str()).map(|reference| Arc::new(YrsText::new(reference, doc)))
     }
 
     pub(crate) fn transaction_get_array(&self, name: String) -> Option<Arc<YrsArray>> {
-        self.transaction()
-            .as_ref()
-            .unwrap()
-            .get_array(name.as_str())
-            .map(YrsArray::from)
-            .map(Arc::from)
+        let tx = self.transaction();
+        let tx = tx.as_ref().unwrap();
+        let doc = tx.doc().clone();
+        tx.get_array(name.as_str()).map(|reference| Arc::new(YrsArray::new(reference, doc)))
     }
 
     pub(crate) fn transaction_get_map(&self, name: String) -> Option<Arc<YrsMap>> {
-        self.transaction()
-            .as_ref()
-            .unwrap()
-            .get_map(name.as_str())
-            .map(YrsMap::from)
-            // ^^ this is reporting as return Option<{unknown}> instead of Option<YrsMap>, and I'm not sure why...
-            .map(Arc::from)
+        let tx = self.transaction();
+        let tx = tx.as_ref().unwrap();
+        let doc = tx.doc().clone();
+        tx.get_map(name.as_str()).map(|reference| Arc::new(YrsMap::new(reference, doc)))
     }
 
     pub(crate) fn free(&self) {

@@ -1,35 +1,26 @@
 use crate::error::CodingError;
 use crate::mapchange::{YrsEntryChange, YrsMapChange};
-use crate::subscription::YSubscription;
+use crate::subscription::{subscription_key, YSubscription};
 use crate::transaction::YrsTransaction;
 use std::cell::RefCell;
 use std::fmt::Debug;
 use std::sync::Arc;
-use yrs::branch::Branch;
 use yrs::Observable;
-use yrs::{types::Value, Any, Map, MapRef};
+use yrs::{Out as Value, Any, Doc, Map, MapRef, Transact};
 use crate::doc::YrsCollectionPtr;
 
-pub(crate) struct YrsMap(RefCell<MapRef>);
+pub(crate) struct YrsMap(RefCell<MapRef>, Doc);
 
 // Marks that this type can be transferred across thread boundaries.
 unsafe impl Send for YrsMap {}
 // Marks that this type is safe to share references between threads.
 unsafe impl Sync for YrsMap {}
 
-impl AsRef<Branch> for YrsMap {
-    fn as_ref(&self) -> &Branch {
-        //FIXME: after yrs v0.18 use logical references
-        let branch = &*self.0.borrow();
-        unsafe { std::mem::transmute(branch.as_ref()) }
-    }
-}
-
 // Provides the implementation for the From trait, supporting
 // converting from a MapRef type into a YrsMap type.
-impl From<MapRef> for YrsMap {
-    fn from(value: MapRef) -> Self {
-        YrsMap(RefCell::from(value))
+impl YrsMap {
+    pub(crate) fn new(value: MapRef, doc: Doc) -> Self {
+        YrsMap(RefCell::from(value), doc)
     }
 }
 
@@ -272,10 +263,10 @@ impl YrsMap {
     }
 
     pub(crate) fn observe(&self, delegate: Box<dyn YrsMapObservationDelegate>) -> Arc<YSubscription> {
-        let subscription = self
-            .0
-            .borrow_mut()
-            .observe(move |transaction, map_event| {
+        let key = subscription_key();
+        let id = { let reference = self.0.borrow(); let branch: &yrs::branch::Branch = reference.as_ref(); branch.id() };
+        let doc = self.1.clone();
+        self.0.borrow().observe(key.clone(), move |transaction, map_event| {
                 let delta = map_event.keys(transaction);
                 let result: Vec<YrsMapChange> = delta
                     .iter()
@@ -286,8 +277,12 @@ impl YrsMap {
                     .collect();
                 delegate.call(result)
             });
-
-            Arc::new(YSubscription::new(subscription))
+        Arc::new(YSubscription::new(move || {
+            let tx = doc.transact();
+            if let Some(branch) = id.get_branch(&tx) {
+                MapRef::from(branch).unobserve(key);
+            }
+        }))
     }
 }
 

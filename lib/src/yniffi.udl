@@ -1,9 +1,13 @@
-namespace yniffi {};
+namespace yniffi {
+  [Throws=CodingError]
+  sequence<u8> merge_updates_v1(sequence<sequence<u8>> updates);
+};
 
 [Error]
 enum CodingError {
   "EncodingError",
   "DecodingError",
+  "InvalidOperation",
 };
 
 interface YrsDoc {
@@ -13,6 +17,9 @@ interface YrsDoc {
   sequence<u8> encode_diff_v1([ByRef] YrsTransaction tx, sequence<u8> state_vector);
   
   YrsText get_text(string name);
+  YrsXmlNode get_xml_fragment(string name);
+  [Throws=CodingError]
+  YrsXmlResolvedPosition? resolve_xml_relative_position([ByRef] YrsTransaction tx, sequence<u8> encoded);
   YrsArray get_array(string name);
   YrsMap get_map(string name);
   YrsTransaction transact(YrsOrigin? origin);
@@ -132,6 +139,58 @@ interface YrsText {
   void remove_range([ByRef] YrsTransaction tx, u32 start, u32 length);
   u32 length([ByRef] YrsTransaction tx);
   YSubscription observe(YrsTextObservationDelegate delegate);
+};
+
+dictionary YrsXmlAttribute {
+  string key;
+  string value_json;
+};
+
+dictionary YrsXmlTextRun {
+  string text;
+  string attributes_json;
+};
+
+dictionary YrsXmlResolvedPosition {
+  YrsXmlNode node;
+  u32 index;
+  i32 association;
+};
+
+interface YrsXmlNode {
+  boolean is_same_node([ByRef] YrsXmlNode other);
+  [Throws=CodingError]
+  YrsCollectionPtr raw_ptr([ByRef] YrsTransaction tx);
+  string kind([ByRef] YrsTransaction tx);
+  string? tag([ByRef] YrsTransaction tx);
+  u32 length([ByRef] YrsTransaction tx);
+  YrsXmlNode? child([ByRef] YrsTransaction tx, u32 index);
+  [Throws=CodingError]
+  YrsXmlNode insert_element([ByRef] YrsTransaction tx, u32 index, string tag);
+  [Throws=CodingError]
+  YrsXmlNode insert_text([ByRef] YrsTransaction tx, u32 index);
+  [Throws=CodingError]
+  void remove_children([ByRef] YrsTransaction tx, u32 index, u32 length);
+  [Throws=CodingError]
+  sequence<YrsXmlAttribute> attributes([ByRef] YrsTransaction tx);
+  [Throws=CodingError]
+  void set_attribute([ByRef] YrsTransaction tx, string key, string value_json);
+  [Throws=CodingError]
+  void remove_attribute([ByRef] YrsTransaction tx, string key);
+  [Throws=CodingError]
+  string text([ByRef] YrsTransaction tx);
+  [Throws=CodingError]
+  sequence<YrsXmlTextRun> delta([ByRef] YrsTransaction tx);
+  [Throws=CodingError]
+  void insert_string([ByRef] YrsTransaction tx, u32 index, string value, string attributes_json);
+  [Throws=CodingError]
+  void format([ByRef] YrsTransaction tx, u32 index, u32 length, string attributes_json);
+  [Throws=CodingError]
+  void remove_text([ByRef] YrsTransaction tx, u32 index, u32 length);
+  [Throws=CodingError]
+  sequence<u8> relative_position([ByRef] YrsTransaction tx, u32 index, i32 association);
+  [Throws=CodingError]
+  u32? resolve_relative_position([ByRef] YrsTransaction tx, sequence<u8> encoded);
 };
 
 callback interface YrsTextObservationDelegate {

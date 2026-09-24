@@ -1,29 +1,20 @@
-use crate::subscription::YSubscription;
+use crate::subscription::{subscription_key, YSubscription};
 use crate::transaction::YrsTransaction;
 use crate::{change::YrsChange, error::CodingError};
 use std::cell::RefCell;
 use std::fmt::Debug;
 use std::sync::Arc;
-use yrs::{types::Value, Any, Array, ArrayRef, Observable};
-use yrs::branch::Branch;
+use yrs::{Out as Value, Any, Array, ArrayRef, Doc, Observable, Transact};
 use crate::doc::YrsCollectionPtr;
 
-pub(crate) struct YrsArray(RefCell<ArrayRef>);
+pub(crate) struct YrsArray(RefCell<ArrayRef>, Doc);
 
 unsafe impl Send for YrsArray {}
 unsafe impl Sync for YrsArray {}
 
-impl AsRef<Branch> for YrsArray {
-    fn as_ref(&self) -> &Branch {
-        //FIXME: after yrs v0.18 use logical references
-        let branch = &*self.0.borrow();
-        unsafe { std::mem::transmute(branch.as_ref()) }
-    }
-}
-
-impl From<ArrayRef> for YrsArray {
-    fn from(value: ArrayRef) -> Self {
-        YrsArray(RefCell::from(value))
+impl YrsArray {
+    pub(crate) fn new(value: ArrayRef, doc: Doc) -> Self {
+        YrsArray(RefCell::from(value), doc)
     }
 }
 pub(crate) trait YrsArrayEachDelegate: Send + Sync + Debug {
@@ -187,17 +178,21 @@ impl YrsArray {
     }
 
     pub(crate) fn observe(&self, delegate: Box<dyn YrsArrayObservationDelegate>) -> Arc<YSubscription> {
-        let subscription = self
-            .0
-            .borrow_mut()
-            .observe(move |transaction, text_event| {
+        let key = subscription_key();
+        let id = { let reference = self.0.borrow(); let branch: &yrs::branch::Branch = reference.as_ref(); branch.id() };
+        let doc = self.1.clone();
+        self.0.borrow().observe(key.clone(), move |transaction, text_event| {
                 let delta = text_event.delta(transaction);
                 let result: Vec<YrsChange> =
                     delta.iter().map(|change| YrsChange::from(change)).collect();
                 delegate.call(result)
             });
-
-            Arc::new(YSubscription::new(subscription))
+        Arc::new(YSubscription::new(move || {
+            let tx = doc.transact();
+            if let Some(branch) = id.get_branch(&tx) {
+                ArrayRef::from(branch).unobserve(key);
+            }
+        }))
     }
 
     pub(crate) fn to_a(&self, transaction: &YrsTransaction) -> Vec<String> {

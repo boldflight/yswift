@@ -4,4 +4,6 @@ pub enum CodingError {
     EncodingError,
     #[error("DecodingError")]
     DecodingError,
+    #[error("InvalidOperation")]
+    InvalidOperation,
 }

@@ -1,0 +1,66 @@
+{
+  "fixture_version": 1,
+  "schema": "relaymark-prosemirror-v1",
+  "root": "default",
+  "seed": "ARypwAIABwEHZGVmYXVsdAMHaGVhZGluZwcAqcACAAYEAKnAAgEFQfCfjI2HqcACAQMJaGFyZEJyZWFrh6nAAgUGBACpwAIGAUKHqcACBgYGAKnAAggEbGluayB7ImhyZWYiOiJyZWxheTplbnRpdHkvcGVyc29uLTEifYSpwAIJAUOGqcACCgRsaW5rBG51bGwoAKnAAgAFbGV2ZWwBfQKHqcACAAMOaG9yaXpvbnRhbFJ1bGWHqcACDQMJcGFyYWdyYXBoBwCpwAIOBgQAqcACDwFEh6nAAg4DCmJsb2NrcXVvdGUHAKnAAhEDCXBhcmFncmFwaAcAqcACEgYEAKnAAhMBZYepwAITAwloYXJkQnJlYWuHqcACFQYEAKnAAhYBZoepwAIRAwljb2RlQmxvY2sHAKnAAhgGBACpwAIZBGxldCCHqcACGQYEAKnAAh4CeAooAKnAAhgIbGFuZ3VhZ2UBdwVzd2lmdAA=",
+  "remote_update": "AQGqwAIAxKnAAgqpwAILASEA",
+  "initial_text": "A🌍 BC\n￼\nD\ne f\nlet x\n",
+  "cases": [
+    {
+      "id": "delete-inline-break",
+      "start": 3,
+      "end": 4,
+      "text": "",
+      "expected": "A🌍BC\n￼\nD\ne f\nlet x\n"
+    },
+    {
+      "id": "insert-after-break",
+      "start": 4,
+      "end": 4,
+      "text": "new",
+      "expected": "A🌍 newBC\n￼\nD\ne f\nlet x\n"
+    },
+    {
+      "id": "delete-mixed-leaves",
+      "start": 1,
+      "end": 6,
+      "text": "X",
+      "expected": "AX\n￼\nD\ne f\nlet x\n"
+    },
+    {
+      "id": "delete-across-rule",
+      "start": 5,
+      "end": 10,
+      "text": "Z",
+      "expected": "A🌍 BZ\ne f\nlet x\n"
+    },
+    {
+      "id": "insert-inline-break",
+      "start": 5,
+      "end": 5,
+      "text": " z",
+      "expected": "A🌍 B zC\n￼\nD\ne f\nlet x\n"
+    },
+    {
+      "id": "delete-rule-atom",
+      "start": 7,
+      "end": 8,
+      "text": "",
+      "expected": "A🌍 BC\n\nD\ne f\nlet x\n"
+    },
+    {
+      "id": "type-before-rule",
+      "start": 7,
+      "end": 7,
+      "text": "new",
+      "expected": "A🌍 BC\nnew\n￼\nD\ne f\nlet x\n"
+    },
+    {
+      "id": "type-after-rule",
+      "start": 8,
+      "end": 8,
+      "text": "new",
+      "expected": "A🌍 BC\n￼\nnew\nD\ne f\nlet x\n"
+    }
+  ]
+}

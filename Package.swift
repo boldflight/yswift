@@ -1,4 +1,4 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.9
 
 import PackageDescription
 import Foundation
@@ -27,37 +27,16 @@ var globalSwiftSettings: [PackageDescription.SwiftSetting] = []
     }
 #endif
 
-let FFIbinaryTarget: PackageDescription.Target
-// If either the environment variable `YSWIFT_LOCAL` is set to any value, the packages uses
-// a local reference to an XCFramework file (built from `./scripts/build-xcframework.sh`)
-// rather than the previous released version.
-//
-// The script `./scripts/build-xcframework.sh` _does_ expect that you have Rust
-// installed locally in order to function.
-if ProcessInfo.processInfo.environment["YSWIFT_LOCAL"] != nil {
-    // We are using a local file reference to an XCFramework, which is functional
-    // on the tags for this package because the XCFramework.zip file is committed with
-    // those specific release points. This does, however, cause a few awkward issues,
-    // in particular it means that swift-docc-plugin doesn't operate correctly as the
-    // process to retrieve the symbols from this and the XCFramework fails within
-    // Swift Package Manager. Building documentation within Xcode works perfectly fine,
-    // but if you're attempting to generate HTML documentation, use the script
-    // `./scripts/build-ghpages-docs.sh`.
-    FFIbinaryTarget = .binaryTarget(
-            name: "yniffiFFI",
-            path: "./lib/yniffiFFI.xcframework"
-    )
-} else {
-    FFIbinaryTarget = .binaryTarget(
-            name: "yniffiFFI",
-            url: "https://github.com/y-crdt/yswift/releases/download/0.2.1/yniffiFFI.xcframework.zip",
-            checksum: "7377378b6d8bb628ff8e2847f73a6b7115705d53a822dd578fb9cbcf2bce1675"
-    )
-}
+// The fork carries its matching Apple XCFramework on the branch so a revision
+// dependency always resolves the same Rust ABI as the checked-in Swift scaffold.
+let FFIbinaryTarget: PackageDescription.Target = .binaryTarget(
+    name: "yniffiFFI",
+    path: "./lib/yniffiFFI.xcframework"
+)
 
 let package = Package(
     name: "YSwift",
-    platforms: [.iOS(.v13), .macOS(.v10_15)],
+    platforms: [.iOS(.v13), .macOS(.v10_15), .visionOS(.v1)],
     products: [
         .library(name: "YSwift", targets: ["YSwift"]),
     ],
@@ -78,7 +57,8 @@ let package = Package(
         ),
         .testTarget(
             name: "YSwiftTests",
-            dependencies: ["YSwift"]
+            dependencies: ["YSwift"],
+            resources: [.copy("Fixtures")]
         ),
     ]
 )
