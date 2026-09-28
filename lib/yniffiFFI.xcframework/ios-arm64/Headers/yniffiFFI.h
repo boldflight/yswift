@@ -1270,7 +1270,7 @@ void ffi_uniffi_yniffi_rust_future_complete_void(uint64_t handle, RustCallStatus
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_HAS_ADDITIONAL_DELETIONS_V1
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_HAS_ADDITIONAL_DELETIONS_V1
 uint16_t uniffi_uniffi_yniffi_checksum_func_has_additional_deletions_v1(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_MERGE_UPDATES_V1

@@ -16,7 +16,8 @@ path = "uniffi-bindgen.rs"
 required-features = ["uniffi/cli"]
 
 [dependencies]
-yrs = { version = "0.28.0", features = ["sync"] }
+# y-crdt v0.28.0 + UndoManager redone-merge fix (y-crdt/y-crdt#674, yjs/yjs#806)
+yrs = { git = "https://github.com/boldflight/y-crdt.git", rev = "1384c9b", features = ["sync"] }
 thiserror = "1.0.38"
 uniffi = "0.27.1"
 serde_json = "1.0"
