@@ -1,5 +1,7 @@
 namespace yniffi {
   [Throws=CodingError]
+  boolean has_additional_deletions_v1(sequence<u8> before, sequence<u8> after, sequence<u8> declared_by);
+  [Throws=CodingError]
   sequence<u8> merge_updates_v1(sequence<sequence<u8>> updates);
   [Throws=CodingError]
   string relative_position_to_json(sequence<u8> encoded);

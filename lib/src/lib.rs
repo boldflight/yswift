@@ -1,3 +1,4 @@
+mod deletion_sets;
 mod array;
 mod awareness;
 mod attrs;
@@ -46,5 +47,7 @@ fn merge_updates_v1(updates: Vec<Vec<u8>>) -> Result<Vec<u8>, CodingError> {
 }
 use crate::relative_position::{relative_position_from_json, relative_position_to_json};
 use crate::subscription::YSubscription;
+
+use crate::deletion_sets::has_additional_deletions_v1;
 
 uniffi::include_scaffolding!("yniffi");

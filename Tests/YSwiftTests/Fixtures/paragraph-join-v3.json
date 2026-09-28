@@ -1,0 +1,137 @@
+{
+  "fixture_version": 1,
+  "schema": "relaymark-prosemirror-v3",
+  "root": "default",
+  "source": "Actual Relay TipTap joinBackward + shared y-tiptap/Yjs; gc:false; right paragraph peer typing concurrent with join",
+  "versions": {
+    "yjs": "13.6.32",
+    "@tiptap/core": "3.30.5",
+    "@tiptap/y-tiptap": "3.0.9"
+  },
+  "seed": "AQqVywUABwEHZGVmYXVsdAMJcGFyYWdyYXBoBwCVywUABgQAlcsFAQVMZWZ0ICgAlcsFAAtyZWxheW1hcmtJZAF3IWIwMDAwMDAwMDAwMDA0MDAwODAwMDAwMDAwMDAwMDAzMYeVywUAAwlwYXJhZ3JhcGgHAJXLBQgGBgCVywUJBGJvbGQCe32ElcsFCgVSaWdodIaVywUPBGJvbGQEbnVsbCgAlcsFCAtyZWxheW1hcmtJZAF3IWIwMDAwMDAwMDAwMDA0MDAwODAwMDAwMDAwMDAwMDAzMgA=",
+  "before": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "attrs": {
+          "relaymarkId": "b00000000000040008000000000000031"
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Left "
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "relaymarkId": "b00000000000040008000000000000032"
+        },
+        "content": [
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "Right"
+          }
+        ]
+      }
+    ]
+  },
+  "after": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "attrs": {
+          "relaymarkId": "b00000000000040008000000000000031"
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Left "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "Right"
+          }
+        ]
+      }
+    ]
+  },
+  "browser_join_update": "AQOVywUShJXLBQYFUmlnaHTGlcsFBpXLBRIEYm9sZAJ7fYaVywUWBGJvbGQEbnVsbAGVywUBCAo=",
+  "peer_update": "AQGWywUAxJXLBQ+VywUQCyBjb25jdXJyZW50AA==",
+  "merged": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "attrs": {
+          "relaymarkId": "b00000000000040008000000000000031"
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Left "
+          },
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "Right"
+          }
+        ]
+      }
+    ]
+  },
+  "concurrent_right_text_visible": false,
+  "after_undo": {
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "attrs": {
+          "relaymarkId": "b00000000000040008000000000000031"
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "Left "
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "relaymarkId": "b00000000000040008000000000000032"
+        },
+        "content": [
+          {
+            "type": "text",
+            "marks": [
+              {
+                "type": "bold"
+              }
+            ],
+            "text": "Right"
+          }
+        ]
+      }
+    ]
+  },
+  "recovered_concurrent_text": false,
+  "browser_undo_update": "AQaVywUZx5XLBQCVywUIAwlwYXJhZ3JhcGgHAJXLBRkGBgCVywUaBGJvbGQCe32ElcsFGwVSaWdodIaVywUgBGJvbGQEbnVsbCgAlcsFGQtyZWxheW1hcmtJZAF3IWIwMDAwMDAwMDAwMDA0MDAwODAwMDAwMDAwMDAwMDAzMgKWywUBAAuVywUBCBE="
+}

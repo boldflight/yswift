@@ -4307,6 +4307,15 @@ public func FfiConverterTypeYrsOrigin_lower(_ value: YrsOrigin) -> RustBuffer {
     return FfiConverterTypeYrsOrigin.lower(value)
 }
 
+public func hasAdditionalDeletionsV1(before: [UInt8], after: [UInt8], declaredBy: [UInt8])throws  -> Bool {
+    return try  FfiConverterBool.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_func_has_additional_deletions_v1(
+        FfiConverterSequenceUInt8.lower(before),
+        FfiConverterSequenceUInt8.lower(after),
+        FfiConverterSequenceUInt8.lower(declaredBy),$0
+    )
+})
+}
 public func mergeUpdatesV1(updates: [[UInt8]])throws  -> [UInt8] {
     return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_func_merge_updates_v1(
@@ -4343,6 +4352,9 @@ private var initializationResult: InitializationResult {
     let scaffolding_contract_version = ffi_uniffi_yniffi_uniffi_contract_version()
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_func_has_additional_deletions_v1() != 49529) {
+        return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_func_merge_updates_v1() != 38380) {
         return InitializationResult.apiChecksumMismatch
