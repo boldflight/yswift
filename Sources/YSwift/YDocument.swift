@@ -73,6 +73,15 @@ public final class YDocument {
         }
     }
 
+    /// Upstream Snapshot V1 bytes from this settled retained document owner.
+    public func stateSnapshot() throws -> Data {
+        try transactSync { Data(try self.document.stateSnapshot(tx:$0)) }
+    }
+    /// Exact retained sender state without importing snapshot-supplied document bytes.
+    public func stateFromSnapshot(_ snapshot:Data,maximumSteps:UInt32=1_000_000) throws -> Data {
+        try transactSync { Data(try self.document.stateFromSnapshot(tx:$0,snapshot:Array(snapshot),maxSteps:maximumSteps)) }
+    }
+
     /// Observe all newly visible UTF-16 XML string identities in one bounded traversal.
     /// Format markers, deleted ancestors and unrelated metadata maps are excluded.
     /// Hosts independently authorize and retain immutable source/copy receipts.

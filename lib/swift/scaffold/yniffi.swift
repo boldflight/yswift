@@ -997,6 +997,10 @@ public protocol YrsDocProtocol : AnyObject {
     
     func restoreUndoManager(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String, metadata: [UInt64]) throws  -> YrsUndoManager
 
+    func stateFromSnapshot(tx: YrsTransaction, snapshot: [UInt8], maxSteps: UInt32) throws  -> [UInt8]
+
+    func stateSnapshot(tx: YrsTransaction) throws  -> [UInt8]
+
     func transact(origin: YrsOrigin?)  -> YrsTransaction
     
     func undoManager(trackedRefs: [YrsCollectionPtr])  -> YrsUndoManager
@@ -1167,6 +1171,24 @@ open func restoreUndoManager(trackedRefs: [YrsCollectionPtr], json: String, scop
         FfiConverterString.lower(json),
         FfiConverterString.lower(scopeToken),
         FfiConverterSequenceUInt64.lower(metadata),$0
+    )
+})
+}
+
+open func stateFromSnapshot(tx: YrsTransaction, snapshot: [UInt8], maxSteps: UInt32)throws  -> [UInt8] {
+    return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_state_from_snapshot(self.uniffiClonePointer(),
+        FfiConverterTypeYrsTransaction.lower(tx),
+        FfiConverterSequenceUInt8.lower(snapshot),
+        FfiConverterUInt32.lower(maxSteps),$0
+    )
+})
+}
+
+open func stateSnapshot(tx: YrsTransaction)throws  -> [UInt8] {
+    return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_state_snapshot(self.uniffiClonePointer(),
+        FfiConverterTypeYrsTransaction.lower(tx),$0
     )
 })
 }
@@ -4642,6 +4664,12 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_restore_undo_manager() != 10744) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_state_from_snapshot() != 58837) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_state_snapshot() != 54697) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_transact() != 24297) {

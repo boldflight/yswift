@@ -22,6 +22,11 @@ interface YrsDoc {
   constructor(string guid, boolean retain_deleted_items);
   string guid();
   [Throws=CodingError]
+  sequence<u8> state_snapshot([ByRef] YrsTransaction tx);
+  [Throws=CodingError]
+  sequence<u8> state_from_snapshot([ByRef] YrsTransaction tx, sequence<u8> snapshot, u32 max_steps);
+
+  [Throws=CodingError]
   string inspect_format_event([ByRef] YrsTransaction tx, sequence<u8> update, string attribute, string targets_json, u32 max_steps);
   [Throws=CodingError]
   string inspect_visible_text_items([ByRef] YrsTransaction tx, sequence<u8> state_vector, string root_name, u32 max_steps);

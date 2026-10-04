@@ -47,6 +47,22 @@ impl YrsDoc {
         YrsUndoManager::restore(self.0.borrow().clone(), tracked_refs, json, scope_token, metadata).map(Arc::new)
     }
 
+    /// Exact upstream Snapshot V1 bytes, including the current delete set.
+    pub(crate) fn state_snapshot(&self, transaction: &YrsTransaction) -> Result<Vec<u8>, CodingError> {
+        use yrs::updates::encoder::Encode;
+        if !self.0.borrow().skip_gc() { return Err(CodingError::InvalidOperation); }
+        let tx=transaction.transaction();let tx=tx.as_ref().ok_or(CodingError::InvalidOperation)?;
+        if tx.store().pending_update().is_some() || tx.store().pending_ds().is_some() { return Err(CodingError::InvalidOperation); }
+        let bytes=tx.snapshot().encode_v1();
+        if bytes.len()>1024*1024 { return Err(CodingError::InvalidOperation); }
+        Ok(bytes)
+    }
+    /// Read-only reconstruction from retained items; bytes never import state.
+    pub(crate) fn state_from_snapshot(&self, transaction: &YrsTransaction, snapshot: Vec<u8>, max_steps:u32) -> Result<Vec<u8>, CodingError> {
+        let tx=transaction.transaction();let tx=tx.as_ref().ok_or(CodingError::InvalidOperation)?;
+        yrs::snapshot_frontier::encode(tx,&snapshot,max_steps as usize).map_err(|_|CodingError::InvalidOperation)
+    }
+
     /// Read-only exact format-event observer supplied by the consumed Yrs fork.
     pub(crate) fn inspect_format_event(&self, transaction: &YrsTransaction, update: Vec<u8>, attribute: String, targets_json: String, max_steps: u32) -> Result<String, CodingError> {
         use yrs::branch::BranchID;

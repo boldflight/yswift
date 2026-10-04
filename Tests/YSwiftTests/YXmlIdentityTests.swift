@@ -84,3 +84,24 @@ final class YXmlIdentityTests: XCTestCase {
     }
 
 }
+
+extension YXmlIdentityTests {
+    func testSenderSnapshotUsesRetainedOwnerAndPreservesUnicodeUnderPeerShift() throws {
+        let document=YDocument(guid:"sender-frontier",retainDeletedItems:true)
+        let text=document.getOrCreateText(named:"default")
+        text.insert("A🌍Z",at:0)
+        let sender=try document.stateSnapshot()
+        let peer=YDocument(guid:"sender-frontier",retainDeletedItems:true)
+        let peerText=peer.getOrCreateText(named:"default")
+        exchangeUpdates(document,peer)
+        peerText.insert("Peer ",at:0);exchangeUpdates(document,peer)
+        let current=document.transactSync { $0.transactionEncodeStateAsUpdate() }
+        let state=try document.stateFromSnapshot(sender)
+        let restored=YDocument(guid:"sender-frontier",retainDeletedItems:true)
+        let restoredText=restored.getOrCreateText(named:"default")
+        try restored.transactSync { try $0.transactionApplyUpdate(update:Array(state)) }
+        XCTAssertEqual(restoredText.getString(),"A🌍Z")
+        XCTAssertEqual(document.transactSync { $0.transactionEncodeStateAsUpdate() },current)
+        XCTAssertThrowsError(try document.stateFromSnapshot(Data([1,7,1,255,255,255,255,15,1,0])))
+    }
+}
