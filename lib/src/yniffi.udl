@@ -18,6 +18,13 @@ enum CodingError {
 
 interface YrsDoc {
   constructor();
+  [Name=with_options]
+  constructor(string guid, boolean retain_deleted_items);
+  string guid();
+  [Throws=YrsUndoError]
+  void validate_undo_history(sequence<YrsCollectionPtr> tracked_refs, string json, string scope_token);
+  [Throws=YrsUndoError]
+  YrsUndoManager restore_undo_manager(sequence<YrsCollectionPtr> tracked_refs, string json, string scope_token, sequence<u64> metadata);
 
   [Throws=CodingError]
   sequence<u8> encode_diff_v1([ByRef] YrsTransaction tx, sequence<u8> state_vector);
@@ -248,7 +255,14 @@ interface YrsDelta {
 
 /// A manager type able to track changes occurring in a context of a given document.
 /// These changes can be reverted using `undo` method call, or re-applied via `redo`.
+dictionary YrsUndoSnapshot {
+    string json;
+    sequence<u64> metadata;
+};
+
 interface YrsUndoManager {
+    [Throws=YrsUndoError]
+    YrsUndoSnapshot export_history(string scope_token);
     /// Adds a specific origin identifier to a list of tracked origins. If tracked
     /// origin list is not empty, current undo manager will only track changes applied
     /// over transactions created with a specific origin.
@@ -291,7 +305,8 @@ interface YrsUndoManager {
 
 [Error]
 enum YrsUndoError {
-  "PendingTransaction"
+  "PendingTransaction",
+  "InvalidHistory"
 };
 
 callback interface YrsUndoManagerObservationDelegate {

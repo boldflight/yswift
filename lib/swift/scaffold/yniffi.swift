@@ -983,14 +983,20 @@ public protocol YrsDocProtocol : AnyObject {
     
     func getXmlFragment(name: String)  -> YrsXmlNode
     
+    func guid()  -> String
+
     func makeAwareness()  -> YrsAwareness
     
     func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8]) throws  -> YrsXmlResolvedPosition?
     
+    func restoreUndoManager(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String, metadata: [UInt64]) throws  -> YrsUndoManager
+
     func transact(origin: YrsOrigin?)  -> YrsTransaction
     
     func undoManager(trackedRefs: [YrsCollectionPtr])  -> YrsUndoManager
     
+    func validateUndoHistory(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String) throws
+
 }
 
 open class YrsDoc:
@@ -1039,6 +1045,15 @@ public convenience init() {
     }
 
     
+public static func withOptions(guid: String, retainDeletedItems: Bool) -> YrsDoc {
+    return try!  FfiConverterTypeYrsDoc.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_constructor_yrsdoc_with_options(
+        FfiConverterString.lower(guid),
+        FfiConverterBool.lower(retainDeletedItems),$0
+    )
+})
+}
+
 
     
 open func encodeDiffV1(tx: YrsTransaction, stateVector: [UInt8])throws  -> [UInt8] {
@@ -1082,6 +1097,13 @@ open func getXmlFragment(name: String) -> YrsXmlNode {
 })
 }
     
+open func guid() -> String {
+    return try!  FfiConverterString.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_guid(self.uniffiClonePointer(),$0
+    )
+})
+}
+
 open func makeAwareness() -> YrsAwareness {
     return try!  FfiConverterTypeYrsAwareness.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_make_awareness(self.uniffiClonePointer(),$0
@@ -1098,6 +1120,17 @@ open func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8])throws
 })
 }
     
+open func restoreUndoManager(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String, metadata: [UInt64])throws  -> YrsUndoManager {
+    return try  FfiConverterTypeYrsUndoManager.lift(try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_restore_undo_manager(self.uniffiClonePointer(),
+        FfiConverterSequenceTypeYrsCollectionPtr.lower(trackedRefs),
+        FfiConverterString.lower(json),
+        FfiConverterString.lower(scopeToken),
+        FfiConverterSequenceUInt64.lower(metadata),$0
+    )
+})
+}
+
 open func transact(origin: YrsOrigin?) -> YrsTransaction {
     return try!  FfiConverterTypeYrsTransaction.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_transact(self.uniffiClonePointer(),
@@ -1114,6 +1147,15 @@ open func undoManager(trackedRefs: [YrsCollectionPtr]) -> YrsUndoManager {
 })
 }
     
+open func validateUndoHistory(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String)throws  {try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_validate_undo_history(self.uniffiClonePointer(),
+        FfiConverterSequenceTypeYrsCollectionPtr.lower(trackedRefs),
+        FfiConverterString.lower(json),
+        FfiConverterString.lower(scopeToken),$0
+    )
+}
+}
+
 
 }
 
@@ -1894,10 +1936,6 @@ public func FfiConverterTypeYrsUndoEvent_lower(_ value: YrsUndoEvent) -> UnsafeM
 
 
 
-/**
- * A manager type able to track changes occurring in a context of a given document.
- * These changes can be reverted using `undo` method call, or re-applied via `redo`.
- */
 public protocol YrsUndoManagerProtocol : AnyObject {
     
     /**
@@ -1917,6 +1955,8 @@ public protocol YrsUndoManagerProtocol : AnyObject {
      */
     func clear() throws 
     
+    func exportHistory(scopeToken: String) throws  -> YrsUndoSnapshot
+
     func observeAdded(delegate: YrsUndoManagerObservationDelegate)  -> YSubscription
     
     func observePopped(delegate: YrsUndoManagerObservationDelegate)  -> YSubscription
@@ -1952,10 +1992,6 @@ public protocol YrsUndoManagerProtocol : AnyObject {
     
 }
 
-/**
- * A manager type able to track changes occurring in a context of a given document.
- * These changes can be reverted using `undo` method call, or re-applied via `redo`.
- */
 open class YrsUndoManager:
     YrsUndoManagerProtocol {
     fileprivate let pointer: UnsafeMutableRawPointer!
@@ -2028,6 +2064,14 @@ open func clear()throws  {try rustCallWithError(FfiConverterTypeYrsUndoError.lif
 }
 }
     
+open func exportHistory(scopeToken: String)throws  -> YrsUndoSnapshot {
+    return try  FfiConverterTypeYrsUndoSnapshot.lift(try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsundomanager_export_history(self.uniffiClonePointer(),
+        FfiConverterString.lower(scopeToken),$0
+    )
+})
+}
+
 open func observeAdded(delegate: YrsUndoManagerObservationDelegate) -> YSubscription {
     return try!  FfiConverterTypeYSubscription.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsundomanager_observe_added(self.uniffiClonePointer(),
@@ -2693,6 +2737,67 @@ public func FfiConverterTypeYrsMapChange_lower(_ value: YrsMapChange) -> RustBuf
 }
 
 
+/**
+ * A manager type able to track changes occurring in a context of a given document.
+ * These changes can be reverted using `undo` method call, or re-applied via `redo`.
+ */
+public struct YrsUndoSnapshot {
+    public var json: String
+    public var metadata: [UInt64]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(json: String, metadata: [UInt64]) {
+        self.json = json
+        self.metadata = metadata
+    }
+}
+
+
+
+extension YrsUndoSnapshot: Equatable, Hashable {
+    public static func ==(lhs: YrsUndoSnapshot, rhs: YrsUndoSnapshot) -> Bool {
+        if lhs.json != rhs.json {
+            return false
+        }
+        if lhs.metadata != rhs.metadata {
+            return false
+        }
+        return true
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(json)
+        hasher.combine(metadata)
+    }
+}
+
+
+public struct FfiConverterTypeYrsUndoSnapshot: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsUndoSnapshot {
+        return
+            try YrsUndoSnapshot(
+                json: FfiConverterString.read(from: &buf),
+                metadata: FfiConverterSequenceUInt64.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: YrsUndoSnapshot, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.json, into: &buf)
+        FfiConverterSequenceUInt64.write(value.metadata, into: &buf)
+    }
+}
+
+
+public func FfiConverterTypeYrsUndoSnapshot_lift(_ buf: RustBuffer) throws -> YrsUndoSnapshot {
+    return try FfiConverterTypeYrsUndoSnapshot.lift(buf)
+}
+
+public func FfiConverterTypeYrsUndoSnapshot_lower(_ value: YrsUndoSnapshot) -> RustBuffer {
+    return FfiConverterTypeYrsUndoSnapshot.lower(value)
+}
+
+
 public struct YrsXmlAttribute {
     public var key: String
     public var valueJson: String
@@ -3136,6 +3241,8 @@ public enum YrsUndoError {
     
     case PendingTransaction(message: String)
     
+    case InvalidHistory(message: String)
+
 }
 
 
@@ -3153,6 +3260,10 @@ public struct FfiConverterTypeYrsUndoError: FfiConverterRustBuffer {
             message: try FfiConverterString.read(from: &buf)
         )
         
+        case 2: return .InvalidHistory(
+            message: try FfiConverterString.read(from: &buf)
+        )
+
 
         default: throw UniffiInternalError.unexpectedEnumCase
         }
@@ -3166,6 +3277,8 @@ public struct FfiConverterTypeYrsUndoError: FfiConverterRustBuffer {
         
         case .PendingTransaction(_ /* message is ignored*/):
             writeInt(&buf, Int32(1))
+        case .InvalidHistory(_ /* message is ignored*/):
+            writeInt(&buf, Int32(2))
 
         
         }
@@ -4440,16 +4553,25 @@ private var initializationResult: InitializationResult {
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_xml_fragment() != 10703) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_guid() != 57892) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness() != 29566) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_resolve_xml_relative_position() != 55960) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_restore_undo_manager() != 10744) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_transact() != 24297) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_undo_manager() != 22583) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_validate_undo_history() != 60169) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsmap_clear() != 58500) {
@@ -4569,6 +4691,9 @@ private var initializationResult: InitializationResult {
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_clear() != 62142) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_export_history() != 1668) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_observe_added() != 56228) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -4648,6 +4773,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_constructor_yrsdoc_new() != 51551) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_constructor_yrsdoc_with_options() != 15039) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsarrayeachdelegate_call() != 23816) {

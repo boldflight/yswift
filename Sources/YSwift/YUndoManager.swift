@@ -13,6 +13,19 @@ public final class YUndoManager<T: AnyObject> {
         _manager = manager
     }
 
+    /// Atomically capture the retained CRDT and maintained undo/redo stacks.
+    /// Object metadata is encoded as JSON, never persisted as process pointer addresses.
+    public func exportHistory(scopeToken: String, encodeMetadata: (T) throws -> Data) throws -> YUndoHistoryArchive {
+        let snapshot = try _manager.exportHistory(scopeToken: scopeToken)
+        guard let data = snapshot.json.data(using: .utf8), var value = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw YUndoHistoryError.invalidArchive }
+        value["metadata"] = try snapshot.metadata.map { pointer -> Any in
+            guard pointer != 0, let raw = UnsafeRawPointer(bitPattern: UInt(pointer)) else { return NSNull() }
+            let object = Unmanaged<T>.fromOpaque(raw).takeUnretainedValue()
+            return try JSONSerialization.jsonObject(with: encodeMetadata(object), options: [.fragmentsAllowed])
+        }
+        return try YUndoHistoryArchive(data: JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]))
+    }
+
     /// Adds an origin that the Undo manager tracks.
     /// - Parameter origin: The origin to track.
     public func addOrigin(_ origin: Origin) {
@@ -152,3 +165,23 @@ public struct UndoEvent {
         return event.hasChanged(sharedRef: sharedRef.pointer())
     }
 }
+
+
+/// An exact local checkpoint of one maintained Yrs history and its retained document.
+/// It is recovery input, not authority to edit a different account or document.
+public struct YUndoHistoryArchive {
+    public let data: Data
+    public init(data: Data) throws {
+        self.data = data
+        let value = try object()
+        guard value["document_guid"] is String, value["scope_token"] is String,
+              value["document_state"] is [UInt8], value["metadata"] is [Any] else { throw YUndoHistoryError.invalidArchive }
+    }
+    func object() throws -> [String: Any] {
+        guard let result = try JSONSerialization.jsonObject(with: data) as? [String: Any] else { throw YUndoHistoryError.invalidArchive }
+        return result
+    }
+    public var documentGUID: String { (try? object()["document_guid"] as? String) ?? "" }
+    public var documentState: Data { Data((try? object()["document_state"] as? [UInt8]) ?? []) }
+}
+public enum YUndoHistoryError: Error { case invalidArchive }

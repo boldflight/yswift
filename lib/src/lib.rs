@@ -34,7 +34,7 @@ use crate::mapchange::YrsMapChange;
 use crate::text::YrsText;
 use crate::text::YrsTextObservationDelegate;
 use crate::transaction::{YrsIntegrationStatus, YrsTransaction};
-use crate::undo::YrsUndoManager;
+use crate::undo::{YrsUndoManager, YrsUndoSnapshot};
 use crate::undo::YrsUndoError;
 use crate::undo::YrsUndoManagerObservationDelegate;
 use crate::undo::YrsUndoEvent;

@@ -44,3 +44,21 @@ Without that environment variable set, `Package.swift` uses the latest release v
 
 If you are working on the Swift overlay (`YSwift` target), then you can safely use
 the previous released version of the XCFramework and its associated generated code for `Yniffi`.
+
+## Durable owned undo
+
+`YDocument(guid:retainDeletedItems:)` opts into Yrs deleted-item retention. Use a
+stable document/incarnation GUID; the CRDT client ID remains independently unique.
+`YUndoManager.exportHistory` captures the maintained Yrs stacks and the exact
+retained document update. Metadata closures serialize JSON values rather than
+process-local object pointers. Reopen the same GUID, load `archive.documentState`,
+then call `restoreUndoManager` with the same owner scope and actual tracked
+collections before integrating newer peer updates. Export a new checkpoint after
+those peer updates. A different GUID, owner, tracked branch, pruned document or
+changed state fails admission without mutating the document. The host still owns
+account authorization and archive integrity; this local checkpoint is not an
+editing grant. Previously GC-pruned deleted content cannot be reconstructed by
+restoring stacks.
+
+The binding uses the pinned Yrs `StackItem` serialization and
+`Options.init_undo_stack`/`init_redo_stack`; it introduces no parallel undo engine.

@@ -29,6 +29,24 @@ impl YrsDoc {
         Self(RefCell::from(doc))
     }
 
+    pub(crate) fn with_options(guid: String, retain_deleted_items: bool) -> Self {
+        let mut options = Options::default();
+        options.offset_kind = OffsetKind::Utf16;
+        options.guid = guid.into();
+        options.skip_gc = retain_deleted_items;
+        Self(RefCell::from(Doc::with_options(options)))
+    }
+
+    pub(crate) fn guid(&self) -> String { self.0.borrow().guid().to_string() }
+
+    pub(crate) fn validate_undo_history(&self, tracked_refs: Vec<YrsCollectionPtr>, json: String, scope_token: String) -> Result<(), crate::undo::YrsUndoError> {
+        YrsUndoManager::validate_history(&self.0.borrow(), &tracked_refs, &json, &scope_token).map(|_| ())
+    }
+
+    pub(crate) fn restore_undo_manager(&self, tracked_refs: Vec<YrsCollectionPtr>, json: String, scope_token: String, metadata: Vec<u64>) -> Result<Arc<YrsUndoManager>, crate::undo::YrsUndoError> {
+        YrsUndoManager::restore(self.0.borrow().clone(), tracked_refs, json, scope_token, metadata).map(Arc::new)
+    }
+
     pub(crate) fn encode_diff_v1(
         &self,
         transaction: &YrsTransaction,
@@ -96,11 +114,9 @@ impl YrsDoc {
 
     pub(crate) fn undo_manager(&self, tracked_refs: Vec<YrsCollectionPtr>) -> Arc<YrsUndoManager> {
         let doc = &*self.0.borrow();
-        let mut undo_manager = yrs::undo::UndoManager::new();
-        for reference in tracked_refs {
-            undo_manager.expand_scope(doc, &reference);
-        }
-        Arc::new(YrsUndoManager::new(undo_manager, doc.clone()))
+        let manager = YrsUndoManager::new(yrs::undo::UndoManager::new(), doc.clone());
+        for reference in tracked_refs { manager.add_scope(reference); }
+        Arc::new(manager)
     }
 }
 

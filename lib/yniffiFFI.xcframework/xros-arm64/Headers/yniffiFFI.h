@@ -502,6 +502,11 @@ void*_Nonnull uniffi_uniffi_yniffi_fn_constructor_yrsdoc_new(RustCallStatus *_No
     
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_CONSTRUCTOR_YRSDOC_WITH_OPTIONS
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_CONSTRUCTOR_YRSDOC_WITH_OPTIONS
+void*_Nonnull uniffi_uniffi_yniffi_fn_constructor_yrsdoc_with_options(RustBuffer guid, int8_t retain_deleted_items, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_ENCODE_DIFF_V1
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_ENCODE_DIFF_V1
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_encode_diff_v1(void*_Nonnull ptr, void*_Nonnull tx, RustBuffer state_vector, RustCallStatus *_Nonnull out_status
@@ -527,6 +532,11 @@ void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_get_text(void*_Nonnull ptr, 
 void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_get_xml_fragment(void*_Nonnull ptr, RustBuffer name, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_GUID
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_GUID
+RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_guid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_MAKE_AWARENESS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_MAKE_AWARENESS
 void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_make_awareness(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
@@ -537,6 +547,11 @@ void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_make_awareness(void*_Nonnull
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_resolve_xml_relative_position(void*_Nonnull ptr, void*_Nonnull tx, RustBuffer encoded, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_RESTORE_UNDO_MANAGER
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_RESTORE_UNDO_MANAGER
+void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_restore_undo_manager(void*_Nonnull ptr, RustBuffer tracked_refs, RustBuffer json, RustBuffer scope_token, RustBuffer metadata, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_TRANSACT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_TRANSACT
 void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_transact(void*_Nonnull ptr, RustBuffer origin, RustCallStatus *_Nonnull out_status
@@ -545,6 +560,11 @@ void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_transact(void*_Nonnull ptr, 
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_UNDO_MANAGER
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_UNDO_MANAGER
 void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_undo_manager(void*_Nonnull ptr, RustBuffer tracked_refs, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_VALIDATE_UNDO_HISTORY
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_VALIDATE_UNDO_HISTORY
+void uniffi_uniffi_yniffi_fn_method_yrsdoc_validate_undo_history(void*_Nonnull ptr, RustBuffer tracked_refs, RustBuffer json, RustBuffer scope_token, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_CLONE_YRSMAP
@@ -790,6 +810,11 @@ void uniffi_uniffi_yniffi_fn_method_yrsundomanager_add_scope(void*_Nonnull ptr, 
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_CLEAR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_CLEAR
 void uniffi_uniffi_yniffi_fn_method_yrsundomanager_clear(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_EXPORT_HISTORY
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_EXPORT_HISTORY
+RustBuffer uniffi_uniffi_yniffi_fn_method_yrsundomanager_export_history(void*_Nonnull ptr, RustBuffer scope_token, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_OBSERVE_ADDED
@@ -1441,6 +1466,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_xml_fragment(void
     
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GUID
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GUID
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_guid(void
+
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_MAKE_AWARENESS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_MAKE_AWARENESS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness(void
@@ -1453,6 +1484,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_resolve_xml_relative_positi
     
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_RESTORE_UNDO_MANAGER
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_RESTORE_UNDO_MANAGER
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_restore_undo_manager(void
+
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_TRANSACT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_TRANSACT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_transact(void
@@ -1463,6 +1500,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_transact(void
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_UNDO_MANAGER
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_undo_manager(void
     
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_VALIDATE_UNDO_HISTORY
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_VALIDATE_UNDO_HISTORY
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_validate_undo_history(void
+
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_CLEAR
@@ -1699,6 +1742,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_clear(void
     
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_EXPORT_HISTORY
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_EXPORT_HISTORY
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_export_history(void
+
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_ADDED
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_ADDED
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_observe_added(void
@@ -1859,6 +1908,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_text(void
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_NEW
 uint16_t uniffi_uniffi_yniffi_checksum_constructor_yrsdoc_new(void
     
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_WITH_OPTIONS
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_WITH_OPTIONS
+uint16_t uniffi_uniffi_yniffi_checksum_constructor_yrsdoc_with_options(void
+
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAYEACHDELEGATE_CALL

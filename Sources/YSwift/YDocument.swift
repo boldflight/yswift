@@ -13,6 +13,42 @@ public final class YDocument {
         document = YrsDoc()
     }
 
+    /// Creates a document whose deleted CRDT items remain available to durable undo.
+    /// Reopening requires the same stable GUID; it is not the randomized client ID.
+    public init(guid: String, retainDeletedItems: Bool) {
+        document = YrsDoc.withOptions(guid: guid, retainDeletedItems: retainDeletedItems)
+    }
+
+    public var guid: String { document.guid() }
+
+    /// Restore maintained Yrs stacks only after loading the archive's exact CRDT update.
+    /// The caller verifies its account/document ownership before using this local archive.
+    public func restoreUndoManager<T: AnyObject>(trackedRefs: [YCollection], history: YUndoHistoryArchive, scopeToken: String, decodeMetadata: (Data) throws -> T) throws -> YUndoManager<T> {
+        let refs = trackedRefs.map { $0.pointer() }
+        let value = try history.object()
+        var state = value
+        state.removeValue(forKey: "metadata")
+        let jsonData = try JSONSerialization.data(withJSONObject: state, options: [.sortedKeys])
+        guard let json = String(data: jsonData, encoding: .utf8), let metadata = value["metadata"] as? [Any] else { throw YUndoHistoryError.invalidArchive }
+        // Validate before allocating retained Objective-C metadata pointers.
+        try document.validateUndoHistory(trackedRefs: refs, json: json, scopeToken: scopeToken)
+        var pointers: [UInt64] = []
+        do {
+            for item in metadata {
+                if item is NSNull { pointers.append(0) }
+                else {
+                    let data = try JSONSerialization.data(withJSONObject: item, options: [.fragmentsAllowed, .sortedKeys])
+                    pointers.append(YUndoManagerObservationDelegate<T>.bridge(obj: try decodeMetadata(data)))
+                }
+            }
+            let manager = try document.restoreUndoManager(trackedRefs: refs, json: json, scopeToken: scopeToken, metadata: pointers)
+            return YUndoManager(manager: manager)
+        } catch {
+            for pointer in pointers where pointer != 0 { _ = YUndoManagerObservationDelegate<T>.bridge(ptr: pointer) }
+            throw error
+        }
+    }
+
     /// Compares the state vector from another YSwift document to return a data buffer you can use to synchronize with another YSwift document.
     ///
     /// Use `transactionStateVector()` on a transaction to get a state buffer to compare with this method.
