@@ -24,6 +24,8 @@ interface YrsDoc {
   [Throws=CodingError]
   string inspect_format_event([ByRef] YrsTransaction tx, sequence<u8> update, string attribute, string targets_json, u32 max_steps);
   [Throws=CodingError]
+  string inspect_visible_text_items([ByRef] YrsTransaction tx, sequence<u8> state_vector, string root_name, u32 max_steps);
+  [Throws=CodingError]
   string inspect_restored_text_items([ByRef] YrsTransaction tx, sequence<u8> state_vector, string root_name, u32 max_steps);
   [Throws=YrsUndoError]
   void validate_undo_history(sequence<YrsCollectionPtr> tracked_refs, string json, string scope_token);

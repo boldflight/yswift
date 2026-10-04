@@ -73,6 +73,17 @@ public final class YDocument {
         }
     }
 
+    /// Observe all newly visible UTF-16 XML string identities in one bounded traversal.
+    /// Format markers, deleted ancestors and unrelated metadata maps are excluded.
+    /// Hosts independently authorize and retain immutable source/copy receipts.
+    public func inspectVisibleTextItems(since stateVector: Data, rootName: String = "default", maximumSteps: UInt32 = 1_000_000) throws -> Data {
+        try transactSync { txn in
+            let result = try self.document.inspectVisibleTextItems(tx: txn, stateVector: Array(stateVector), rootName: rootName, maxSteps: maximumSteps)
+            guard let data = result.data(using: .utf8) else { throw YXmlError.invalidAttributes }
+            return data
+        }
+    }
+
     /// Capture immediate owned undo/redo ancestry; wire updates do not persist redone links.
     /// The caller retains these exact identities in its authorized immutable journal.
     public func inspectRestoredTextItems(since stateVector: Data, rootName: String = "default", maximumSteps: UInt32 = 1_000_000) throws -> Data {

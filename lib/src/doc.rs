@@ -87,6 +87,23 @@ impl YrsDoc {
             "deleted_markers":event.deleted.into_iter().map(&id).collect::<Vec<_>>(),"changes":changes}).to_string())
     }
 
+    /// One bounded read-only traversal of newly visible rich XML string identities.
+    pub(crate) fn inspect_visible_text_items(&self, transaction: &YrsTransaction, state_vector: Vec<u8>, root_name: String, max_steps: u32) -> Result<String, CodingError> {
+        use yrs::branch::BranchID;
+        if state_vector.len() > 8*1024*1024 || root_name.is_empty() || root_name.len() > 256 || max_steps == 0 || max_steps > 1_000_000 { return Err(CodingError::InvalidOperation) }
+        let before = StateVector::decode_v1(&state_vector).map_err(|_|CodingError::DecodingError)?;
+        let tx=transaction.transaction(); let tx=tx.as_ref().ok_or(CodingError::InvalidOperation)?;
+        let scope=BranchID::Root(root_name.into());
+        let observed=yrs::text_items::observe_visible(tx,&scope,&before,max_steps as usize).map_err(|_|CodingError::InvalidOperation)?;
+        let id=|id:yrs::ID|serde_json::json!({"client":id.client.get(),"clock":id.clock});
+        let mut runs=Vec::new();
+        for run in observed {
+            let BranchID::Nested(branch)=run.branch else{return Err(CodingError::InvalidOperation)};
+            runs.push(serde_json::json!({"type":id(branch),"item":id(run.item),"count":run.count}));
+        }
+        Ok(serde_json::json!({"runs":runs}).to_string())
+    }
+
     /// Read-only direct redone edges from the maintained retained-items owner.
     pub(crate) fn inspect_restored_text_items(&self, transaction: &YrsTransaction, state_vector: Vec<u8>, root_name: String, max_steps: u32) -> Result<String, CodingError> {
         use yrs::branch::BranchID;

@@ -989,6 +989,8 @@ public protocol YrsDocProtocol : AnyObject {
 
     func inspectRestoredTextItems(tx: YrsTransaction, stateVector: [UInt8], rootName: String, maxSteps: UInt32) throws  -> String
 
+    func inspectVisibleTextItems(tx: YrsTransaction, stateVector: [UInt8], rootName: String, maxSteps: UInt32) throws  -> String
+
     func makeAwareness()  -> YrsAwareness
     
     func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8]) throws  -> YrsXmlResolvedPosition?
@@ -1123,6 +1125,17 @@ open func inspectFormatEvent(tx: YrsTransaction, update: [UInt8], attribute: Str
 open func inspectRestoredTextItems(tx: YrsTransaction, stateVector: [UInt8], rootName: String, maxSteps: UInt32)throws  -> String {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_restored_text_items(self.uniffiClonePointer(),
+        FfiConverterTypeYrsTransaction.lower(tx),
+        FfiConverterSequenceUInt8.lower(stateVector),
+        FfiConverterString.lower(rootName),
+        FfiConverterUInt32.lower(maxSteps),$0
+    )
+})
+}
+
+open func inspectVisibleTextItems(tx: YrsTransaction, stateVector: [UInt8], rootName: String, maxSteps: UInt32)throws  -> String {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_visible_text_items(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
         FfiConverterSequenceUInt8.lower(stateVector),
         FfiConverterString.lower(rootName),
@@ -4599,6 +4612,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_restored_text_items() != 62806) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_visible_text_items() != 29441) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness() != 29566) {

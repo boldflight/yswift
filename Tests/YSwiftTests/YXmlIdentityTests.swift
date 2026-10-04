@@ -60,4 +60,27 @@ final class YXmlIdentityTests: XCTestCase {
         XCTAssertThrowsError(try doc.inspectRestoredTextItems(since:vector,maximumSteps:1))
     }
 
+    func testVisibleScopeFindsNewTextAcrossIndependentRichLeaves() throws {
+        let doc = YDocument(guid: "visible-paper", retainDeletedItems: true)
+        let root = doc.getOrCreateXmlFragment(named: "default")
+        let question = try root.insertElement(named: "questionBlock", at: 0)
+        let labelNode = try question.insertElement(named: "questionLabel", at: 0)
+        let label = try labelNode.insertText(at: 0)
+        try label.insert("A🌍Z", at: 0)
+        let optionNode = try question.insertElement(named: "questionOption", at: 1)
+        let option = try optionNode.insertText(at: 0)
+        try option.insert("Choice", at: 0)
+        let vector = doc.transactSync { Data($0.transactionStateVector()) }
+        try label.insert("!", at: 4)
+        try option.insert("🌍", at: 6)
+        let state = doc.transactSync { Data($0.transactionEncodeStateAsUpdate()) }
+        let result = try JSONSerialization.jsonObject(with: doc.inspectVisibleTextItems(since: vector)) as! [String: Any]
+        let runs = try XCTUnwrap(result["runs"] as? [[String: Any]])
+        XCTAssertEqual(runs.count, 2)
+        XCTAssertEqual(runs.compactMap { $0["count"] as? Int }, [1, 2])
+        XCTAssertEqual(runs.compactMap { ($0["item"] as? [String: Any])?["clock"] as? Int }, [15, 16])
+        XCTAssertEqual(doc.transactSync { Data($0.transactionEncodeStateAsUpdate()) }, state)
+        XCTAssertThrowsError(try doc.inspectVisibleTextItems(since: vector, maximumSteps: 1))
+    }
+
 }
