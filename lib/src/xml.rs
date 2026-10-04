@@ -167,6 +167,29 @@ impl YrsXmlNode {
         }).collect()
     }
 
+    /// Observe real UTF-16 text item IDs through maintained relative-position APIs.
+    /// No plaintext reconstruction or document mutation is used for identity.
+    pub(crate) fn text_items(&self, transaction: &YrsTransaction, start: u32, length: u32) -> Result<String, CodingError> {
+        let XmlNode::Text(node) = self.resolve(transaction).ok_or(CodingError::InvalidOperation)? else { return Err(CodingError::InvalidOperation) };
+        let mut tx = transaction.transaction();
+        let tx = tx.as_mut().ok_or(CodingError::InvalidOperation)?;
+        if start.checked_add(length).map_or(true, |end| end > node.len(tx)) || length > 131072 { return Err(CodingError::InvalidOperation) }
+        let BranchID::Nested(branch_id) = self.0 else { return Err(CodingError::InvalidOperation) };
+        let mut runs: Vec<serde_json::Value> = Vec::new();
+        for index in start..start + length {
+            let position = StickyIndex::at(tx, BranchPtr::from(<yrs::XmlTextRef as AsRef<yrs::branch::Branch>>::as_ref(&node)), index, Assoc::After).ok_or(CodingError::InvalidOperation)?;
+            let item = *position.id().ok_or(CodingError::InvalidOperation)?;
+            let id = serde_json::json!({"client":item.client.get(),"clock":item.clock});
+            if let Some(run) = runs.last_mut().filter(|run| run["item"]["client"] == item.client.get()
+                && run["item"]["clock"].as_u64().unwrap() + run["count"].as_u64().unwrap() == u64::from(item.clock)) {
+                run["count"] = serde_json::json!(run["count"].as_u64().unwrap() + 1);
+            } else {
+                runs.push(serde_json::json!({"type":{"client":branch_id.client.get(),"clock":branch_id.clock},"item":id,"count":1}));
+            }
+        }
+        Ok(serde_json::json!({"runs":runs}).to_string())
+    }
+
     pub(crate) fn insert_string(&self, transaction: &YrsTransaction, index: u32, value: String, attributes_json: String) -> Result<(), CodingError> {
         if index > self.length(transaction) { return Err(CodingError::InvalidOperation) }
         let XmlNode::Text(node) = self.resolve(transaction).ok_or(CodingError::InvalidOperation)? else { return Err(CodingError::InvalidOperation) };
@@ -257,6 +280,45 @@ mod tests {
         let tx = doc.transact(None);
         assert_eq!(paragraph.kind(&tx), "missing");
         assert!(text.text(&tx).is_err());
+        tx.free();
+    }
+
+    #[test]
+    fn text_identity_and_format_event_observer_preserves_unicode_and_document_state() {
+        let doc = YrsDoc::with_options("identity-observer".into(), true);
+        let root = doc.get_xml_fragment("default".into());
+        let tx = doc.transact(None);
+        let paragraph = root.insert_element(&tx, 0, "paragraph".into()).unwrap();
+        let text = paragraph.insert_text(&tx, 0).unwrap();
+        text.insert_string(&tx, 0, "A🌍Z".into(), "{}".into()).unwrap();
+        tx.free();
+        let tx = doc.transact(None);
+        let before = doc.encode_diff_v1(&tx, vec![0]).unwrap();
+        let targets = text.text_items(&tx, 1, 2).unwrap();
+        let value: serde_json::Value = serde_json::from_str(&targets).unwrap();
+        assert_eq!(value["runs"][0]["count"], 2);
+        assert_eq!(text.text_items(&tx, 1, 2).unwrap(), targets);
+        assert_eq!(doc.encode_diff_v1(&tx, vec![0]).unwrap(), before);
+        tx.free();
+        let peer = YrsDoc::with_options("identity-observer".into(), true);
+        let peer_root = peer.get_xml_fragment("default".into());
+        let ptx = peer.transact(None);
+        ptx.transaction_apply_update(before.clone()).unwrap();
+        let sv = ptx.transaction_state_vector();
+        let peer_text = peer_root.child(&ptx, 0).unwrap().child(&ptx, 0).unwrap();
+        peer_text.format(&ptx, 1, 2, "{\"bold\":{}}".into()).unwrap();
+        let update = peer.encode_diff_v1(&ptx, sv).unwrap();
+        ptx.free();
+        let tx = doc.transact(None);
+        let event = doc.inspect_format_event(&tx, update.clone(), "bold".into(), targets.clone(), 10000).unwrap();
+        let event: serde_json::Value = serde_json::from_str(&event).unwrap();
+        assert_eq!(event["changes"].as_array().unwrap().len(), 2);
+        assert_eq!(event["changes"][0]["before"]["value"], serde_json::Value::Null);
+        assert_eq!(event["changes"][0]["after"]["value"], serde_json::json!({}));
+        assert!(event["inserted_markers"].as_array().unwrap().len() >= 2);
+        assert_eq!(doc.encode_diff_v1(&tx, vec![0]).unwrap(), before);
+        assert!(doc.inspect_format_event(&tx, vec![255], "bold".into(), targets.clone(), 10000).is_err());
+        assert!(text.text_items(&tx, 4, 1).is_err());
         tx.free();
     }
 

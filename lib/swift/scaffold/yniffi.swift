@@ -985,6 +985,8 @@ public protocol YrsDocProtocol : AnyObject {
     
     func guid()  -> String
 
+    func inspectFormatEvent(tx: YrsTransaction, update: [UInt8], attribute: String, targetsJson: String, maxSteps: UInt32) throws  -> String
+
     func makeAwareness()  -> YrsAwareness
     
     func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8]) throws  -> YrsXmlResolvedPosition?
@@ -1100,6 +1102,18 @@ open func getXmlFragment(name: String) -> YrsXmlNode {
 open func guid() -> String {
     return try!  FfiConverterString.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_guid(self.uniffiClonePointer(),$0
+    )
+})
+}
+
+open func inspectFormatEvent(tx: YrsTransaction, update: [UInt8], attribute: String, targetsJson: String, maxSteps: UInt32)throws  -> String {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_format_event(self.uniffiClonePointer(),
+        FfiConverterTypeYrsTransaction.lower(tx),
+        FfiConverterSequenceUInt8.lower(update),
+        FfiConverterString.lower(attribute),
+        FfiConverterString.lower(targetsJson),
+        FfiConverterUInt32.lower(maxSteps),$0
     )
 })
 }
@@ -2230,6 +2244,8 @@ public protocol YrsXmlNodeProtocol : AnyObject {
     
     func text(tx: YrsTransaction) throws  -> String
     
+    func textItems(tx: YrsTransaction, start: UInt32, length: UInt32) throws  -> String
+
 }
 
 open class YrsXmlNode:
@@ -2439,6 +2455,16 @@ open func text(tx: YrsTransaction)throws  -> String {
 })
 }
     
+open func textItems(tx: YrsTransaction, start: UInt32, length: UInt32)throws  -> String {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsxmlnode_text_items(self.uniffiClonePointer(),
+        FfiConverterTypeYrsTransaction.lower(tx),
+        FfiConverterUInt32.lower(start),
+        FfiConverterUInt32.lower(length),$0
+    )
+})
+}
+
 
 }
 
@@ -4556,6 +4582,9 @@ private var initializationResult: InitializationResult {
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_guid() != 57892) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_format_event() != 46477) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness() != 29566) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -4770,6 +4799,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_text() != 42695) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_text_items() != 8503) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_constructor_yrsdoc_new() != 51551) {

@@ -109,6 +109,16 @@ public final class YXmlNode: Transactable, YCollection {
         }
     }
 
+    /// Actual visible Yrs item/branch identities, grouped into consecutive UTF-16 runs.
+    /// The JSON contains only `{runs:[{type:{client,clock},item:{client,clock},count}]}`.
+    public func textItems(start: UInt32, length: UInt32, in transaction: YrsTransaction? = nil) throws -> Data {
+        try withThrowingTransaction(transaction) { txn in
+            let json = try self.node.textItems(tx: txn, start: start, length: length)
+            guard let data = json.data(using: .utf8) else { throw YXmlError.invalidAttributes }
+            return data
+        }
+    }
+
     public func insert(_ text: String, attributes: [String: Any] = [:], at index: UInt32, in transaction: YrsTransaction? = nil) throws {
         let data = try JSONSerialization.data(withJSONObject: attributes)
         guard let json = String(data: data, encoding: .utf8) else { throw YXmlError.invalidAttributes }

@@ -47,6 +47,46 @@ impl YrsDoc {
         YrsUndoManager::restore(self.0.borrow().clone(), tracked_refs, json, scope_token, metadata).map(Arc::new)
     }
 
+    /// Read-only exact format-event observer supplied by the consumed Yrs fork.
+    pub(crate) fn inspect_format_event(&self, transaction: &YrsTransaction, update: Vec<u8>, attribute: String, targets_json: String, max_steps: u32) -> Result<String, CodingError> {
+        use yrs::branch::BranchID;
+        use yrs::format_event::{FormatEvent, FormatTarget};
+        use yrs::block::ClientID;
+        let input: serde_json::Value = serde_json::from_str(&targets_json).map_err(|_| CodingError::DecodingError)?;
+        let object = input.as_object().ok_or(CodingError::InvalidOperation)?;
+        if object.len() != 1 { return Err(CodingError::InvalidOperation) }
+        let runs = input["runs"].as_array().ok_or(CodingError::InvalidOperation)?;
+        let identity = |value: &serde_json::Value| -> Result<yrs::ID, CodingError> {
+            let fields = value.as_object().ok_or(CodingError::InvalidOperation)?;
+            if fields.len() != 2 { return Err(CodingError::InvalidOperation) }
+            let client = value["client"].as_u64().filter(|n| *n <= (1u64 << 53) - 1).ok_or(CodingError::InvalidOperation)?;
+            let clock = value["clock"].as_u64().and_then(|n| u32::try_from(n).ok()).ok_or(CodingError::InvalidOperation)?;
+            Ok(yrs::ID::new(ClientID::new(client), clock))
+        };
+        let mut targets = Vec::new();
+        for run in runs {
+            if run.as_object().map_or(true, |r| r.len() != 3) { return Err(CodingError::InvalidOperation) }
+            let item = identity(&run["item"])?;
+            let branch = identity(&run["type"])?;
+            let count = run["count"].as_u64().filter(|n| *n > 0 && *n <= 131072).ok_or(CodingError::InvalidOperation)?;
+            if u64::from(item.clock) + count > u64::from(u32::MAX) + 1 || targets.len() as u64 + count > 131072 { return Err(CodingError::InvalidOperation) }
+            for offset in 0..count {
+                targets.push(FormatTarget { branch: BranchID::Nested(branch), item: yrs::ID::new(item.client, item.clock + offset as u32) });
+            }
+        }
+        let tx = transaction.transaction();
+        let tx = tx.as_ref().ok_or(CodingError::InvalidOperation)?;
+        let event = FormatEvent::inspect(tx, &update, &attribute, &targets, max_steps as usize).map_err(|_| CodingError::InvalidOperation)?;
+        let id = |id: yrs::ID| serde_json::json!({"client":id.client.get(),"clock":id.clock});
+        let state = |state: yrs::format_event::FormatState| serde_json::json!({"marker":state.marker.map(&id),"value":state.value});
+        let changes: Vec<_> = event.changes.into_iter().map(|change| {
+            let BranchID::Nested(branch) = change.target.branch else { unreachable!() };
+            serde_json::json!({"unit":{"type":id(branch),"item":id(change.target.item)},"before":state(change.before),"after":state(change.after)})
+        }).collect();
+        Ok(serde_json::json!({"inserted_markers":event.inserted.into_iter().map(&id).collect::<Vec<_>>(),
+            "deleted_markers":event.deleted.into_iter().map(&id).collect::<Vec<_>>(),"changes":changes}).to_string())
+    }
+
     pub(crate) fn encode_diff_v1(
         &self,
         transaction: &YrsTransaction,

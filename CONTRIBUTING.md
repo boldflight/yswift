@@ -62,3 +62,14 @@ restoring stacks.
 
 The binding uses the pinned Yrs `StackItem` serialization and
 `Options.init_undo_stack`/`init_redo_stack`; it introduces no parallel undo engine.
+
+## Identity and format observations
+
+`YXmlNode.textItems(start:length:)` exposes real branch/item IDs in UTF-16 runs
+using maintained Yrs relative positions. `YDocument.inspectFormatEvent` observes
+one exact format-only update against the unchanged prestate through the consumed
+fork's `format_event::FormatEvent::inspect`. It returns real marker IDs and values,
+including removed markers. Neither API authenticates authorship or receipts.
+Hosts must validate the full authored operation and bind evidence to authorized
+immutable records. These observation primitives do not claim deleted/redone copy
+lineage or attributed replay completeness.

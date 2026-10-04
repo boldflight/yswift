@@ -537,6 +537,11 @@ void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_get_xml_fragment(void*_Nonnu
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_guid(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
+RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_format_event(void*_Nonnull ptr, void*_Nonnull tx, RustBuffer update, RustBuffer attribute, RustBuffer targets_json, uint32_t max_steps, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_MAKE_AWARENESS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_MAKE_AWARENESS
 void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_make_awareness(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
@@ -955,6 +960,11 @@ RustBuffer uniffi_uniffi_yniffi_fn_method_yrsxmlnode_tag(void*_Nonnull ptr, void
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSXMLNODE_TEXT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSXMLNODE_TEXT
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsxmlnode_text(void*_Nonnull ptr, void*_Nonnull tx, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSXMLNODE_TEXT_ITEMS
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSXMLNODE_TEXT_ITEMS
+RustBuffer uniffi_uniffi_yniffi_fn_method_yrsxmlnode_text_items(void*_Nonnull ptr, void*_Nonnull tx, uint32_t start, uint32_t length, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_INIT_CALLBACK_VTABLE_YRSARRAYEACHDELEGATE
@@ -1472,6 +1482,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_guid(void
 
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_format_event(void
+
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_MAKE_AWARENESS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_MAKE_AWARENESS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness(void
@@ -1902,6 +1918,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_tag(void
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TEXT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_text(void
     
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TEXT_ITEMS
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TEXT_ITEMS
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_text_items(void
+
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_NEW

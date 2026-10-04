@@ -61,6 +61,18 @@ public final class YDocument {
         try! document.encodeDiffV1(tx: txn, stateVector: state)
     }
 
+    /// Observe one exact format-only update against this document's prestate.
+    /// This returns real causal markers and values; hosts still validate authored
+    /// semantics and authorize immutable operation/receipt identities.
+    public func inspectFormatEvent(update: Data, attribute: String, textItems: Data, maximumSteps: UInt32 = 1_000_000) throws -> Data {
+        guard let json = String(data: textItems, encoding: .utf8) else { throw YXmlError.invalidAttributes }
+        return try transactSync { txn in
+            let result = try self.document.inspectFormatEvent(tx: txn, update: Array(update), attribute: attribute, targetsJson: json, maxSteps: maximumSteps)
+            guard let data = result.data(using: .utf8) else { throw YXmlError.invalidAttributes }
+            return data
+        }
+    }
+
     // MARK: - Transaction methods
 
     /// Creates a synchronous transaction and provides that transaction to a trailing closure, within which you make changes to shared data types.

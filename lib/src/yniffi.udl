@@ -21,6 +21,8 @@ interface YrsDoc {
   [Name=with_options]
   constructor(string guid, boolean retain_deleted_items);
   string guid();
+  [Throws=CodingError]
+  string inspect_format_event([ByRef] YrsTransaction tx, sequence<u8> update, string attribute, string targets_json, u32 max_steps);
   [Throws=YrsUndoError]
   void validate_undo_history(sequence<YrsCollectionPtr> tracked_refs, string json, string scope_token);
   [Throws=YrsUndoError]
@@ -230,6 +232,8 @@ interface YrsXmlNode {
   string text([ByRef] YrsTransaction tx);
   [Throws=CodingError]
   sequence<YrsXmlTextRun> delta([ByRef] YrsTransaction tx);
+  [Throws=CodingError]
+  string text_items([ByRef] YrsTransaction tx, u32 start, u32 length);
   [Throws=CodingError]
   void insert_string([ByRef] YrsTransaction tx, u32 index, string value, string attributes_json);
   [Throws=CodingError]
