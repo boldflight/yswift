@@ -87,6 +87,25 @@ impl YrsDoc {
             "deleted_markers":event.deleted.into_iter().map(&id).collect::<Vec<_>>(),"changes":changes}).to_string())
     }
 
+    /// Read-only direct redone edges from the maintained retained-items owner.
+    pub(crate) fn inspect_restored_text_items(&self, transaction: &YrsTransaction, state_vector: Vec<u8>, root_name: String, max_steps: u32) -> Result<String, CodingError> {
+        use yrs::branch::BranchID;
+        if state_vector.len() > 8*1024*1024 || root_name.is_empty() || max_steps == 0 || max_steps > 1_000_000 { return Err(CodingError::InvalidOperation) }
+        let before = StateVector::decode_v1(&state_vector).map_err(|_|CodingError::DecodingError)?;
+        let tx=transaction.transaction();let tx=tx.as_ref().ok_or(CodingError::InvalidOperation)?;
+        let scope=BranchID::Root(root_name.into());
+        let edges=yrs::text_items::observe_restored(tx,&scope,&before,max_steps as usize).map_err(|_|CodingError::InvalidOperation)?;
+        let id=|id:yrs::ID|serde_json::json!({"client":id.client.get(),"clock":id.clock});
+        let mut copies=Vec::new();
+        for edge in edges {
+            let BranchID::Nested(source_type)=edge.source_type else{return Err(CodingError::InvalidOperation)};
+            let BranchID::Nested(destination_type)=edge.destination_type else{return Err(CodingError::InvalidOperation)};
+            copies.push(serde_json::json!({"source":{"runs":[{"type":id(source_type),"item":id(edge.source.item),"count":edge.source.count}]},
+                "destination":{"runs":[{"type":id(destination_type),"item":id(edge.destination.item),"count":edge.destination.count}]}}));
+        }
+        Ok(serde_json::json!({"copies":copies}).to_string())
+    }
+
     pub(crate) fn encode_diff_v1(
         &self,
         transaction: &YrsTransaction,

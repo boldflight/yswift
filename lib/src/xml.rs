@@ -167,26 +167,19 @@ impl YrsXmlNode {
         }).collect()
     }
 
-    /// Observe real UTF-16 text item IDs through maintained relative-position APIs.
+    /// Observe real UTF-16 text item IDs through the maintained bounded one-pass observer.
     /// No plaintext reconstruction or document mutation is used for identity.
     pub(crate) fn text_items(&self, transaction: &YrsTransaction, start: u32, length: u32) -> Result<String, CodingError> {
         let XmlNode::Text(node) = self.resolve(transaction).ok_or(CodingError::InvalidOperation)? else { return Err(CodingError::InvalidOperation) };
         let mut tx = transaction.transaction();
         let tx = tx.as_mut().ok_or(CodingError::InvalidOperation)?;
-        if start.checked_add(length).map_or(true, |end| end > node.len(tx)) || length > 131072 { return Err(CodingError::InvalidOperation) }
+        if start.checked_add(length).map_or(true, |end| end > node.len(tx)) { return Err(CodingError::InvalidOperation) }
         let BranchID::Nested(branch_id) = self.0 else { return Err(CodingError::InvalidOperation) };
-        let mut runs: Vec<serde_json::Value> = Vec::new();
-        for index in start..start + length {
-            let position = StickyIndex::at(tx, BranchPtr::from(<yrs::XmlTextRef as AsRef<yrs::branch::Branch>>::as_ref(&node)), index, Assoc::After).ok_or(CodingError::InvalidOperation)?;
-            let item = *position.id().ok_or(CodingError::InvalidOperation)?;
-            let id = serde_json::json!({"client":item.client.get(),"clock":item.clock});
-            if let Some(run) = runs.last_mut().filter(|run| run["item"]["client"] == item.client.get()
-                && run["item"]["clock"].as_u64().unwrap() + run["count"].as_u64().unwrap() == u64::from(item.clock)) {
-                run["count"] = serde_json::json!(run["count"].as_u64().unwrap() + 1);
-            } else {
-                runs.push(serde_json::json!({"type":{"client":branch_id.client.get(),"clock":branch_id.clock},"item":id,"count":1}));
-            }
-        }
+        let observations = yrs::text_items::observe(tx, &self.0, start, length, 1_000_000).map_err(|_|CodingError::InvalidOperation)?;
+        let runs: Vec<_> = observations.into_iter().map(|run| serde_json::json!({
+            "type":{"client":branch_id.client.get(),"clock":branch_id.clock},
+            "item":{"client":run.item.client.get(),"clock":run.item.clock},"count":run.count
+        })).collect();
         Ok(serde_json::json!({"runs":runs}).to_string())
     }
 

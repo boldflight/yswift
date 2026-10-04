@@ -73,6 +73,16 @@ public final class YDocument {
         }
     }
 
+    /// Capture immediate owned undo/redo ancestry; wire updates do not persist redone links.
+    /// The caller retains these exact identities in its authorized immutable journal.
+    public func inspectRestoredTextItems(since stateVector: Data, rootName: String = "default", maximumSteps: UInt32 = 1_000_000) throws -> Data {
+        try transactSync { txn in
+            let result = try self.document.inspectRestoredTextItems(tx: txn, stateVector: Array(stateVector), rootName: rootName, maxSteps: maximumSteps)
+            guard let data = result.data(using: .utf8) else { throw YXmlError.invalidAttributes }
+            return data
+        }
+    }
+
     // MARK: - Transaction methods
 
     /// Creates a synchronous transaction and provides that transaction to a trailing closure, within which you make changes to shared data types.

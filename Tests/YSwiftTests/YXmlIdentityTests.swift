@@ -35,4 +35,29 @@ final class YXmlIdentityTests: XCTestCase {
         try foreign.insert("XY", at: 0)
         XCTAssertThrowsError(try document.inspectFormatEvent(update: update, attribute: "bold", textItems: foreign.textItems(start: 0, length: 2)))
     }
+    func testRestoredCopiesExcludeIdenticalPeerTextAndRetainDirectUndoEdges() throws {
+        let doc=YDocument(guid:"copy-paper",retainDeletedItems:true)
+        let root=doc.getOrCreateXmlFragment(named:"default")
+        let option=try root.insertElement(named:"questionOption",at:0)
+        let text=try option.insertText(at:0)
+        try text.insert("A🌍Z",at:0)
+        let manager:YUndoManager<NSObject>=doc.undoManager(trackedRefs:[root])
+        let origin=Origin("owner");manager.addOrigin(origin)
+        let selected=try text.textItems(start:1,length:2)
+        try doc.transactSync(origin:origin){try text.removeText(start:1,length:2,in:$0)}
+        try text.insert("🌍",at:1)
+        let vector=doc.transactSync{Data($0.transactionStateVector())}
+        let pre=try JSONSerialization.jsonObject(with:doc.inspectRestoredTextItems(since:vector)) as! [String:Any]
+        XCTAssertEqual((pre["copies"] as? [Any])?.count,0)
+        XCTAssertTrue(try manager.undo())
+        let state=doc.transactSync{Data($0.transactionEncodeStateAsUpdate())}
+        let observation=try JSONSerialization.jsonObject(with:doc.inspectRestoredTextItems(since:vector)) as! [String:Any]
+        let copies=try XCTUnwrap(observation["copies"] as? [[String:Any]])
+        XCTAssertEqual(copies.count,1)
+        XCTAssertEqual(try JSONSerialization.data(withJSONObject:copies[0]["source"]!,options:.sortedKeys),try JSONSerialization.data(withJSONObject:JSONSerialization.jsonObject(with:selected),options:.sortedKeys))
+        XCTAssertNotEqual(try JSONSerialization.data(withJSONObject:copies[0]["source"]!,options:.sortedKeys),try JSONSerialization.data(withJSONObject:copies[0]["destination"]!,options:.sortedKeys))
+        XCTAssertEqual(doc.transactSync{Data($0.transactionEncodeStateAsUpdate())},state)
+        XCTAssertThrowsError(try doc.inspectRestoredTextItems(since:vector,maximumSteps:1))
+    }
+
 }

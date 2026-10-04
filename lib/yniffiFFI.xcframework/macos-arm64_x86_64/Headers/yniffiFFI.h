@@ -542,6 +542,11 @@ RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_guid(void*_Nonnull ptr, RustCal
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_format_event(void*_Nonnull ptr, void*_Nonnull tx, RustBuffer update, RustBuffer attribute, RustBuffer targets_json, uint32_t max_steps, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_INSPECT_RESTORED_TEXT_ITEMS
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_INSPECT_RESTORED_TEXT_ITEMS
+RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_restored_text_items(void*_Nonnull ptr, void*_Nonnull tx, RustBuffer state_vector, RustBuffer root_name, uint32_t max_steps, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_MAKE_AWARENESS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_MAKE_AWARENESS
 void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_make_awareness(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
@@ -1485,6 +1490,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_guid(void
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_format_event(void
+
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_RESTORED_TEXT_ITEMS
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_RESTORED_TEXT_ITEMS
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_restored_text_items(void
 
 );
 #endif
