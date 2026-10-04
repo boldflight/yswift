@@ -23,18 +23,24 @@ final class YDurableUndoTests: XCTestCase {
         let reopenedText = reopened.getOrCreateText(named: "default")
         try reopened.transactSync { txn in try txn.transactionApplyUpdate(update: Array(archive.documentState)) }
         let restored: YUndoManager<TestMetadata> = try reopened.restoreUndoManager(trackedRefs: [reopenedText], history: archive, scopeToken: "account/entity/incarnation/editor", decodeMetadata: decode)
+        // The command owner explicitly binds this inverse item; upstream does not
+        // infer application operation identity from CRDT state.
+        let inverseSubscription = restored.observeAdded { _, _ in TestMetadata("selection:6-10") }
         var popped: String?
         let poppedSubscription = restored.observePopped { _, metadata in popped = metadata?.value; return metadata }
+        XCTAssertEqual(restored.undoMetadata().map { $0?.value }, ["selection:6-10"])
         XCTAssertTrue(try restored.undo())
         XCTAssertEqual(reopenedText.getString(), "alpha beta")
         XCTAssertEqual(popped, "selection:6-10")
         let redoArchive = try restored.exportHistory(scopeToken: "account/entity/incarnation/editor", encodeMetadata: encode)
         poppedSubscription.cancel()
+        inverseSubscription.cancel()
 
         let second = YDocument(guid: redoArchive.documentGUID, retainDeletedItems: true)
         let secondText = second.getOrCreateText(named: "default")
         try second.transactSync { txn in try txn.transactionApplyUpdate(update: Array(redoArchive.documentState)) }
         let redoManager: YUndoManager<TestMetadata> = try second.restoreUndoManager(trackedRefs: [secondText], history: redoArchive, scopeToken: "account/entity/incarnation/editor", decodeMetadata: decode)
+        XCTAssertEqual(redoManager.redoMetadata().map { $0?.value }, ["selection:6-10"])
         XCTAssertTrue(try redoManager.redo())
         XCTAssertEqual(secondText.getString(), "alpha ")
         let peer = YDocument(guid: "entity/incarnation", retainDeletedItems: true)

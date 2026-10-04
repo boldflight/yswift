@@ -35,6 +35,15 @@ impl YrsUndoManager {
         self.manager.lock().unwrap()
     }
 
+    /// Read-only actual maintained stack metadata, oldest item first. Pointer
+    /// ownership remains with the stack; Swift must take unretained references.
+    pub(crate) fn undo_metadata(&self) -> Vec<u64> {
+        self.acquire_lock().undo_stack().iter().map(|item| item.meta).collect()
+    }
+    pub(crate) fn redo_metadata(&self) -> Vec<u64> {
+        self.acquire_lock().redo_stack().iter().map(|item| item.meta).collect()
+    }
+
     pub(crate) fn add_origin(&self, origin: YrsOrigin) {
         let mut m = self.acquire_lock();
         let encoded: yrs::Origin = origin.clone().into();

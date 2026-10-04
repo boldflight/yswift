@@ -269,6 +269,8 @@ dictionary YrsUndoSnapshot {
 };
 
 interface YrsUndoManager {
+    sequence<u64> undo_metadata();
+    sequence<u64> redo_metadata();
     [Throws=YrsUndoError]
     YrsUndoSnapshot export_history(string scope_token);
     /// Adds a specific origin identifier to a list of tracked origins. If tracked

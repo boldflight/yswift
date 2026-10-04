@@ -26,6 +26,17 @@ public final class YUndoManager<T: AnyObject> {
         return try YUndoHistoryArchive(data: JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]))
     }
 
+    /// Exact maintained stack metadata, oldest-first. Reading does not consume
+    /// retained metadata or mutate history. Nil marks an unbound stack item.
+    public func undoMetadata() -> [T?] { metadata(_manager.undoMetadata()) }
+    public func redoMetadata() -> [T?] { metadata(_manager.redoMetadata()) }
+    private func metadata(_ pointers: [UInt64]) -> [T?] {
+        pointers.map { pointer in
+            guard pointer != 0, let raw = UnsafeRawPointer(bitPattern: UInt(pointer)) else { return nil }
+            return Unmanaged<T>.fromOpaque(raw).takeUnretainedValue()
+        }
+    }
+
     /// Adds an origin that the Undo manager tracks.
     /// - Parameter origin: The origin to track.
     public func addOrigin(_ origin: Origin) {

@@ -2010,6 +2010,8 @@ public protocol YrsUndoManagerProtocol : AnyObject {
      */
     func redo() throws  -> Bool
     
+    func redoMetadata()  -> [UInt64]
+
     /**
      * Removes an existing origin identifier from a list of tracked origins. If tracked
      * origin list is not empty, current undo manager will only track changes applied
@@ -2024,6 +2026,8 @@ public protocol YrsUndoManagerProtocol : AnyObject {
      */
     func undo() throws  -> Bool
     
+    func undoMetadata()  -> [UInt64]
+
     /**
      * Wraps a set of recent changes together into a single undo operation. These
      * changes will be be undone together on the next `undo` method call.
@@ -2147,6 +2151,13 @@ open func redo()throws  -> Bool {
     )
 })
 }
+
+open func redoMetadata() -> [UInt64] {
+    return try!  FfiConverterSequenceUInt64.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsundomanager_redo_metadata(self.uniffiClonePointer(),$0
+    )
+})
+}
     
     /**
      * Removes an existing origin identifier from a list of tracked origins. If tracked
@@ -2168,6 +2179,13 @@ open func removeOrigin(origin: YrsOrigin) {try! rustCall() {
 open func undo()throws  -> Bool {
     return try  FfiConverterBool.lift(try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsundomanager_undo(self.uniffiClonePointer(),$0
+    )
+})
+}
+
+open func undoMetadata() -> [UInt64] {
+    return try!  FfiConverterSequenceUInt64.lift(try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsundomanager_undo_metadata(self.uniffiClonePointer(),$0
     )
 })
 }
@@ -4767,10 +4785,16 @@ private var initializationResult: InitializationResult {
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_redo() != 5163) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_redo_metadata() != 18560) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_remove_origin() != 14248) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_undo() != 44889) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_undo_metadata() != 64782) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_wrap_changes() != 6579) {

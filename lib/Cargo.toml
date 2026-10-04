@@ -17,7 +17,7 @@ required-features = ["uniffi/cli"]
 
 [dependencies]
 # Yrs 0.28.0 + Relay patches pending upstream (y-crdt#656, #657, #674): boldflight/y-crdt branch relay
-yrs = { git = "https://github.com/boldflight/y-crdt.git", rev = "609549b0099d81ee9c008d1e76c87ec235766abd", features = ["sync"] }
+yrs = { git = "https://github.com/boldflight/y-crdt.git", rev = "d821f099ebae04b9115bc607b0635dd4ce5aee88", features = ["sync"] }
 thiserror = "1.0.38"
 uniffi = "0.27.1"
 serde_json = "1.0"
