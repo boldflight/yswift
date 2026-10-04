@@ -103,6 +103,32 @@ impl YrsDoc {
             "deleted_markers":event.deleted.into_iter().map(&id).collect::<Vec<_>>(),"changes":changes}).to_string())
     }
 
+    /// Generic maintained identity topology: no portable schema is interpreted here.
+    pub(crate) fn inspect_xml_snapshot(&self, transaction: &YrsTransaction, root_name: String, max_steps: u32) -> Result<String, CodingError> {
+        use yrs::branch::BranchID;
+        use yrs::text_items::XmlSnapshot;
+        if root_name.is_empty() || root_name.len() > 256 || max_steps == 0 || max_steps > 1_000_000 { return Err(CodingError::InvalidOperation) }
+        let tx=transaction.transaction();let tx=tx.as_ref().ok_or(CodingError::InvalidOperation)?;
+        let snapshot=yrs::text_items::observe_xml(tx,&BranchID::Root(root_name.into()),max_steps as usize).map_err(|_|CodingError::InvalidOperation)?;
+        fn id(value:yrs::ID)->serde_json::Value { serde_json::json!({"client":value.client.get(),"clock":value.clock}) }
+        fn value(value:yrs::Any)->serde_json::Value { let mut json=String::new();value.to_json(&mut json);serde_json::from_str(&json).expect("observer admits JSON values only") }
+        fn node(snapshot:XmlSnapshot)->serde_json::Value {
+            match snapshot {
+                XmlSnapshot::Fragment{root,children}=>serde_json::json!({"kind":"fragment","root":root,"children":children.into_iter().map(node).collect::<Vec<_>>()}),
+                XmlSnapshot::Element{id:identity,name,attributes,children}=>serde_json::json!({"kind":"element","type":id(identity),"name":name,"attributes":attributes.into_iter().map(|(key,v)|(key.to_string(),value(v))).collect::<serde_json::Map<_,_>>(),"children":children.into_iter().map(node).collect::<Vec<_>>()}),
+                XmlSnapshot::Text{id:identity,runs}=>serde_json::json!({"kind":"text","type":id(identity),"runs":runs.into_iter().map(|run|serde_json::json!({"item":id(run.item),"count":run.count,"text":run.text,"attributes":run.attributes.into_iter().map(|(key,v)|(key.to_string(),value(v))).collect::<serde_json::Map<_,_>>() })).collect::<Vec<_>>()}),
+            }
+        }
+        Ok(node(snapshot).to_string())
+    }
+
+    /// Exact original mutation footprint from the same retained owner.
+    pub(crate) fn inspect_update_footprint(&self, transaction: &YrsTransaction, update: Vec<u8>, max_steps: u32) -> Result<String, CodingError> {
+        let tx=transaction.transaction();let tx=tx.as_ref().ok_or(CodingError::InvalidOperation)?;
+        let observed=yrs::update_footprint::inspect(tx,&update,max_steps as usize).map_err(|_|CodingError::InvalidOperation)?;
+        let mut json=String::new();observed.to_json(&mut json);Ok(json)
+    }
+
     /// One bounded read-only traversal of newly visible rich XML string identities.
     pub(crate) fn inspect_visible_text_items(&self, transaction: &YrsTransaction, state_vector: Vec<u8>, root_name: String, max_steps: u32) -> Result<String, CodingError> {
         use yrs::branch::BranchID;

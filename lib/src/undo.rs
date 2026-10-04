@@ -37,6 +37,10 @@ impl YrsUndoManager {
 
     /// Read-only actual maintained stack metadata, oldest item first. Pointer
     /// ownership remains with the stack; Swift must take unretained references.
+    pub(crate) fn preserve_changed_xml(&self, enabled: bool) {
+        self.acquire_lock().preserve_changed_xml(enabled);
+    }
+
     pub(crate) fn undo_metadata(&self) -> Vec<u64> {
         self.acquire_lock().undo_stack().iter().map(|item| item.meta).collect()
     }

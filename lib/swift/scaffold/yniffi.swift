@@ -496,7 +496,7 @@ fileprivate struct FfiConverterString: FfiConverter {
 
 
 public protocol YSubscriptionProtocol : AnyObject {
-    
+
 }
 
 open class YSubscription:
@@ -537,9 +537,9 @@ open class YSubscription:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_ysubscription(pointer, $0) }
     }
 
-    
 
-    
+
+
 
 }
 
@@ -589,31 +589,31 @@ public func FfiConverterTypeYSubscription_lower(_ value: YSubscription) -> Unsaf
 
 
 public protocol YrsArrayProtocol : AnyObject {
-    
-    func each(tx: YrsTransaction, delegate: YrsArrayEachDelegate) 
-    
+
+    func each(tx: YrsTransaction, delegate: YrsArrayEachDelegate)
+
     func get(tx: YrsTransaction, index: UInt32) throws  -> String
-    
-    func insert(tx: YrsTransaction, index: UInt32, value: String) 
-    
-    func insertRange(tx: YrsTransaction, index: UInt32, values: [String]) 
-    
+
+    func insert(tx: YrsTransaction, index: UInt32, value: String)
+
+    func insertRange(tx: YrsTransaction, index: UInt32, values: [String])
+
     func length(tx: YrsTransaction)  -> UInt32
-    
+
     func observe(delegate: YrsArrayObservationDelegate)  -> YSubscription
-    
-    func pushBack(tx: YrsTransaction, value: String) 
-    
-    func pushFront(tx: YrsTransaction, value: String) 
-    
+
+    func pushBack(tx: YrsTransaction, value: String)
+
+    func pushFront(tx: YrsTransaction, value: String)
+
     func rawPtr()  -> YrsCollectionPtr
-    
-    func remove(tx: YrsTransaction, index: UInt32) 
-    
-    func removeRange(tx: YrsTransaction, index: UInt32, len: UInt32) 
-    
+
+    func remove(tx: YrsTransaction, index: UInt32)
+
+    func removeRange(tx: YrsTransaction, index: UInt32, len: UInt32)
+
     func toA(tx: YrsTransaction)  -> [String]
-    
+
 }
 
 open class YrsArray:
@@ -654,9 +654,9 @@ open class YrsArray:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsarray(pointer, $0) }
     }
 
-    
 
-    
+
+
 open func each(tx: YrsTransaction, delegate: YrsArrayEachDelegate) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_each(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -664,7 +664,7 @@ open func each(tx: YrsTransaction, delegate: YrsArrayEachDelegate) {try! rustCal
     )
 }
 }
-    
+
 open func get(tx: YrsTransaction, index: UInt32)throws  -> String {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsarray_get(self.uniffiClonePointer(),
@@ -673,7 +673,7 @@ open func get(tx: YrsTransaction, index: UInt32)throws  -> String {
     )
 })
 }
-    
+
 open func insert(tx: YrsTransaction, index: UInt32, value: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_insert(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -682,7 +682,7 @@ open func insert(tx: YrsTransaction, index: UInt32, value: String) {try! rustCal
     )
 }
 }
-    
+
 open func insertRange(tx: YrsTransaction, index: UInt32, values: [String]) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_insert_range(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -691,7 +691,7 @@ open func insertRange(tx: YrsTransaction, index: UInt32, values: [String]) {try!
     )
 }
 }
-    
+
 open func length(tx: YrsTransaction) -> UInt32 {
     return try!  FfiConverterUInt32.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_length(self.uniffiClonePointer(),
@@ -699,7 +699,7 @@ open func length(tx: YrsTransaction) -> UInt32 {
     )
 })
 }
-    
+
 open func observe(delegate: YrsArrayObservationDelegate) -> YSubscription {
     return try!  FfiConverterTypeYSubscription.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_observe(self.uniffiClonePointer(),
@@ -707,7 +707,7 @@ open func observe(delegate: YrsArrayObservationDelegate) -> YSubscription {
     )
 })
 }
-    
+
 open func pushBack(tx: YrsTransaction, value: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_push_back(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -715,7 +715,7 @@ open func pushBack(tx: YrsTransaction, value: String) {try! rustCall() {
     )
 }
 }
-    
+
 open func pushFront(tx: YrsTransaction, value: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_push_front(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -723,14 +723,14 @@ open func pushFront(tx: YrsTransaction, value: String) {try! rustCall() {
     )
 }
 }
-    
+
 open func rawPtr() -> YrsCollectionPtr {
     return try!  FfiConverterTypeYrsCollectionPtr.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_raw_ptr(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func remove(tx: YrsTransaction, index: UInt32) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_remove(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -738,7 +738,7 @@ open func remove(tx: YrsTransaction, index: UInt32) {try! rustCall() {
     )
 }
 }
-    
+
 open func removeRange(tx: YrsTransaction, index: UInt32, len: UInt32) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_remove_range(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -747,7 +747,7 @@ open func removeRange(tx: YrsTransaction, index: UInt32, len: UInt32) {try! rust
     )
 }
 }
-    
+
 open func toA(tx: YrsTransaction) -> [String] {
     return try!  FfiConverterSequenceString.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsarray_to_a(self.uniffiClonePointer(),
@@ -755,7 +755,7 @@ open func toA(tx: YrsTransaction) -> [String] {
     )
 })
 }
-    
+
 
 }
 
@@ -805,23 +805,23 @@ public func FfiConverterTypeYrsArray_lower(_ value: YrsArray) -> UnsafeMutableRa
 
 
 public protocol YrsAwarenessProtocol : AnyObject {
-    
+
     func applyUpdate(encoded: [UInt8]) throws  -> YrsAwarenessChanges?
-    
-    func clearLocalState() 
-    
+
+    func clearLocalState()
+
     func clientId()  -> UInt64
-    
+
     func encodeUpdate() throws  -> [UInt8]
-    
+
     func encodeUpdateForClients(clientIds: [UInt64]) throws  -> [UInt8]
-    
+
     func removeRemoteState(clientId: UInt64) throws  -> YrsAwarenessChanges?
-    
-    func setLocalState(json: String) throws 
-    
+
+    func setLocalState(json: String) throws
+
     func states()  -> [YrsAwarenessState]
-    
+
 }
 
 open class YrsAwareness:
@@ -862,9 +862,9 @@ open class YrsAwareness:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsawareness(pointer, $0) }
     }
 
-    
 
-    
+
+
 open func applyUpdate(encoded: [UInt8])throws  -> YrsAwarenessChanges? {
     return try  FfiConverterOptionTypeYrsAwarenessChanges.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_apply_update(self.uniffiClonePointer(),
@@ -872,27 +872,27 @@ open func applyUpdate(encoded: [UInt8])throws  -> YrsAwarenessChanges? {
     )
 })
 }
-    
+
 open func clearLocalState() {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_clear_local_state(self.uniffiClonePointer(),$0
     )
 }
 }
-    
+
 open func clientId() -> UInt64 {
     return try!  FfiConverterUInt64.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_client_id(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func encodeUpdate()throws  -> [UInt8] {
     return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_encode_update(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func encodeUpdateForClients(clientIds: [UInt64])throws  -> [UInt8] {
     return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_encode_update_for_clients(self.uniffiClonePointer(),
@@ -900,7 +900,7 @@ open func encodeUpdateForClients(clientIds: [UInt64])throws  -> [UInt8] {
     )
 })
 }
-    
+
 open func removeRemoteState(clientId: UInt64)throws  -> YrsAwarenessChanges? {
     return try  FfiConverterOptionTypeYrsAwarenessChanges.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_remove_remote_state(self.uniffiClonePointer(),
@@ -908,21 +908,21 @@ open func removeRemoteState(clientId: UInt64)throws  -> YrsAwarenessChanges? {
     )
 })
 }
-    
+
 open func setLocalState(json: String)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_set_local_state(self.uniffiClonePointer(),
         FfiConverterString.lower(json),$0
     )
 }
 }
-    
+
 open func states() -> [YrsAwarenessState] {
     return try!  FfiConverterSequenceTypeYrsAwarenessState.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsawareness_states(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 
 }
 
@@ -972,29 +972,33 @@ public func FfiConverterTypeYrsAwareness_lower(_ value: YrsAwareness) -> UnsafeM
 
 
 public protocol YrsDocProtocol : AnyObject {
-    
+
     func encodeDiffV1(tx: YrsTransaction, stateVector: [UInt8]) throws  -> [UInt8]
-    
+
     func getArray(name: String)  -> YrsArray
-    
+
     func getMap(name: String)  -> YrsMap
-    
+
     func getText(name: String)  -> YrsText
-    
+
     func getXmlFragment(name: String)  -> YrsXmlNode
-    
+
     func guid()  -> String
 
     func inspectFormatEvent(tx: YrsTransaction, update: [UInt8], attribute: String, targetsJson: String, maxSteps: UInt32) throws  -> String
 
     func inspectRestoredTextItems(tx: YrsTransaction, stateVector: [UInt8], rootName: String, maxSteps: UInt32) throws  -> String
 
+    func inspectUpdateFootprint(tx: YrsTransaction, update: [UInt8], maxSteps: UInt32) throws  -> String
+
     func inspectVisibleTextItems(tx: YrsTransaction, stateVector: [UInt8], rootName: String, maxSteps: UInt32) throws  -> String
 
+    func inspectXmlSnapshot(tx: YrsTransaction, rootName: String, maxSteps: UInt32) throws  -> String
+
     func makeAwareness()  -> YrsAwareness
-    
+
     func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8]) throws  -> YrsXmlResolvedPosition?
-    
+
     func restoreUndoManager(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String, metadata: [UInt64]) throws  -> YrsUndoManager
 
     func stateFromSnapshot(tx: YrsTransaction, snapshot: [UInt8], maxSteps: UInt32) throws  -> [UInt8]
@@ -1002,9 +1006,9 @@ public protocol YrsDocProtocol : AnyObject {
     func stateSnapshot(tx: YrsTransaction) throws  -> [UInt8]
 
     func transact(origin: YrsOrigin?)  -> YrsTransaction
-    
+
     func undoManager(trackedRefs: [YrsCollectionPtr])  -> YrsUndoManager
-    
+
     func validateUndoHistory(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String) throws
 
 }
@@ -1054,7 +1058,7 @@ public convenience init() {
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsdoc(pointer, $0) }
     }
 
-    
+
 public static func withOptions(guid: String, retainDeletedItems: Bool) -> YrsDoc {
     return try!  FfiConverterTypeYrsDoc.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_constructor_yrsdoc_with_options(
@@ -1065,7 +1069,7 @@ public static func withOptions(guid: String, retainDeletedItems: Bool) -> YrsDoc
 }
 
 
-    
+
 open func encodeDiffV1(tx: YrsTransaction, stateVector: [UInt8])throws  -> [UInt8] {
     return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_encode_diff_v1(self.uniffiClonePointer(),
@@ -1074,7 +1078,7 @@ open func encodeDiffV1(tx: YrsTransaction, stateVector: [UInt8])throws  -> [UInt
     )
 })
 }
-    
+
 open func getArray(name: String) -> YrsArray {
     return try!  FfiConverterTypeYrsArray.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_get_array(self.uniffiClonePointer(),
@@ -1082,7 +1086,7 @@ open func getArray(name: String) -> YrsArray {
     )
 })
 }
-    
+
 open func getMap(name: String) -> YrsMap {
     return try!  FfiConverterTypeYrsMap.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_get_map(self.uniffiClonePointer(),
@@ -1090,7 +1094,7 @@ open func getMap(name: String) -> YrsMap {
     )
 })
 }
-    
+
 open func getText(name: String) -> YrsText {
     return try!  FfiConverterTypeYrsText.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_get_text(self.uniffiClonePointer(),
@@ -1098,7 +1102,7 @@ open func getText(name: String) -> YrsText {
     )
 })
 }
-    
+
 open func getXmlFragment(name: String) -> YrsXmlNode {
     return try!  FfiConverterTypeYrsXmlNode.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_get_xml_fragment(self.uniffiClonePointer(),
@@ -1106,7 +1110,7 @@ open func getXmlFragment(name: String) -> YrsXmlNode {
     )
 })
 }
-    
+
 open func guid() -> String {
     return try!  FfiConverterString.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_guid(self.uniffiClonePointer(),$0
@@ -1137,11 +1141,31 @@ open func inspectRestoredTextItems(tx: YrsTransaction, stateVector: [UInt8], roo
 })
 }
 
+open func inspectUpdateFootprint(tx: YrsTransaction, update: [UInt8], maxSteps: UInt32)throws  -> String {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_update_footprint(self.uniffiClonePointer(),
+        FfiConverterTypeYrsTransaction.lower(tx),
+        FfiConverterSequenceUInt8.lower(update),
+        FfiConverterUInt32.lower(maxSteps),$0
+    )
+})
+}
+
 open func inspectVisibleTextItems(tx: YrsTransaction, stateVector: [UInt8], rootName: String, maxSteps: UInt32)throws  -> String {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_visible_text_items(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
         FfiConverterSequenceUInt8.lower(stateVector),
+        FfiConverterString.lower(rootName),
+        FfiConverterUInt32.lower(maxSteps),$0
+    )
+})
+}
+
+open func inspectXmlSnapshot(tx: YrsTransaction, rootName: String, maxSteps: UInt32)throws  -> String {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_inspect_xml_snapshot(self.uniffiClonePointer(),
+        FfiConverterTypeYrsTransaction.lower(tx),
         FfiConverterString.lower(rootName),
         FfiConverterUInt32.lower(maxSteps),$0
     )
@@ -1154,7 +1178,7 @@ open func makeAwareness() -> YrsAwareness {
     )
 })
 }
-    
+
 open func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8])throws  -> YrsXmlResolvedPosition? {
     return try  FfiConverterOptionTypeYrsXmlResolvedPosition.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_resolve_xml_relative_position(self.uniffiClonePointer(),
@@ -1163,7 +1187,7 @@ open func resolveXmlRelativePosition(tx: YrsTransaction, encoded: [UInt8])throws
     )
 })
 }
-    
+
 open func restoreUndoManager(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String, metadata: [UInt64])throws  -> YrsUndoManager {
     return try  FfiConverterTypeYrsUndoManager.lift(try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_restore_undo_manager(self.uniffiClonePointer(),
@@ -1200,7 +1224,7 @@ open func transact(origin: YrsOrigin?) -> YrsTransaction {
     )
 })
 }
-    
+
 open func undoManager(trackedRefs: [YrsCollectionPtr]) -> YrsUndoManager {
     return try!  FfiConverterTypeYrsUndoManager.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_undo_manager(self.uniffiClonePointer(),
@@ -1208,7 +1232,7 @@ open func undoManager(trackedRefs: [YrsCollectionPtr]) -> YrsUndoManager {
     )
 })
 }
-    
+
 open func validateUndoHistory(trackedRefs: [YrsCollectionPtr], json: String, scopeToken: String)throws  {try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsdoc_validate_undo_history(self.uniffiClonePointer(),
         FfiConverterSequenceTypeYrsCollectionPtr.lower(trackedRefs),
@@ -1267,29 +1291,29 @@ public func FfiConverterTypeYrsDoc_lower(_ value: YrsDoc) -> UnsafeMutableRawPoi
 
 
 public protocol YrsMapProtocol : AnyObject {
-    
-    func clear(tx: YrsTransaction) 
-    
+
+    func clear(tx: YrsTransaction)
+
     func containsKey(tx: YrsTransaction, key: String)  -> Bool
-    
-    func each(tx: YrsTransaction, delegate: YrsMapKvIteratorDelegate) 
-    
+
+    func each(tx: YrsTransaction, delegate: YrsMapKvIteratorDelegate)
+
     func get(tx: YrsTransaction, key: String) throws  -> String
-    
-    func insert(tx: YrsTransaction, key: String, value: String) 
-    
-    func keys(tx: YrsTransaction, delegate: YrsMapIteratorDelegate) 
-    
+
+    func insert(tx: YrsTransaction, key: String, value: String)
+
+    func keys(tx: YrsTransaction, delegate: YrsMapIteratorDelegate)
+
     func length(tx: YrsTransaction)  -> UInt32
-    
+
     func observe(delegate: YrsMapObservationDelegate)  -> YSubscription
-    
+
     func rawPtr()  -> YrsCollectionPtr
-    
+
     func remove(tx: YrsTransaction, key: String) throws  -> String?
-    
-    func values(tx: YrsTransaction, delegate: YrsMapIteratorDelegate) 
-    
+
+    func values(tx: YrsTransaction, delegate: YrsMapIteratorDelegate)
+
 }
 
 open class YrsMap:
@@ -1330,16 +1354,16 @@ open class YrsMap:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsmap(pointer, $0) }
     }
 
-    
 
-    
+
+
 open func clear(tx: YrsTransaction) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_clear(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),$0
     )
 }
 }
-    
+
 open func containsKey(tx: YrsTransaction, key: String) -> Bool {
     return try!  FfiConverterBool.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_contains_key(self.uniffiClonePointer(),
@@ -1348,7 +1372,7 @@ open func containsKey(tx: YrsTransaction, key: String) -> Bool {
     )
 })
 }
-    
+
 open func each(tx: YrsTransaction, delegate: YrsMapKvIteratorDelegate) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_each(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1356,7 +1380,7 @@ open func each(tx: YrsTransaction, delegate: YrsMapKvIteratorDelegate) {try! rus
     )
 }
 }
-    
+
 open func get(tx: YrsTransaction, key: String)throws  -> String {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsmap_get(self.uniffiClonePointer(),
@@ -1365,7 +1389,7 @@ open func get(tx: YrsTransaction, key: String)throws  -> String {
     )
 })
 }
-    
+
 open func insert(tx: YrsTransaction, key: String, value: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_insert(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1374,7 +1398,7 @@ open func insert(tx: YrsTransaction, key: String, value: String) {try! rustCall(
     )
 }
 }
-    
+
 open func keys(tx: YrsTransaction, delegate: YrsMapIteratorDelegate) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_keys(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1382,7 +1406,7 @@ open func keys(tx: YrsTransaction, delegate: YrsMapIteratorDelegate) {try! rustC
     )
 }
 }
-    
+
 open func length(tx: YrsTransaction) -> UInt32 {
     return try!  FfiConverterUInt32.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_length(self.uniffiClonePointer(),
@@ -1390,7 +1414,7 @@ open func length(tx: YrsTransaction) -> UInt32 {
     )
 })
 }
-    
+
 open func observe(delegate: YrsMapObservationDelegate) -> YSubscription {
     return try!  FfiConverterTypeYSubscription.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_observe(self.uniffiClonePointer(),
@@ -1398,14 +1422,14 @@ open func observe(delegate: YrsMapObservationDelegate) -> YSubscription {
     )
 })
 }
-    
+
 open func rawPtr() -> YrsCollectionPtr {
     return try!  FfiConverterTypeYrsCollectionPtr.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_raw_ptr(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func remove(tx: YrsTransaction, key: String)throws  -> String? {
     return try  FfiConverterOptionString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsmap_remove(self.uniffiClonePointer(),
@@ -1414,7 +1438,7 @@ open func remove(tx: YrsTransaction, key: String)throws  -> String? {
     )
 })
 }
-    
+
 open func values(tx: YrsTransaction, delegate: YrsMapIteratorDelegate) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsmap_values(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1422,7 +1446,7 @@ open func values(tx: YrsTransaction, delegate: YrsMapIteratorDelegate) {try! rus
     )
 }
 }
-    
+
 
 }
 
@@ -1472,29 +1496,29 @@ public func FfiConverterTypeYrsMap_lower(_ value: YrsMap) -> UnsafeMutableRawPoi
 
 
 public protocol YrsTextProtocol : AnyObject {
-    
-    func append(tx: YrsTransaction, text: String) 
-    
-    func format(tx: YrsTransaction, index: UInt32, length: UInt32, attrs: String) 
-    
+
+    func append(tx: YrsTransaction, text: String)
+
+    func format(tx: YrsTransaction, index: UInt32, length: UInt32, attrs: String)
+
     func getString(tx: YrsTransaction)  -> String
-    
-    func insert(tx: YrsTransaction, index: UInt32, chunk: String) 
-    
-    func insertEmbed(tx: YrsTransaction, index: UInt32, content: String) 
-    
-    func insertEmbedWithAttributes(tx: YrsTransaction, index: UInt32, content: String, attrs: String) 
-    
-    func insertWithAttributes(tx: YrsTransaction, index: UInt32, chunk: String, attrs: String) 
-    
+
+    func insert(tx: YrsTransaction, index: UInt32, chunk: String)
+
+    func insertEmbed(tx: YrsTransaction, index: UInt32, content: String)
+
+    func insertEmbedWithAttributes(tx: YrsTransaction, index: UInt32, content: String, attrs: String)
+
+    func insertWithAttributes(tx: YrsTransaction, index: UInt32, chunk: String, attrs: String)
+
     func length(tx: YrsTransaction)  -> UInt32
-    
+
     func observe(delegate: YrsTextObservationDelegate)  -> YSubscription
-    
+
     func rawPtr()  -> YrsCollectionPtr
-    
-    func removeRange(tx: YrsTransaction, start: UInt32, length: UInt32) 
-    
+
+    func removeRange(tx: YrsTransaction, start: UInt32, length: UInt32)
+
 }
 
 open class YrsText:
@@ -1535,9 +1559,9 @@ open class YrsText:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrstext(pointer, $0) }
     }
 
-    
 
-    
+
+
 open func append(tx: YrsTransaction, text: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_append(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1545,7 +1569,7 @@ open func append(tx: YrsTransaction, text: String) {try! rustCall() {
     )
 }
 }
-    
+
 open func format(tx: YrsTransaction, index: UInt32, length: UInt32, attrs: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_format(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1555,7 +1579,7 @@ open func format(tx: YrsTransaction, index: UInt32, length: UInt32, attrs: Strin
     )
 }
 }
-    
+
 open func getString(tx: YrsTransaction) -> String {
     return try!  FfiConverterString.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_get_string(self.uniffiClonePointer(),
@@ -1563,7 +1587,7 @@ open func getString(tx: YrsTransaction) -> String {
     )
 })
 }
-    
+
 open func insert(tx: YrsTransaction, index: UInt32, chunk: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_insert(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1572,7 +1596,7 @@ open func insert(tx: YrsTransaction, index: UInt32, chunk: String) {try! rustCal
     )
 }
 }
-    
+
 open func insertEmbed(tx: YrsTransaction, index: UInt32, content: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_insert_embed(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1581,7 +1605,7 @@ open func insertEmbed(tx: YrsTransaction, index: UInt32, content: String) {try! 
     )
 }
 }
-    
+
 open func insertEmbedWithAttributes(tx: YrsTransaction, index: UInt32, content: String, attrs: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_insert_embed_with_attributes(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1591,7 +1615,7 @@ open func insertEmbedWithAttributes(tx: YrsTransaction, index: UInt32, content: 
     )
 }
 }
-    
+
 open func insertWithAttributes(tx: YrsTransaction, index: UInt32, chunk: String, attrs: String) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_insert_with_attributes(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1601,7 +1625,7 @@ open func insertWithAttributes(tx: YrsTransaction, index: UInt32, chunk: String,
     )
 }
 }
-    
+
 open func length(tx: YrsTransaction) -> UInt32 {
     return try!  FfiConverterUInt32.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_length(self.uniffiClonePointer(),
@@ -1609,7 +1633,7 @@ open func length(tx: YrsTransaction) -> UInt32 {
     )
 })
 }
-    
+
 open func observe(delegate: YrsTextObservationDelegate) -> YSubscription {
     return try!  FfiConverterTypeYSubscription.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_observe(self.uniffiClonePointer(),
@@ -1617,14 +1641,14 @@ open func observe(delegate: YrsTextObservationDelegate) -> YSubscription {
     )
 })
 }
-    
+
 open func rawPtr() -> YrsCollectionPtr {
     return try!  FfiConverterTypeYrsCollectionPtr.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_raw_ptr(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func removeRange(tx: YrsTransaction, start: UInt32, length: UInt32) {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstext_remove_range(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -1633,7 +1657,7 @@ open func removeRange(tx: YrsTransaction, start: UInt32, length: UInt32) {try! r
     )
 }
 }
-    
+
 
 }
 
@@ -1683,29 +1707,29 @@ public func FfiConverterTypeYrsText_lower(_ value: YrsText) -> UnsafeMutableRawP
 
 
 public protocol YrsTransactionProtocol : AnyObject {
-    
-    func free() 
-    
+
+    func free()
+
     func integrationStatus()  -> YrsIntegrationStatus
-    
+
     func origin()  -> YrsOrigin?
-    
-    func transactionApplyUpdate(update: [UInt8]) throws 
-    
+
+    func transactionApplyUpdate(update: [UInt8]) throws
+
     func transactionEncodeStateAsUpdate()  -> [UInt8]
-    
+
     func transactionEncodeStateAsUpdateFromSv(stateVector: [UInt8]) throws  -> [UInt8]
-    
+
     func transactionEncodeUpdate()  -> [UInt8]
-    
+
     func transactionGetArray(name: String)  -> YrsArray?
-    
+
     func transactionGetMap(name: String)  -> YrsMap?
-    
+
     func transactionGetText(name: String)  -> YrsText?
-    
+
     func transactionStateVector()  -> [UInt8]
-    
+
 }
 
 open class YrsTransaction:
@@ -1746,43 +1770,43 @@ open class YrsTransaction:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrstransaction(pointer, $0) }
     }
 
-    
 
-    
+
+
 open func free() {try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_free(self.uniffiClonePointer(),$0
     )
 }
 }
-    
+
 open func integrationStatus() -> YrsIntegrationStatus {
     return try!  FfiConverterTypeYrsIntegrationStatus.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_integration_status(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func origin() -> YrsOrigin? {
     return try!  FfiConverterOptionTypeYrsOrigin.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_origin(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func transactionApplyUpdate(update: [UInt8])throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_apply_update(self.uniffiClonePointer(),
         FfiConverterSequenceUInt8.lower(update),$0
     )
 }
 }
-    
+
 open func transactionEncodeStateAsUpdate() -> [UInt8] {
     return try!  FfiConverterSequenceUInt8.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_encode_state_as_update(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func transactionEncodeStateAsUpdateFromSv(stateVector: [UInt8])throws  -> [UInt8] {
     return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_encode_state_as_update_from_sv(self.uniffiClonePointer(),
@@ -1790,14 +1814,14 @@ open func transactionEncodeStateAsUpdateFromSv(stateVector: [UInt8])throws  -> [
     )
 })
 }
-    
+
 open func transactionEncodeUpdate() -> [UInt8] {
     return try!  FfiConverterSequenceUInt8.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_encode_update(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func transactionGetArray(name: String) -> YrsArray? {
     return try!  FfiConverterOptionTypeYrsArray.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_get_array(self.uniffiClonePointer(),
@@ -1805,7 +1829,7 @@ open func transactionGetArray(name: String) -> YrsArray? {
     )
 })
 }
-    
+
 open func transactionGetMap(name: String) -> YrsMap? {
     return try!  FfiConverterOptionTypeYrsMap.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_get_map(self.uniffiClonePointer(),
@@ -1813,7 +1837,7 @@ open func transactionGetMap(name: String) -> YrsMap? {
     )
 })
 }
-    
+
 open func transactionGetText(name: String) -> YrsText? {
     return try!  FfiConverterOptionTypeYrsText.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_get_text(self.uniffiClonePointer(),
@@ -1821,14 +1845,14 @@ open func transactionGetText(name: String) -> YrsText? {
     )
 })
 }
-    
+
 open func transactionStateVector() -> [UInt8] {
     return try!  FfiConverterSequenceUInt8.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrstransaction_transaction_state_vector(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 
 }
 
@@ -1878,13 +1902,13 @@ public func FfiConverterTypeYrsTransaction_lower(_ value: YrsTransaction) -> Uns
 
 
 public protocol YrsUndoEventProtocol : AnyObject {
-    
+
     func hasChanged(sharedRef: YrsCollectionPtr)  -> Bool
-    
+
     func kind()  -> YrsUndoEventKind
-    
+
     func origin()  -> YrsOrigin?
-    
+
 }
 
 open class YrsUndoEvent:
@@ -1925,9 +1949,9 @@ open class YrsUndoEvent:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsundoevent(pointer, $0) }
     }
 
-    
 
-    
+
+
 open func hasChanged(sharedRef: YrsCollectionPtr) -> Bool {
     return try!  FfiConverterBool.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsundoevent_has_changed(self.uniffiClonePointer(),
@@ -1935,21 +1959,21 @@ open func hasChanged(sharedRef: YrsCollectionPtr) -> Bool {
     )
 })
 }
-    
+
 open func kind() -> YrsUndoEventKind {
     return try!  FfiConverterTypeYrsUndoEventKind.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsundoevent_kind(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 open func origin() -> YrsOrigin? {
     return try!  FfiConverterOptionTypeYrsOrigin.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsundoevent_origin(self.uniffiClonePointer(),$0
     )
 })
 }
-    
+
 
 }
 
@@ -1999,39 +2023,41 @@ public func FfiConverterTypeYrsUndoEvent_lower(_ value: YrsUndoEvent) -> UnsafeM
 
 
 public protocol YrsUndoManagerProtocol : AnyObject {
-    
+
     /**
      * Adds a specific origin identifier to a list of tracked origins. If tracked
      * origin list is not empty, current undo manager will only track changes applied
      * over transactions created with a specific origin.
      */
-    func addOrigin(origin: YrsOrigin) 
-    
+    func addOrigin(origin: YrsOrigin)
+
     /**
      * Adds a new shared collection to a list of entities observed by current undo manager.
      */
-    func addScope(trackedRef: YrsCollectionPtr) 
-    
+    func addScope(trackedRef: YrsCollectionPtr)
+
     /**
      * Clears the undo/redo stacks of a current undo manager.
      */
-    func clear() throws 
-    
+    func clear() throws
+
     func exportHistory(scopeToken: String) throws  -> YrsUndoSnapshot
 
     func observeAdded(delegate: YrsUndoManagerObservationDelegate)  -> YSubscription
-    
+
     func observePopped(delegate: YrsUndoManagerObservationDelegate)  -> YSubscription
-    
+
     func observeUpdated(delegate: YrsUndoManagerObservationDelegate)  -> YSubscription
-    
+
+    func preserveChangedXml(enabled: Bool)
+
     /**
      * Redoes the last operation from undo stack, returning false if redo stack was
      * empty an method had no effect.
      * Fails to execute if there's another transaction in progress.
      */
     func redo() throws  -> Bool
-    
+
     func redoMetadata()  -> [UInt64]
 
     /**
@@ -2039,23 +2065,23 @@ public protocol YrsUndoManagerProtocol : AnyObject {
      * origin list is not empty, current undo manager will only track changes applied
      * over transactions created with a specific origin.
      */
-    func removeOrigin(origin: YrsOrigin) 
-    
+    func removeOrigin(origin: YrsOrigin)
+
     /**
      * Undoes the last operation, pushing it onto redo stack, returning false if undo
      * stack was empty an method had no effect.
      * Fails to execute if there's another transaction in progress.
      */
     func undo() throws  -> Bool
-    
+
     func undoMetadata()  -> [UInt64]
 
     /**
      * Wraps a set of recent changes together into a single undo operation. These
      * changes will be be undone together on the next `undo` method call.
      */
-    func wrapChanges() 
-    
+    func wrapChanges()
+
 }
 
 open class YrsUndoManager:
@@ -2096,9 +2122,9 @@ open class YrsUndoManager:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsundomanager(pointer, $0) }
     }
 
-    
 
-    
+
+
     /**
      * Adds a specific origin identifier to a list of tracked origins. If tracked
      * origin list is not empty, current undo manager will only track changes applied
@@ -2110,7 +2136,7 @@ open func addOrigin(origin: YrsOrigin) {try! rustCall() {
     )
 }
 }
-    
+
     /**
      * Adds a new shared collection to a list of entities observed by current undo manager.
      */
@@ -2120,7 +2146,7 @@ open func addScope(trackedRef: YrsCollectionPtr) {try! rustCall() {
     )
 }
 }
-    
+
     /**
      * Clears the undo/redo stacks of a current undo manager.
      */
@@ -2129,7 +2155,7 @@ open func clear()throws  {try rustCallWithError(FfiConverterTypeYrsUndoError.lif
     )
 }
 }
-    
+
 open func exportHistory(scopeToken: String)throws  -> YrsUndoSnapshot {
     return try  FfiConverterTypeYrsUndoSnapshot.lift(try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsundomanager_export_history(self.uniffiClonePointer(),
@@ -2145,7 +2171,7 @@ open func observeAdded(delegate: YrsUndoManagerObservationDelegate) -> YSubscrip
     )
 })
 }
-    
+
 open func observePopped(delegate: YrsUndoManagerObservationDelegate) -> YSubscription {
     return try!  FfiConverterTypeYSubscription.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsundomanager_observe_popped(self.uniffiClonePointer(),
@@ -2153,7 +2179,7 @@ open func observePopped(delegate: YrsUndoManagerObservationDelegate) -> YSubscri
     )
 })
 }
-    
+
 open func observeUpdated(delegate: YrsUndoManagerObservationDelegate) -> YSubscription {
     return try!  FfiConverterTypeYSubscription.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsundomanager_observe_updated(self.uniffiClonePointer(),
@@ -2161,7 +2187,14 @@ open func observeUpdated(delegate: YrsUndoManagerObservationDelegate) -> YSubscr
     )
 })
 }
-    
+
+open func preserveChangedXml(enabled: Bool) {try! rustCall() {
+    uniffi_uniffi_yniffi_fn_method_yrsundomanager_preserve_changed_xml(self.uniffiClonePointer(),
+        FfiConverterBool.lower(enabled),$0
+    )
+}
+}
+
     /**
      * Redoes the last operation from undo stack, returning false if redo stack was
      * empty an method had no effect.
@@ -2180,7 +2213,7 @@ open func redoMetadata() -> [UInt64] {
     )
 })
 }
-    
+
     /**
      * Removes an existing origin identifier from a list of tracked origins. If tracked
      * origin list is not empty, current undo manager will only track changes applied
@@ -2192,7 +2225,7 @@ open func removeOrigin(origin: YrsOrigin) {try! rustCall() {
     )
 }
 }
-    
+
     /**
      * Undoes the last operation, pushing it onto redo stack, returning false if undo
      * stack was empty an method had no effect.
@@ -2211,7 +2244,7 @@ open func undoMetadata() -> [UInt64] {
     )
 })
 }
-    
+
     /**
      * Wraps a set of recent changes together into a single undo operation. These
      * changes will be be undone together on the next `undo` method call.
@@ -2221,7 +2254,7 @@ open func wrapChanges() {try! rustCall() {
     )
 }
 }
-    
+
 
 }
 
@@ -2271,45 +2304,45 @@ public func FfiConverterTypeYrsUndoManager_lower(_ value: YrsUndoManager) -> Uns
 
 
 public protocol YrsXmlNodeProtocol : AnyObject {
-    
+
     func attributes(tx: YrsTransaction) throws  -> [YrsXmlAttribute]
-    
+
     func child(tx: YrsTransaction, index: UInt32)  -> YrsXmlNode?
-    
+
     func delta(tx: YrsTransaction) throws  -> [YrsXmlTextRun]
-    
-    func format(tx: YrsTransaction, index: UInt32, length: UInt32, attributesJson: String) throws 
-    
+
+    func format(tx: YrsTransaction, index: UInt32, length: UInt32, attributesJson: String) throws
+
     func insertElement(tx: YrsTransaction, index: UInt32, tag: String) throws  -> YrsXmlNode
-    
-    func insertString(tx: YrsTransaction, index: UInt32, value: String, attributesJson: String) throws 
-    
+
+    func insertString(tx: YrsTransaction, index: UInt32, value: String, attributesJson: String) throws
+
     func insertText(tx: YrsTransaction, index: UInt32) throws  -> YrsXmlNode
-    
+
     func isSameNode(other: YrsXmlNode)  -> Bool
-    
+
     func kind(tx: YrsTransaction)  -> String
-    
+
     func length(tx: YrsTransaction)  -> UInt32
-    
+
     func rawPtr(tx: YrsTransaction) throws  -> YrsCollectionPtr
-    
+
     func relativePosition(tx: YrsTransaction, index: UInt32, association: Int32) throws  -> [UInt8]
-    
-    func removeAttribute(tx: YrsTransaction, key: String) throws 
-    
-    func removeChildren(tx: YrsTransaction, index: UInt32, length: UInt32) throws 
-    
-    func removeText(tx: YrsTransaction, index: UInt32, length: UInt32) throws 
-    
+
+    func removeAttribute(tx: YrsTransaction, key: String) throws
+
+    func removeChildren(tx: YrsTransaction, index: UInt32, length: UInt32) throws
+
+    func removeText(tx: YrsTransaction, index: UInt32, length: UInt32) throws
+
     func resolveRelativePosition(tx: YrsTransaction, encoded: [UInt8]) throws  -> UInt32?
-    
-    func setAttribute(tx: YrsTransaction, key: String, valueJson: String) throws 
-    
+
+    func setAttribute(tx: YrsTransaction, key: String, valueJson: String) throws
+
     func tag(tx: YrsTransaction)  -> String?
-    
+
     func text(tx: YrsTransaction) throws  -> String
-    
+
     func textItems(tx: YrsTransaction, start: UInt32, length: UInt32) throws  -> String
 
 }
@@ -2352,9 +2385,9 @@ open class YrsXmlNode:
         try! rustCall { uniffi_uniffi_yniffi_fn_free_yrsxmlnode(pointer, $0) }
     }
 
-    
 
-    
+
+
 open func attributes(tx: YrsTransaction)throws  -> [YrsXmlAttribute] {
     return try  FfiConverterSequenceTypeYrsXmlAttribute.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_attributes(self.uniffiClonePointer(),
@@ -2362,7 +2395,7 @@ open func attributes(tx: YrsTransaction)throws  -> [YrsXmlAttribute] {
     )
 })
 }
-    
+
 open func child(tx: YrsTransaction, index: UInt32) -> YrsXmlNode? {
     return try!  FfiConverterOptionTypeYrsXmlNode.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_child(self.uniffiClonePointer(),
@@ -2371,7 +2404,7 @@ open func child(tx: YrsTransaction, index: UInt32) -> YrsXmlNode? {
     )
 })
 }
-    
+
 open func delta(tx: YrsTransaction)throws  -> [YrsXmlTextRun] {
     return try  FfiConverterSequenceTypeYrsXmlTextRun.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_delta(self.uniffiClonePointer(),
@@ -2379,7 +2412,7 @@ open func delta(tx: YrsTransaction)throws  -> [YrsXmlTextRun] {
     )
 })
 }
-    
+
 open func format(tx: YrsTransaction, index: UInt32, length: UInt32, attributesJson: String)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_format(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -2389,7 +2422,7 @@ open func format(tx: YrsTransaction, index: UInt32, length: UInt32, attributesJs
     )
 }
 }
-    
+
 open func insertElement(tx: YrsTransaction, index: UInt32, tag: String)throws  -> YrsXmlNode {
     return try  FfiConverterTypeYrsXmlNode.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_insert_element(self.uniffiClonePointer(),
@@ -2399,7 +2432,7 @@ open func insertElement(tx: YrsTransaction, index: UInt32, tag: String)throws  -
     )
 })
 }
-    
+
 open func insertString(tx: YrsTransaction, index: UInt32, value: String, attributesJson: String)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_insert_string(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -2409,7 +2442,7 @@ open func insertString(tx: YrsTransaction, index: UInt32, value: String, attribu
     )
 }
 }
-    
+
 open func insertText(tx: YrsTransaction, index: UInt32)throws  -> YrsXmlNode {
     return try  FfiConverterTypeYrsXmlNode.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_insert_text(self.uniffiClonePointer(),
@@ -2418,7 +2451,7 @@ open func insertText(tx: YrsTransaction, index: UInt32)throws  -> YrsXmlNode {
     )
 })
 }
-    
+
 open func isSameNode(other: YrsXmlNode) -> Bool {
     return try!  FfiConverterBool.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_is_same_node(self.uniffiClonePointer(),
@@ -2426,7 +2459,7 @@ open func isSameNode(other: YrsXmlNode) -> Bool {
     )
 })
 }
-    
+
 open func kind(tx: YrsTransaction) -> String {
     return try!  FfiConverterString.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_kind(self.uniffiClonePointer(),
@@ -2434,7 +2467,7 @@ open func kind(tx: YrsTransaction) -> String {
     )
 })
 }
-    
+
 open func length(tx: YrsTransaction) -> UInt32 {
     return try!  FfiConverterUInt32.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_length(self.uniffiClonePointer(),
@@ -2442,7 +2475,7 @@ open func length(tx: YrsTransaction) -> UInt32 {
     )
 })
 }
-    
+
 open func rawPtr(tx: YrsTransaction)throws  -> YrsCollectionPtr {
     return try  FfiConverterTypeYrsCollectionPtr.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_raw_ptr(self.uniffiClonePointer(),
@@ -2450,7 +2483,7 @@ open func rawPtr(tx: YrsTransaction)throws  -> YrsCollectionPtr {
     )
 })
 }
-    
+
 open func relativePosition(tx: YrsTransaction, index: UInt32, association: Int32)throws  -> [UInt8] {
     return try  FfiConverterSequenceUInt8.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_relative_position(self.uniffiClonePointer(),
@@ -2460,7 +2493,7 @@ open func relativePosition(tx: YrsTransaction, index: UInt32, association: Int32
     )
 })
 }
-    
+
 open func removeAttribute(tx: YrsTransaction, key: String)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_remove_attribute(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -2468,7 +2501,7 @@ open func removeAttribute(tx: YrsTransaction, key: String)throws  {try rustCallW
     )
 }
 }
-    
+
 open func removeChildren(tx: YrsTransaction, index: UInt32, length: UInt32)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_remove_children(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -2477,7 +2510,7 @@ open func removeChildren(tx: YrsTransaction, index: UInt32, length: UInt32)throw
     )
 }
 }
-    
+
 open func removeText(tx: YrsTransaction, index: UInt32, length: UInt32)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_remove_text(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -2486,7 +2519,7 @@ open func removeText(tx: YrsTransaction, index: UInt32, length: UInt32)throws  {
     )
 }
 }
-    
+
 open func resolveRelativePosition(tx: YrsTransaction, encoded: [UInt8])throws  -> UInt32? {
     return try  FfiConverterOptionUInt32.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_resolve_relative_position(self.uniffiClonePointer(),
@@ -2495,7 +2528,7 @@ open func resolveRelativePosition(tx: YrsTransaction, encoded: [UInt8])throws  -
     )
 })
 }
-    
+
 open func setAttribute(tx: YrsTransaction, key: String, valueJson: String)throws  {try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_set_attribute(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
@@ -2504,7 +2537,7 @@ open func setAttribute(tx: YrsTransaction, key: String, valueJson: String)throws
     )
 }
 }
-    
+
 open func tag(tx: YrsTransaction) -> String? {
     return try!  FfiConverterOptionString.lift(try! rustCall() {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_tag(self.uniffiClonePointer(),
@@ -2512,7 +2545,7 @@ open func tag(tx: YrsTransaction) -> String? {
     )
 })
 }
-    
+
 open func text(tx: YrsTransaction)throws  -> String {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_text(self.uniffiClonePointer(),
@@ -2520,7 +2553,7 @@ open func text(tx: YrsTransaction)throws  -> String {
     )
 })
 }
-    
+
 open func textItems(tx: YrsTransaction, start: UInt32, length: UInt32)throws  -> String {
     return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeCodingError.lift) {
     uniffi_uniffi_yniffi_fn_method_yrsxmlnode_text_items(self.uniffiClonePointer(),
@@ -2619,8 +2652,8 @@ public struct FfiConverterTypeYrsAwarenessChanges: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsAwarenessChanges {
         return
             try YrsAwarenessChanges(
-                added: FfiConverterSequenceUInt64.read(from: &buf), 
-                updated: FfiConverterSequenceUInt64.read(from: &buf), 
+                added: FfiConverterSequenceUInt64.read(from: &buf),
+                updated: FfiConverterSequenceUInt64.read(from: &buf),
                 removed: FfiConverterSequenceUInt64.read(from: &buf)
         )
     }
@@ -2690,9 +2723,9 @@ public struct FfiConverterTypeYrsAwarenessState: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsAwarenessState {
         return
             try YrsAwarenessState(
-                clientId: FfiConverterUInt64.read(from: &buf), 
-                clock: FfiConverterUInt32.read(from: &buf), 
-                lastUpdatedMillis: FfiConverterUInt64.read(from: &buf), 
+                clientId: FfiConverterUInt64.read(from: &buf),
+                clock: FfiConverterUInt32.read(from: &buf),
+                lastUpdatedMillis: FfiConverterUInt64.read(from: &buf),
                 json: FfiConverterOptionString.read(from: &buf)
         )
     }
@@ -2751,7 +2784,7 @@ public struct FfiConverterTypeYrsIntegrationStatus: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsIntegrationStatus {
         return
             try YrsIntegrationStatus(
-                hasPendingStructs: FfiConverterBool.read(from: &buf), 
+                hasPendingStructs: FfiConverterBool.read(from: &buf),
                 hasPendingDeletes: FfiConverterBool.read(from: &buf)
         )
     }
@@ -2808,7 +2841,7 @@ public struct FfiConverterTypeYrsMapChange: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsMapChange {
         return
             try YrsMapChange(
-                key: FfiConverterString.read(from: &buf), 
+                key: FfiConverterString.read(from: &buf),
                 change: FfiConverterTypeYrsEntryChange.read(from: &buf)
         )
     }
@@ -2926,7 +2959,7 @@ public struct FfiConverterTypeYrsXmlAttribute: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsXmlAttribute {
         return
             try YrsXmlAttribute(
-                key: FfiConverterString.read(from: &buf), 
+                key: FfiConverterString.read(from: &buf),
                 valueJson: FfiConverterString.read(from: &buf)
         )
     }
@@ -2967,8 +3000,8 @@ public struct FfiConverterTypeYrsXmlResolvedPosition: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsXmlResolvedPosition {
         return
             try YrsXmlResolvedPosition(
-                node: FfiConverterTypeYrsXmlNode.read(from: &buf), 
-                index: FfiConverterUInt32.read(from: &buf), 
+                node: FfiConverterTypeYrsXmlNode.read(from: &buf),
+                index: FfiConverterUInt32.read(from: &buf),
                 association: FfiConverterInt32.read(from: &buf)
         )
     }
@@ -3026,7 +3059,7 @@ public struct FfiConverterTypeYrsXmlTextRun: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsXmlTextRun {
         return
             try YrsXmlTextRun(
-                text: FfiConverterString.read(from: &buf), 
+                text: FfiConverterString.read(from: &buf),
                 attributesJson: FfiConverterString.read(from: &buf)
         )
     }
@@ -3049,14 +3082,14 @@ public func FfiConverterTypeYrsXmlTextRun_lower(_ value: YrsXmlTextRun) -> RustB
 
 public enum CodingError {
 
-    
-    
+
+
     case EncodingError(message: String)
-    
+
     case DecodingError(message: String)
-    
+
     case InvalidOperation(message: String)
-    
+
 }
 
 
@@ -3067,21 +3100,21 @@ public struct FfiConverterTypeCodingError: FfiConverterRustBuffer {
         let variant: Int32 = try readInt(&buf)
         switch variant {
 
-        
 
-        
+
+
         case 1: return .EncodingError(
             message: try FfiConverterString.read(from: &buf)
         )
-        
+
         case 2: return .DecodingError(
             message: try FfiConverterString.read(from: &buf)
         )
-        
+
         case 3: return .InvalidOperation(
             message: try FfiConverterString.read(from: &buf)
         )
-        
+
 
         default: throw UniffiInternalError.unexpectedEnumCase
         }
@@ -3090,9 +3123,9 @@ public struct FfiConverterTypeCodingError: FfiConverterRustBuffer {
     public static func write(_ value: CodingError, into buf: inout [UInt8]) {
         switch value {
 
-        
 
-        
+
+
         case .EncodingError(_ /* message is ignored*/):
             writeInt(&buf, Int32(1))
         case .DecodingError(_ /* message is ignored*/):
@@ -3100,7 +3133,7 @@ public struct FfiConverterTypeCodingError: FfiConverterRustBuffer {
         case .InvalidOperation(_ /* message is ignored*/):
             writeInt(&buf, Int32(3))
 
-        
+
         }
     }
 }
@@ -3114,7 +3147,7 @@ extension CodingError: Error { }
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
 
 public enum YrsChange {
-    
+
     case added(elements: [String]
     )
     case removed(range: UInt32
@@ -3130,38 +3163,38 @@ public struct FfiConverterTypeYrsChange: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsChange {
         let variant: Int32 = try readInt(&buf)
         switch variant {
-        
+
         case 1: return .added(elements: try FfiConverterSequenceString.read(from: &buf)
         )
-        
+
         case 2: return .removed(range: try FfiConverterUInt32.read(from: &buf)
         )
-        
+
         case 3: return .retained(range: try FfiConverterUInt32.read(from: &buf)
         )
-        
+
         default: throw UniffiInternalError.unexpectedEnumCase
         }
     }
 
     public static func write(_ value: YrsChange, into buf: inout [UInt8]) {
         switch value {
-        
-        
+
+
         case let .added(elements):
             writeInt(&buf, Int32(1))
             FfiConverterSequenceString.write(elements, into: &buf)
-            
-        
+
+
         case let .removed(range):
             writeInt(&buf, Int32(2))
             FfiConverterUInt32.write(range, into: &buf)
-            
-        
+
+
         case let .retained(range):
             writeInt(&buf, Int32(3))
             FfiConverterUInt32.write(range, into: &buf)
-            
+
         }
     }
 }
@@ -3185,7 +3218,7 @@ extension YrsChange: Equatable, Hashable {}
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
 
 public enum YrsDelta {
-    
+
     case inserted(value: String, attrs: String
     )
     case deleted(index: UInt32
@@ -3201,40 +3234,40 @@ public struct FfiConverterTypeYrsDelta: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsDelta {
         let variant: Int32 = try readInt(&buf)
         switch variant {
-        
+
         case 1: return .inserted(value: try FfiConverterString.read(from: &buf), attrs: try FfiConverterString.read(from: &buf)
         )
-        
+
         case 2: return .deleted(index: try FfiConverterUInt32.read(from: &buf)
         )
-        
+
         case 3: return .retained(index: try FfiConverterUInt32.read(from: &buf), attrs: try FfiConverterString.read(from: &buf)
         )
-        
+
         default: throw UniffiInternalError.unexpectedEnumCase
         }
     }
 
     public static func write(_ value: YrsDelta, into buf: inout [UInt8]) {
         switch value {
-        
-        
+
+
         case let .inserted(value,attrs):
             writeInt(&buf, Int32(1))
             FfiConverterString.write(value, into: &buf)
             FfiConverterString.write(attrs, into: &buf)
-            
-        
+
+
         case let .deleted(index):
             writeInt(&buf, Int32(2))
             FfiConverterUInt32.write(index, into: &buf)
-            
-        
+
+
         case let .retained(index,attrs):
             writeInt(&buf, Int32(3))
             FfiConverterUInt32.write(index, into: &buf)
             FfiConverterString.write(attrs, into: &buf)
-            
+
         }
     }
 }
@@ -3258,7 +3291,7 @@ extension YrsDelta: Equatable, Hashable {}
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
 
 public enum YrsEntryChange {
-    
+
     case inserted(value: String
     )
     case updated(oldValue: String, newValue: String
@@ -3274,39 +3307,39 @@ public struct FfiConverterTypeYrsEntryChange: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsEntryChange {
         let variant: Int32 = try readInt(&buf)
         switch variant {
-        
+
         case 1: return .inserted(value: try FfiConverterString.read(from: &buf)
         )
-        
+
         case 2: return .updated(oldValue: try FfiConverterString.read(from: &buf), newValue: try FfiConverterString.read(from: &buf)
         )
-        
+
         case 3: return .removed(value: try FfiConverterString.read(from: &buf)
         )
-        
+
         default: throw UniffiInternalError.unexpectedEnumCase
         }
     }
 
     public static func write(_ value: YrsEntryChange, into buf: inout [UInt8]) {
         switch value {
-        
-        
+
+
         case let .inserted(value):
             writeInt(&buf, Int32(1))
             FfiConverterString.write(value, into: &buf)
-            
-        
+
+
         case let .updated(oldValue,newValue):
             writeInt(&buf, Int32(2))
             FfiConverterString.write(oldValue, into: &buf)
             FfiConverterString.write(newValue, into: &buf)
-            
-        
+
+
         case let .removed(value):
             writeInt(&buf, Int32(3))
             FfiConverterString.write(value, into: &buf)
-            
+
         }
     }
 }
@@ -3329,10 +3362,10 @@ extension YrsEntryChange: Equatable, Hashable {}
 
 public enum YrsUndoError {
 
-    
-    
+
+
     case PendingTransaction(message: String)
-    
+
     case InvalidHistory(message: String)
 
 }
@@ -3345,13 +3378,13 @@ public struct FfiConverterTypeYrsUndoError: FfiConverterRustBuffer {
         let variant: Int32 = try readInt(&buf)
         switch variant {
 
-        
 
-        
+
+
         case 1: return .PendingTransaction(
             message: try FfiConverterString.read(from: &buf)
         )
-        
+
         case 2: return .InvalidHistory(
             message: try FfiConverterString.read(from: &buf)
         )
@@ -3364,15 +3397,15 @@ public struct FfiConverterTypeYrsUndoError: FfiConverterRustBuffer {
     public static func write(_ value: YrsUndoError, into buf: inout [UInt8]) {
         switch value {
 
-        
 
-        
+
+
         case .PendingTransaction(_ /* message is ignored*/):
             writeInt(&buf, Int32(1))
         case .InvalidHistory(_ /* message is ignored*/):
             writeInt(&buf, Int32(2))
 
-        
+
         }
     }
 }
@@ -3386,7 +3419,7 @@ extension YrsUndoError: Error { }
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
 
 public enum YrsUndoEventKind {
-    
+
     case undo
     case redo
 }
@@ -3398,26 +3431,26 @@ public struct FfiConverterTypeYrsUndoEventKind: FfiConverterRustBuffer {
     public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> YrsUndoEventKind {
         let variant: Int32 = try readInt(&buf)
         switch variant {
-        
+
         case 1: return .undo
-        
+
         case 2: return .redo
-        
+
         default: throw UniffiInternalError.unexpectedEnumCase
         }
     }
 
     public static func write(_ value: YrsUndoEventKind, into buf: inout [UInt8]) {
         switch value {
-        
-        
+
+
         case .undo:
             writeInt(&buf, Int32(1))
-        
-        
+
+
         case .redo:
             writeInt(&buf, Int32(2))
-        
+
         }
     }
 }
@@ -3441,9 +3474,9 @@ extension YrsUndoEventKind: Equatable, Hashable {}
 
 
 public protocol YrsArrayEachDelegate : AnyObject {
-    
-    func call(value: String) 
-    
+
+    func call(value: String)
+
 }
 
 // Magic number for the Rust proxy to call using the same mechanism as every other method,
@@ -3476,7 +3509,7 @@ fileprivate struct UniffiCallbackInterfaceYrsArrayEachDelegate {
                 )
             }
 
-            
+
             let writeReturn = { () }
             uniffiTraitInterfaceCall(
                 callStatus: uniffiCallStatus,
@@ -3528,9 +3561,9 @@ extension FfiConverterCallbackInterfaceYrsArrayEachDelegate : FfiConverter {
 
 
 public protocol YrsArrayObservationDelegate : AnyObject {
-    
-    func call(value: [YrsChange]) 
-    
+
+    func call(value: [YrsChange])
+
 }
 
 
@@ -3557,7 +3590,7 @@ fileprivate struct UniffiCallbackInterfaceYrsArrayObservationDelegate {
                 )
             }
 
-            
+
             let writeReturn = { () }
             uniffiTraitInterfaceCall(
                 callStatus: uniffiCallStatus,
@@ -3609,9 +3642,9 @@ extension FfiConverterCallbackInterfaceYrsArrayObservationDelegate : FfiConverte
 
 
 public protocol YrsMapIteratorDelegate : AnyObject {
-    
-    func call(value: String) 
-    
+
+    func call(value: String)
+
 }
 
 
@@ -3638,7 +3671,7 @@ fileprivate struct UniffiCallbackInterfaceYrsMapIteratorDelegate {
                 )
             }
 
-            
+
             let writeReturn = { () }
             uniffiTraitInterfaceCall(
                 callStatus: uniffiCallStatus,
@@ -3690,9 +3723,9 @@ extension FfiConverterCallbackInterfaceYrsMapIteratorDelegate : FfiConverter {
 
 
 public protocol YrsMapKvIteratorDelegate : AnyObject {
-    
-    func call(key: String, value: String) 
-    
+
+    func call(key: String, value: String)
+
 }
 
 
@@ -3721,7 +3754,7 @@ fileprivate struct UniffiCallbackInterfaceYrsMapKVIteratorDelegate {
                 )
             }
 
-            
+
             let writeReturn = { () }
             uniffiTraitInterfaceCall(
                 callStatus: uniffiCallStatus,
@@ -3773,9 +3806,9 @@ extension FfiConverterCallbackInterfaceYrsMapKvIteratorDelegate : FfiConverter {
 
 
 public protocol YrsMapObservationDelegate : AnyObject {
-    
-    func call(value: [YrsMapChange]) 
-    
+
+    func call(value: [YrsMapChange])
+
 }
 
 
@@ -3802,7 +3835,7 @@ fileprivate struct UniffiCallbackInterfaceYrsMapObservationDelegate {
                 )
             }
 
-            
+
             let writeReturn = { () }
             uniffiTraitInterfaceCall(
                 callStatus: uniffiCallStatus,
@@ -3854,9 +3887,9 @@ extension FfiConverterCallbackInterfaceYrsMapObservationDelegate : FfiConverter 
 
 
 public protocol YrsTextObservationDelegate : AnyObject {
-    
-    func call(value: [YrsDelta]) 
-    
+
+    func call(value: [YrsDelta])
+
 }
 
 
@@ -3883,7 +3916,7 @@ fileprivate struct UniffiCallbackInterfaceYrsTextObservationDelegate {
                 )
             }
 
-            
+
             let writeReturn = { () }
             uniffiTraitInterfaceCall(
                 callStatus: uniffiCallStatus,
@@ -3935,9 +3968,9 @@ extension FfiConverterCallbackInterfaceYrsTextObservationDelegate : FfiConverter
 
 
 public protocol YrsUndoManagerObservationDelegate : AnyObject {
-    
+
     func call(e: YrsUndoEvent, ptr: UInt64)  -> UInt64
-    
+
 }
 
 
@@ -3966,7 +3999,7 @@ fileprivate struct UniffiCallbackInterfaceYrsUndoManagerObservationDelegate {
                 )
             }
 
-            
+
             let writeReturn = { uniffiOutReturn.pointee = FfiConverterUInt64.lower($0) }
             uniffiTraitInterfaceCall(
                 callStatus: uniffiCallStatus,
@@ -4654,7 +4687,13 @@ private var initializationResult: InitializationResult {
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_restored_text_items() != 62806) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_update_footprint() != 50746) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_visible_text_items() != 29441) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_xml_snapshot() != 31944) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness() != 29566) {
@@ -4808,6 +4847,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_observe_updated() != 19534) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_preserve_changed_xml() != 38857) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_redo() != 5163) {

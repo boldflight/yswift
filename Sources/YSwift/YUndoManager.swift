@@ -37,6 +37,12 @@ public final class YUndoManager<T: AnyObject> {
         }
     }
 
+    /// Preserve an owned-created XML skeleton when its inverse would hide
+    /// surviving edits. Text and format ownership remains with the same manager.
+    public func preserveChangedXML(_ enabled: Bool = true) {
+        _manager.preserveChangedXml(enabled: enabled)
+    }
+
     /// Adds an origin that the Undo manager tracks.
     /// - Parameter origin: The origin to track.
     public func addOrigin(_ origin: Origin) {

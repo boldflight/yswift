@@ -82,6 +82,24 @@ public final class YDocument {
         try transactSync { Data(try self.document.stateFromSnapshot(tx:$0,snapshot:Array(snapshot),maxSteps:maximumSteps)) }
     }
 
+    /// Exact generic XML branch IDs, full authored attrs and linked text runs.
+    public func inspectXMLSnapshot(rootName: String = "default", maximumSteps: UInt32 = 1_000_000) throws -> Data {
+        try transactSync { txn in
+            let json = try self.document.inspectXmlSnapshot(tx: txn, rootName: rootName, maxSteps: maximumSteps)
+            guard let data = json.data(using: .utf8) else { throw YXmlError.invalidAttributes }
+            return data
+        }
+    }
+
+    /// Read the complete original update against this retained integrated candidate.
+    public func inspectUpdateFootprint(_ update: Data, maximumSteps: UInt32 = 1_000_000) throws -> Data {
+        try transactSync { txn in
+            let json = try self.document.inspectUpdateFootprint(tx: txn, update: Array(update), maxSteps: maximumSteps)
+            guard let data = json.data(using: .utf8) else { throw YXmlError.invalidAttributes }
+            return data
+        }
+    }
+
     /// Observe all newly visible UTF-16 XML string identities in one bounded traversal.
     /// Format markers, deleted ancestors and unrelated metadata maps are excluded.
     /// Hosts independently authorize and retain immutable source/copy receipts.

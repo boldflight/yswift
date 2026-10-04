@@ -29,6 +29,10 @@ interface YrsDoc {
   [Throws=CodingError]
   string inspect_format_event([ByRef] YrsTransaction tx, sequence<u8> update, string attribute, string targets_json, u32 max_steps);
   [Throws=CodingError]
+  string inspect_xml_snapshot([ByRef] YrsTransaction tx, string root_name, u32 max_steps);
+  [Throws=CodingError]
+  string inspect_update_footprint([ByRef] YrsTransaction tx, sequence<u8> update, u32 max_steps);
+  [Throws=CodingError]
   string inspect_visible_text_items([ByRef] YrsTransaction tx, sequence<u8> state_vector, string root_name, u32 max_steps);
   [Throws=CodingError]
   string inspect_restored_text_items([ByRef] YrsTransaction tx, sequence<u8> state_vector, string root_name, u32 max_steps);
@@ -274,6 +278,7 @@ dictionary YrsUndoSnapshot {
 };
 
 interface YrsUndoManager {
+    void preserve_changed_xml(boolean enabled);
     sequence<u64> undo_metadata();
     sequence<u64> redo_metadata();
     [Throws=YrsUndoError]
