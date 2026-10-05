@@ -282,6 +282,8 @@ interface YrsUndoManager {
     sequence<u64> undo_metadata();
     sequence<u64> redo_metadata();
     [Throws=YrsUndoError]
+    sequence<u64> retire_history_items(sequence<u64> undo_indices, sequence<u64> redo_indices);
+    [Throws=YrsUndoError]
     YrsUndoSnapshot export_history(string scope_token);
     /// Adds a specific origin identifier to a list of tracked origins. If tracked
     /// origin list is not empty, current undo manager will only track changes applied

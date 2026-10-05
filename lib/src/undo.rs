@@ -42,10 +42,47 @@ impl YrsUndoManager {
     }
 
     pub(crate) fn undo_metadata(&self) -> Vec<u64> {
-        self.acquire_lock().undo_stack().iter().map(|item| item.meta).collect()
+        self.acquire_lock()
+            .undo_stack()
+            .iter()
+            .map(|item| item.meta)
+            .collect()
     }
     pub(crate) fn redo_metadata(&self) -> Vec<u64> {
-        self.acquire_lock().redo_stack().iter().map(|item| item.meta).collect()
+        self.acquire_lock()
+            .redo_stack()
+            .iter()
+            .map(|item| item.meta)
+            .collect()
+    }
+
+    /// Retire complete current items in the same maintained owner. Metadata
+    /// pointers are returned only after success so Swift releases exactly those
+    /// stack-owned references. Failed prevalidation changes no pointer lifetime.
+    pub(crate) fn retire_history_items(
+        &self,
+        undo_indices: Vec<u64>,
+        redo_indices: Vec<u64>,
+    ) -> Result<Vec<u64>, YrsUndoError> {
+        let mut manager = self.acquire_lock();
+        let decode = |indices: Vec<u64>| -> Result<Vec<usize>, YrsUndoError> {
+            indices
+                .into_iter()
+                .map(|index| usize::try_from(index).map_err(|_| YrsUndoError::InvalidHistory))
+                .collect()
+        };
+        let undo = decode(undo_indices)?;
+        let redo = decode(redo_indices)?;
+        let mut metadata = Vec::new();
+        for (indices, stack) in [(&undo, manager.undo_stack()), (&redo, manager.redo_stack())] {
+            for &index in indices {
+                metadata.push(stack.get(index).ok_or(YrsUndoError::InvalidHistory)?.meta);
+            }
+        }
+        manager
+            .retire_history_items(&undo, &redo)
+            .map_err(|_| YrsUndoError::InvalidHistory)?;
+        Ok(metadata)
     }
 
     pub(crate) fn add_origin(&self, origin: YrsOrigin) {

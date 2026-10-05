@@ -37,6 +37,20 @@ public final class YUndoManager<T: AnyObject> {
         }
     }
 
+    /// Trusted complete-item transition. The caller validates owner/reference
+    /// membership before selecting sorted current indices. The maintained core
+    /// releases retired keep bits and preserves surviving redone/parent closure.
+    @discardableResult
+    public func retireHistoryItems(undoIndices: [Int], redoIndices: [Int]) throws -> (undo: Int, redo: Int) {
+        guard undoIndices.allSatisfy({ $0 >= 0 }), redoIndices.allSatisfy({ $0 >= 0 }) else { throw YUndoHistoryError.invalidArchive }
+        let retired = try _manager.retireHistoryItems(undoIndices: undoIndices.map(UInt64.init), redoIndices: redoIndices.map(UInt64.init))
+        for pointer in retired {
+            guard pointer != 0, let raw = UnsafeRawPointer(bitPattern: UInt(pointer)) else { continue }
+            Unmanaged<T>.fromOpaque(raw).release()
+        }
+        return (undoIndices.count, redoIndices.count)
+    }
+
     /// Preserve an owned-created XML skeleton when its inverse would hide
     /// surviving edits. Text and format ownership remains with the same manager.
     public func preserveChangedXML(_ enabled: Bool = true) {

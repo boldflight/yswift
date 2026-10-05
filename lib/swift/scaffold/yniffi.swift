@@ -2067,6 +2067,8 @@ public protocol YrsUndoManagerProtocol : AnyObject {
      */
     func removeOrigin(origin: YrsOrigin)
 
+    func retireHistoryItems(undoIndices: [UInt64], redoIndices: [UInt64]) throws  -> [UInt64]
+
     /**
      * Undoes the last operation, pushing it onto redo stack, returning false if undo
      * stack was empty an method had no effect.
@@ -2224,6 +2226,15 @@ open func removeOrigin(origin: YrsOrigin) {try! rustCall() {
         FfiConverterTypeYrsOrigin.lower(origin),$0
     )
 }
+}
+
+open func retireHistoryItems(undoIndices: [UInt64], redoIndices: [UInt64])throws  -> [UInt64] {
+    return try  FfiConverterSequenceUInt64.lift(try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsundomanager_retire_history_items(self.uniffiClonePointer(),
+        FfiConverterSequenceUInt64.lower(undoIndices),
+        FfiConverterSequenceUInt64.lower(redoIndices),$0
+    )
+})
 }
 
     /**
@@ -4859,6 +4870,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_remove_origin() != 14248) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_retire_history_items() != 9304) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsundomanager_undo() != 44889) {

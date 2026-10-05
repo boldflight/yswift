@@ -134,3 +134,39 @@ class YUndoManagerTests: XCTestCase {
         XCTAssertEqual(text.getString(), "<break>")
     }
 }
+
+
+extension YUndoManagerTests {
+    func testRetiredWholeItemsReleaseOnlyTheirMetadataAndSurvivorUndoAcrossRedoneChain() throws {
+        let doc = YDocument(guid: "retirement-test", retainDeletedItems: true), text = doc.getOrCreateText(named: "default")
+        text.insert("A🌍Z", at: 0)
+        let owner = Origin("owned"), manager: YUndoManager<TestMetadata> = doc.undoManager(trackedRefs: [text])
+        manager.addOrigin(owner)
+        var label = "first"
+        let added = manager.observeAdded { _, metadata in metadata ?? TestMetadata(label) }
+        let popped = manager.observePopped { _, metadata in metadata }
+        doc.transactSync(origin: owner) { txn in text.removeRange(start: 0, length: 1, in: txn) }
+        weak var retired = manager.undoMetadata()[0]
+        manager.wrap(); label = "survivor"
+        doc.transactSync(origin: owner) { txn in text.removeRange(start: 0, length: 2, in: txn) }
+        XCTAssertTrue(try manager.undo()); XCTAssertTrue(try manager.redo())
+        manager.wrap(); label = "redo-retired"
+        doc.transactSync(origin: owner) { txn in text.removeRange(start: 0, length: 1, in: txn) }
+        XCTAssertTrue(try manager.undo())
+        let before = doc.transactSync { doc.diff(txn: $0, from: [0]) }
+        XCTAssertThrowsError(try manager.retireHistoryItems(undoIndices: [2], redoIndices: [0]))
+        XCTAssertEqual(manager.undoMetadata().compactMap { $0?.value }, ["first", "survivor"])
+        XCTAssertEqual(doc.transactSync { doc.diff(txn: $0, from: [0]) }, before)
+        let count = try manager.retireHistoryItems(undoIndices: [0], redoIndices: [0])
+        XCTAssertEqual(count.undo, 1); XCTAssertEqual(count.redo, 1)
+        XCTAssertNil(retired)
+        XCTAssertEqual(doc.transactSync { doc.diff(txn: $0, from: [0]) }, before)
+        XCTAssertEqual(manager.undoMetadata().compactMap { $0?.value }, ["survivor"])
+        XCTAssertTrue(try manager.undo()); XCTAssertEqual(text.getString(), "🌍Z")
+        XCTAssertTrue(try manager.redo()); XCTAssertEqual(text.getString(), "Z")
+        XCTAssertTrue(try manager.undo()); XCTAssertFalse(try manager.undo())
+        doc.transactSync(origin: owner) { txn in text.insert("Ω", at: 3, in: txn) }
+        XCTAssertTrue(try manager.undo()); XCTAssertEqual(text.getString(), "🌍Z")
+        added.cancel(); popped.cancel()
+    }
+}
