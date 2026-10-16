@@ -391,6 +391,65 @@ mod durable_tests {
     use yrs::updates::decoder::Decode;
     use yrs::{GetString, Options, ReadTxn, StateVector, Text, Transact, Update};
 
+    // A removed XML control can be restored, then its preceding attribute edit
+    // undone after reopening the exact retained owner. Rendering alone is not
+    // sufficient: the snapshot below independently checks clocks and deletions.
+    #[test]
+    fn restored_xml_attribute_history_roundtrips_exact_retained_state() {
+        use yrs::{Xml, XmlElementPrelim, XmlFragment};
+        let doc = Doc::with_options(Options {
+            guid: "xml-history-owner".into(), skip_gc: true, ..Options::default()
+        });
+        let root = doc.get_or_insert_xml_fragment("default");
+        let manager = YrsUndoManager::new(yrs::undo::UndoManager::new(), doc.clone());
+        manager.add_scope(YrsCollectionPtr::from(root.as_ref()));
+        manager.add_origin(YrsOrigin::from(yrs::Origin::from("local")));
+        manager.preserve_changed_xml(true);
+        let anchor = {
+            let mut txn = doc.transact_mut_with("local");
+            let anchor = root.insert(&mut txn, 0, XmlElementPrelim::empty("relayAnchor"));
+            anchor.insert_attribute(&mut txn, "name", "later");
+            anchor
+        };
+        manager.wrap_changes();
+        anchor.insert_attribute(&mut doc.transact_mut_with("local"), "name", "later_more");
+        manager.wrap_changes();
+        root.remove_range(&mut doc.transact_mut_with("local"), 0, 1);
+        manager.wrap_changes();
+        assert!(manager.undo().unwrap());
+        let archive = manager.export_history("account/paper/owner".into()).unwrap();
+        let value: serde_json::Value = serde_json::from_str(&archive.json).unwrap();
+        let bytes: Vec<u8> = serde_json::from_value(value["document_state"].clone()).unwrap();
+        let reopened = Doc::with_options(Options {
+            guid: "xml-history-owner".into(), skip_gc: true, ..Options::default()
+        });
+        let reopened_root = reopened.get_or_insert_xml_fragment("default");
+        reopened.transact_mut().apply_update(Update::decode_v1(&bytes).unwrap()).unwrap();
+        assert_eq!(root.get_string(&doc.transact()), reopened_root.get_string(&reopened.transact()));
+        assert_eq!(doc.transact().snapshot(), reopened.transact().snapshot());
+        // Wire-only import must still refuse: it lacks private redone links.
+        assert!(YrsUndoManager::restore(reopened.clone(),
+            vec![YrsCollectionPtr::from(reopened_root.as_ref())], archive.json.clone(),
+            "account/paper/owner".into(), archive.metadata.clone()).is_err());
+        let preview = yrs::retained_history::fork(&doc, 100).unwrap();
+        let preview_root = preview.get_or_insert_xml_fragment("default");
+        assert!(YrsUndoManager::restore(preview.clone(),
+            vec![YrsCollectionPtr::from(root.as_ref())], archive.json.clone(),
+            "account/paper/owner".into(), archive.metadata.clone()).is_err());
+        assert!(YrsUndoManager::restore(preview.clone(),
+            vec![YrsCollectionPtr::from(preview_root.as_ref())], archive.json.clone(),
+            "wrong-scope".into(), archive.metadata.clone()).is_err());
+        let restored = YrsUndoManager::restore(preview.clone(),
+            vec![YrsCollectionPtr::from(preview_root.as_ref())], archive.json,
+            "account/paper/owner".into(), archive.metadata).unwrap();
+        assert!(restored.undo().unwrap());
+        assert!(preview_root.get_string(&preview.transact()).contains("name=\"later\""));
+        assert!(!preview_root.get_string(&preview.transact()).contains("later_more"));
+        assert!(restored.redo().unwrap());
+        assert_eq!(preview_root.get_string(&preview.transact()), root.get_string(&doc.transact()));
+        assert_eq!(doc.transact().encode_diff_v1(&StateVector::default()), bytes);
+    }
+
     // Reopening a deleted selection must retain original CRDT item IDs and redo,
     // while an untracked peer edit must survive a later local undo.
     #[test]

@@ -61,6 +61,39 @@ final class YDurableUndoTests: XCTestCase {
         XCTAssertEqual(thirdText.getString(), "alpha peer")
     }
 
+    func testLiveForkPreservesPriorAttributeUndoAfterParentRestoration() throws {
+        let document = YDocument(guid: "retained-control", retainDeletedItems: true)
+        let root = document.getOrCreateXmlFragment(named: "default")
+        let manager: YUndoManager<TestMetadata> = document.undoManager(trackedRefs: [root])
+        let origin = Origin("owned-control")
+        manager.addOrigin(origin)
+        manager.preserveChangedXML()
+        let item = try document.transactSync(origin: origin) { txn in
+            let item = try root.insertElement(named: "relayAnchor", at: 0, in: txn)
+            try item.setAttribute("name", value: "later", in: txn)
+            return item
+        }
+        manager.wrap()
+        try document.transactSync(origin: origin) { try item.setAttribute("name", value: "later_more", in: $0) }
+        manager.wrap()
+        try document.transactSync(origin: origin) { try root.removeChildren(start: 0, length: 1, in: $0) }
+        manager.wrap()
+        XCTAssertTrue(try manager.undo())
+        let archive = try manager.exportHistory(scopeToken: "current-owner", encodeMetadata: encode)
+        let before = document.transactSync { Data($0.transactionEncodeStateAsUpdate()) }
+        let preview = try document.forkRetainedHistory()
+        let previewRoot = preview.getOrCreateXmlFragment(named: "default")
+        let restored: YUndoManager<TestMetadata> = try preview.restoreUndoManager(
+            trackedRefs: [previewRoot], history: archive, scopeToken: "current-owner", decodeMetadata: decode)
+        XCTAssertTrue(try restored.undo())
+        XCTAssertEqual(try previewRoot.child(at: 0)?.attributes()["name"] as? String, "later")
+        XCTAssertTrue(try restored.redo())
+        XCTAssertEqual(try previewRoot.child(at: 0)?.attributes()["name"] as? String, "later_more")
+        XCTAssertEqual(document.transactSync { Data($0.transactionEncodeStateAsUpdate()) }, before)
+        XCTAssertTrue(try manager.undo())
+        XCTAssertEqual(try root.child(at: 0)?.attributes()["name"] as? String, "later")
+    }
+
     func testWrongOwnerAndMissingRetainedDeletesCannotReplaceCurrentDocument() throws {
         let document = YDocument(guid: "paper", retainDeletedItems: true)
         let text = document.getOrCreateText(named: "default")

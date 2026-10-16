@@ -39,6 +39,13 @@ impl YrsDoc {
 
     pub(crate) fn guid(&self) -> String { self.0.borrow().guid().to_string() }
 
+    /// Live-owner-only fork: no serialized redone links or weaker archive admission.
+    pub(crate) fn fork_retained_history(&self, max_blocks: u32) -> Result<Arc<YrsDoc>, crate::undo::YrsUndoError> {
+        yrs::retained_history::fork(&self.0.borrow(), max_blocks as usize)
+            .map(|doc| Arc::new(Self(RefCell::new(doc))))
+            .map_err(|_| crate::undo::YrsUndoError::InvalidHistory)
+    }
+
     pub(crate) fn validate_undo_history(&self, tracked_refs: Vec<YrsCollectionPtr>, json: String, scope_token: String) -> Result<(), crate::undo::YrsUndoError> {
         YrsUndoManager::validate_history(&self.0.borrow(), &tracked_refs, &json, &scope_token).map(|_| ())
     }

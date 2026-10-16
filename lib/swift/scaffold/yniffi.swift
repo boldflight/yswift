@@ -975,6 +975,8 @@ public protocol YrsDocProtocol : AnyObject {
 
     func encodeDiffV1(tx: YrsTransaction, stateVector: [UInt8]) throws  -> [UInt8]
 
+    func forkRetainedHistory(maxBlocks: UInt32) throws  -> YrsDoc
+
     func getArray(name: String)  -> YrsArray
 
     func getMap(name: String)  -> YrsMap
@@ -1075,6 +1077,14 @@ open func encodeDiffV1(tx: YrsTransaction, stateVector: [UInt8])throws  -> [UInt
     uniffi_uniffi_yniffi_fn_method_yrsdoc_encode_diff_v1(self.uniffiClonePointer(),
         FfiConverterTypeYrsTransaction.lower(tx),
         FfiConverterSequenceUInt8.lower(stateVector),$0
+    )
+})
+}
+
+open func forkRetainedHistory(maxBlocks: UInt32)throws  -> YrsDoc {
+    return try  FfiConverterTypeYrsDoc.lift(try rustCallWithError(FfiConverterTypeYrsUndoError.lift) {
+    uniffi_uniffi_yniffi_fn_method_yrsdoc_fork_retained_history(self.uniffiClonePointer(),
+        FfiConverterUInt32.lower(maxBlocks),$0
     )
 })
 }
@@ -4675,6 +4685,9 @@ private var initializationResult: InitializationResult {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_encode_diff_v1() != 16238) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_fork_retained_history() != 15036) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_array() != 64460) {

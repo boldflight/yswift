@@ -19,6 +19,17 @@ public final class YDocument {
         document = YrsDoc.withOptions(guid: guid, retainDeletedItems: retainDeletedItems)
     }
 
+    private init(document: YrsDoc) { self.document = document }
+
+    /// Independent local preflight owner. Never transmit its prospective edits.
+    /// Retained history still requires exact GUID, document, scope and metadata validation.
+    public func forkRetainedHistory(maximumBlocks: UInt32 = 1_000_000) throws -> YDocument {
+        dispatchPrecondition(condition: .notOnQueue(transactionQueue))
+        return try transactionQueue.sync {
+            YDocument(document: try document.forkRetainedHistory(maxBlocks: maximumBlocks))
+        }
+    }
+
     public var guid: String { document.guid() }
 
     /// Restore maintained Yrs stacks only after loading the archive's exact CRDT update.

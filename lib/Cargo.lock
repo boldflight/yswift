@@ -836,7 +836,7 @@ dependencies = [
 [[package]]
 name = "yrs"
 version = "0.28.0"
-source = "git+https://github.com/boldflight/y-crdt.git?rev=8a63d8f93a29d2e54f370e492db0b451f147e0be#8a63d8f93a29d2e54f370e492db0b451f147e0be"
+source = "git+https://github.com/boldflight/y-crdt.git?rev=02745a0526fc927bb71e3ba551450df66a287d6c#02745a0526fc927bb71e3ba551450df66a287d6c"
 dependencies = [
  "arc-swap",
  "async-lock",

@@ -512,6 +512,11 @@ void*_Nonnull uniffi_uniffi_yniffi_fn_constructor_yrsdoc_with_options(RustBuffer
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsdoc_encode_diff_v1(void*_Nonnull ptr, void*_Nonnull tx, RustBuffer state_vector, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_FORK_RETAINED_HISTORY
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_FORK_RETAINED_HISTORY
+void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_fork_retained_history(void*_Nonnull ptr, uint32_t max_blocks, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_GET_ARRAY
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSDOC_GET_ARRAY
 void*_Nonnull uniffi_uniffi_yniffi_fn_method_yrsdoc_get_array(void*_Nonnull ptr, RustBuffer name, RustCallStatus *_Nonnull out_status
@@ -1499,6 +1504,12 @@ uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_states(void
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_ENCODE_DIFF_V1
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_ENCODE_DIFF_V1
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_encode_diff_v1(void
+
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_FORK_RETAINED_HISTORY
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_FORK_RETAINED_HISTORY
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_fork_retained_history(void
 
 );
 #endif
