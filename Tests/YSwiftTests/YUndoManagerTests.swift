@@ -68,6 +68,32 @@ class YUndoManagerTests: XCTestCase {
         XCTAssertEqual(text.getString(), "12321")
     }
     
+    func testUndoAndRedoReturnOnlyTheirOwnTransactionUpdate() throws {
+        let peer = YDocument(), peerText = peer.getOrCreateText(named: "test")
+        // Old history holds many separate deletions; a whole-document update carries every one.
+        text.insert(String(repeating: "ab", count: 300), at: 0)
+        for index in 0..<300 { text.removeRange(start: UInt32(index), length: 1) }
+        try manager.clear()
+        text.insert("xyz", at: 0)
+        manager.wrap()
+        exchangeUpdates(document, peer)
+        let whole = document.transactSync { [document] txn in document!.diff(txn: txn, from: [0]) }
+
+        let undo = try XCTUnwrap(try manager.undoUpdate())
+        XCTAssertEqual(text.getString(), String(repeating: "b", count: 300))
+        XCTAssertLessThan(undo.count, 32, "the undo update carries only its own deletion")
+        XCTAssertLessThan(undo.count * 20, whole.count)
+        peer.transactSync { txn in try! txn.transactionApplyUpdate(update: [UInt8](undo)) }
+        XCTAssertEqual(peerText.getString(), text.getString())
+
+        let redo = try XCTUnwrap(try manager.redoUpdate())
+        XCTAssertEqual(text.getString(), "xyz" + String(repeating: "b", count: 300))
+        XCTAssertLessThan(redo.count, 64)
+        peer.transactSync { txn in try! txn.transactionApplyUpdate(update: [UInt8](redo)) }
+        XCTAssertEqual(peerText.getString(), text.getString())
+        XCTAssertNil(try manager.redoUpdate())
+    }
+
     func test_undoEvents() throws {
         var received = TestMetadata("")
         

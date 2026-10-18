@@ -278,6 +278,40 @@ impl YrsUndoManager {
         Ok(m.redo_blocking())
     }
 
+    /// Undoes the last item and returns the undo transaction's own v1 update,
+    /// which carries only what that transaction inserted and deleted. Empty when
+    /// there was nothing to undo.
+    pub(crate) fn undo_update(&self) -> Result<Vec<u8>, YrsUndoError> {
+        self.history_update(false)
+    }
+
+    /// Redoes the last undone item and returns that transaction's own v1 update.
+    pub(crate) fn redo_update(&self) -> Result<Vec<u8>, YrsUndoError> {
+        self.history_update(true)
+    }
+
+    fn history_update(&self, redo: bool) -> Result<Vec<u8>, YrsUndoError> {
+        let updates = Arc::new(Mutex::new(Vec::<Vec<u8>>::new()));
+        let sink = updates.clone();
+        let key = subscription_key();
+        self.doc
+            .observe_update_v1(key.clone(), move |_, event| sink.lock().unwrap().push(event.update.clone()))
+            .map_err(|_| YrsUndoError::PendingTransaction)?;
+        let changed = {
+            let mut m = self.acquire_lock();
+            if redo { m.redo_blocking() } else { m.undo_blocking() }
+        };
+        let _ = self.doc.unobserve_update_v1(key);
+        let updates = std::mem::take(&mut *updates.lock().unwrap());
+        if !changed || updates.is_empty() {
+            return Ok(Vec::new());
+        }
+        if updates.len() == 1 {
+            return Ok(updates.into_iter().next().unwrap());
+        }
+        yrs::merge_updates_v1(updates).map_err(|_| YrsUndoError::PendingTransaction)
+    }
+
     pub(crate) fn clear(&self) -> Result<(), YrsUndoError> {
         let mut m = self.acquire_lock();
         m.clear_all();

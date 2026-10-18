@@ -253,49 +253,49 @@ typedef void (*UniffiForeignFutureCompleteVoid)(uint64_t, UniffiForeignFutureStr
 #endif
 #ifndef UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_ARRAY_EACH_DELEGATE_METHOD0
 #define UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_ARRAY_EACH_DELEGATE_METHOD0
-typedef void (*UniffiCallbackInterfaceYrsArrayEachDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull,
+typedef void (*UniffiCallbackInterfaceYrsArrayEachDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull, 
         RustCallStatus *_Nonnull uniffiCallStatus
     );
 
 #endif
 #ifndef UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_ARRAY_OBSERVATION_DELEGATE_METHOD0
 #define UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_ARRAY_OBSERVATION_DELEGATE_METHOD0
-typedef void (*UniffiCallbackInterfaceYrsArrayObservationDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull,
+typedef void (*UniffiCallbackInterfaceYrsArrayObservationDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull, 
         RustCallStatus *_Nonnull uniffiCallStatus
     );
 
 #endif
 #ifndef UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_MAP_ITERATOR_DELEGATE_METHOD0
 #define UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_MAP_ITERATOR_DELEGATE_METHOD0
-typedef void (*UniffiCallbackInterfaceYrsMapIteratorDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull,
+typedef void (*UniffiCallbackInterfaceYrsMapIteratorDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull, 
         RustCallStatus *_Nonnull uniffiCallStatus
     );
 
 #endif
 #ifndef UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_MAP_KV_ITERATOR_DELEGATE_METHOD0
 #define UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_MAP_KV_ITERATOR_DELEGATE_METHOD0
-typedef void (*UniffiCallbackInterfaceYrsMapKvIteratorDelegateMethod0)(uint64_t, RustBuffer, RustBuffer, void* _Nonnull,
+typedef void (*UniffiCallbackInterfaceYrsMapKvIteratorDelegateMethod0)(uint64_t, RustBuffer, RustBuffer, void* _Nonnull, 
         RustCallStatus *_Nonnull uniffiCallStatus
     );
 
 #endif
 #ifndef UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_MAP_OBSERVATION_DELEGATE_METHOD0
 #define UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_MAP_OBSERVATION_DELEGATE_METHOD0
-typedef void (*UniffiCallbackInterfaceYrsMapObservationDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull,
+typedef void (*UniffiCallbackInterfaceYrsMapObservationDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull, 
         RustCallStatus *_Nonnull uniffiCallStatus
     );
 
 #endif
 #ifndef UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_TEXT_OBSERVATION_DELEGATE_METHOD0
 #define UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_TEXT_OBSERVATION_DELEGATE_METHOD0
-typedef void (*UniffiCallbackInterfaceYrsTextObservationDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull,
+typedef void (*UniffiCallbackInterfaceYrsTextObservationDelegateMethod0)(uint64_t, RustBuffer, void* _Nonnull, 
         RustCallStatus *_Nonnull uniffiCallStatus
     );
 
 #endif
 #ifndef UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_UNDO_MANAGER_OBSERVATION_DELEGATE_METHOD0
 #define UNIFFI_FFIDEF_CALLBACK_INTERFACE_YRS_UNDO_MANAGER_OBSERVATION_DELEGATE_METHOD0
-typedef void (*UniffiCallbackInterfaceYrsUndoManagerObservationDelegateMethod0)(uint64_t, void*_Nonnull, uint64_t, uint64_t* _Nonnull,
+typedef void (*UniffiCallbackInterfaceYrsUndoManagerObservationDelegateMethod0)(uint64_t, void*_Nonnull, uint64_t, uint64_t* _Nonnull, 
         RustCallStatus *_Nonnull uniffiCallStatus
     );
 
@@ -499,7 +499,7 @@ void uniffi_uniffi_yniffi_fn_free_yrsdoc(void*_Nonnull ptr, RustCallStatus *_Non
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_CONSTRUCTOR_YRSDOC_NEW
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_CONSTRUCTOR_YRSDOC_NEW
 void*_Nonnull uniffi_uniffi_yniffi_fn_constructor_yrsdoc_new(RustCallStatus *_Nonnull out_status
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_CONSTRUCTOR_YRSDOC_WITH_OPTIONS
@@ -887,6 +887,11 @@ int8_t uniffi_uniffi_yniffi_fn_method_yrsundomanager_redo(void*_Nonnull ptr, Rus
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsundomanager_redo_metadata(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 #endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_REDO_UPDATE
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_REDO_UPDATE
+RustBuffer uniffi_uniffi_yniffi_fn_method_yrsundomanager_redo_update(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_REMOVE_ORIGIN
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_REMOVE_ORIGIN
 void uniffi_uniffi_yniffi_fn_method_yrsundomanager_remove_origin(void*_Nonnull ptr, RustBuffer origin, RustCallStatus *_Nonnull out_status
@@ -905,6 +910,11 @@ int8_t uniffi_uniffi_yniffi_fn_method_yrsundomanager_undo(void*_Nonnull ptr, Rus
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_UNDO_METADATA
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_UNDO_METADATA
 RustBuffer uniffi_uniffi_yniffi_fn_method_yrsundomanager_undo_metadata(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_UNDO_UPDATE
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_UNDO_UPDATE
+RustBuffer uniffi_uniffi_yniffi_fn_method_yrsundomanager_undo_update(void*_Nonnull ptr, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_FN_METHOD_YRSUNDOMANAGER_WRAP_CHANGES
@@ -1360,751 +1370,763 @@ void ffi_uniffi_yniffi_rust_future_complete_void(uint64_t handle, RustCallStatus
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_HAS_ADDITIONAL_DELETIONS_V1
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_HAS_ADDITIONAL_DELETIONS_V1
 uint16_t uniffi_uniffi_yniffi_checksum_func_has_additional_deletions_v1(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_MERGE_UPDATES_V1
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_MERGE_UPDATES_V1
 uint16_t uniffi_uniffi_yniffi_checksum_func_merge_updates_v1(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_FROM_JSON
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_FROM_JSON
 uint16_t uniffi_uniffi_yniffi_checksum_func_relative_position_from_json(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_TO_JSON
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_FUNC_RELATIVE_POSITION_TO_JSON
 uint16_t uniffi_uniffi_yniffi_checksum_func_relative_position_to_json(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_EACH
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_EACH
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_each(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_GET
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_GET
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_get(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_INSERT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_INSERT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_insert(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_INSERT_RANGE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_INSERT_RANGE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_insert_range(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_LENGTH
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_LENGTH
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_length(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_OBSERVE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_OBSERVE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_observe(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_PUSH_BACK
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_PUSH_BACK
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_push_back(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_PUSH_FRONT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_PUSH_FRONT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_push_front(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_RAW_PTR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_RAW_PTR
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_raw_ptr(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_REMOVE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_REMOVE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_remove(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_REMOVE_RANGE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_REMOVE_RANGE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_remove_range(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_TO_A
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAY_TO_A
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarray_to_a(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_APPLY_UPDATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_APPLY_UPDATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_apply_update(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_CLEAR_LOCAL_STATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_CLEAR_LOCAL_STATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_clear_local_state(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_CLIENT_ID
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_CLIENT_ID
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_client_id(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_ENCODE_UPDATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_ENCODE_UPDATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_encode_update(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_ENCODE_UPDATE_FOR_CLIENTS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_ENCODE_UPDATE_FOR_CLIENTS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_encode_update_for_clients(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_REMOVE_REMOTE_STATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_REMOVE_REMOTE_STATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_remove_remote_state(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_SET_LOCAL_STATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_SET_LOCAL_STATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_set_local_state(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_STATES
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSAWARENESS_STATES
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsawareness_states(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_ENCODE_DIFF_V1
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_ENCODE_DIFF_V1
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_encode_diff_v1(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_FORK_RETAINED_HISTORY
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_FORK_RETAINED_HISTORY
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_fork_retained_history(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_ARRAY
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_ARRAY
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_array(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_MAP
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_MAP
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_map(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_TEXT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_TEXT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_text(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_XML_FRAGMENT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GET_XML_FRAGMENT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_get_xml_fragment(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GUID
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_GUID
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_guid(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_FORMAT_EVENT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_format_event(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_RESTORED_TEXT_ITEMS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_RESTORED_TEXT_ITEMS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_restored_text_items(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_UPDATE_FOOTPRINT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_UPDATE_FOOTPRINT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_update_footprint(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_VISIBLE_TEXT_ITEMS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_VISIBLE_TEXT_ITEMS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_visible_text_items(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_XML_SNAPSHOT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_INSPECT_XML_SNAPSHOT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_inspect_xml_snapshot(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_MAKE_AWARENESS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_MAKE_AWARENESS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_make_awareness(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_RESOLVE_XML_RELATIVE_POSITION
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_RESOLVE_XML_RELATIVE_POSITION
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_resolve_xml_relative_position(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_RESTORE_UNDO_MANAGER
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_RESTORE_UNDO_MANAGER
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_restore_undo_manager(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_STATE_FROM_SNAPSHOT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_STATE_FROM_SNAPSHOT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_state_from_snapshot(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_STATE_SNAPSHOT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_STATE_SNAPSHOT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_state_snapshot(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_TRANSACT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_TRANSACT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_transact(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_UNDO_MANAGER
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_UNDO_MANAGER
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_undo_manager(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_VALIDATE_UNDO_HISTORY
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSDOC_VALIDATE_UNDO_HISTORY
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsdoc_validate_undo_history(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_CLEAR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_CLEAR
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_clear(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_CONTAINS_KEY
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_CONTAINS_KEY
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_contains_key(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_EACH
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_EACH
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_each(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_GET
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_GET
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_get(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_INSERT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_INSERT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_insert(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_KEYS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_KEYS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_keys(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_LENGTH
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_LENGTH
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_length(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_OBSERVE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_OBSERVE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_observe(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_RAW_PTR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_RAW_PTR
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_raw_ptr(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_REMOVE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_REMOVE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_remove(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_VALUES
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAP_VALUES
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmap_values(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_APPEND
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_APPEND
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_append(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_FORMAT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_FORMAT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_format(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_GET_STRING
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_GET_STRING
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_get_string(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_insert(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT_EMBED
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT_EMBED
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_insert_embed(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT_EMBED_WITH_ATTRIBUTES
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT_EMBED_WITH_ATTRIBUTES
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_insert_embed_with_attributes(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT_WITH_ATTRIBUTES
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_INSERT_WITH_ATTRIBUTES
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_insert_with_attributes(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_LENGTH
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_LENGTH
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_length(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_OBSERVE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_OBSERVE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_observe(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_RAW_PTR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_RAW_PTR
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_raw_ptr(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_REMOVE_RANGE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXT_REMOVE_RANGE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstext_remove_range(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_FREE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_FREE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_free(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_INTEGRATION_STATUS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_INTEGRATION_STATUS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_integration_status(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_ORIGIN
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_ORIGIN
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_origin(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_APPLY_UPDATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_APPLY_UPDATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_apply_update(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_ENCODE_STATE_AS_UPDATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_ENCODE_STATE_AS_UPDATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_encode_state_as_update(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_ENCODE_STATE_AS_UPDATE_FROM_SV
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_ENCODE_STATE_AS_UPDATE_FROM_SV
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_encode_state_as_update_from_sv(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_ENCODE_UPDATE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_ENCODE_UPDATE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_encode_update(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_GET_ARRAY
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_GET_ARRAY
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_get_array(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_GET_MAP
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_GET_MAP
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_get_map(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_GET_TEXT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_GET_TEXT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_get_text(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_STATE_VECTOR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTRANSACTION_TRANSACTION_STATE_VECTOR
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstransaction_transaction_state_vector(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOEVENT_HAS_CHANGED
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOEVENT_HAS_CHANGED
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundoevent_has_changed(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOEVENT_KIND
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOEVENT_KIND
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundoevent_kind(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOEVENT_ORIGIN
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOEVENT_ORIGIN
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundoevent_origin(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_ADD_ORIGIN
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_ADD_ORIGIN
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_add_origin(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_ADD_SCOPE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_ADD_SCOPE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_add_scope(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_CLEAR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_CLEAR
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_clear(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_EXPORT_HISTORY
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_EXPORT_HISTORY
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_export_history(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_ADDED
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_ADDED
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_observe_added(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_POPPED
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_POPPED
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_observe_popped(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_UPDATED
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_OBSERVE_UPDATED
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_observe_updated(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_PRESERVE_CHANGED_XML
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_PRESERVE_CHANGED_XML
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_preserve_changed_xml(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REDO
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REDO
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_redo(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REDO_METADATA
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REDO_METADATA
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_redo_metadata(void
-
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REDO_UPDATE
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REDO_UPDATE
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_redo_update(void
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REMOVE_ORIGIN
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_REMOVE_ORIGIN
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_remove_origin(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_RETIRE_HISTORY_ITEMS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_RETIRE_HISTORY_ITEMS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_retire_history_items(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_UNDO
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_UNDO
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_undo(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_UNDO_METADATA
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_UNDO_METADATA
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_undo_metadata(void
-
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_UNDO_UPDATE
+#define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_UNDO_UPDATE
+uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_undo_update(void
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_WRAP_CHANGES
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGER_WRAP_CHANGES
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanager_wrap_changes(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_ATTRIBUTES
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_ATTRIBUTES
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_attributes(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_CHILD
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_CHILD
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_child(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_DELTA
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_DELTA
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_delta(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_FORMAT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_FORMAT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_format(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_INSERT_ELEMENT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_INSERT_ELEMENT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_insert_element(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_INSERT_STRING
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_INSERT_STRING
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_insert_string(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_INSERT_TEXT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_INSERT_TEXT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_insert_text(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_IS_SAME_NODE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_IS_SAME_NODE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_is_same_node(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_KIND
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_KIND
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_kind(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_LENGTH
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_LENGTH
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_length(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_RAW_PTR
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_RAW_PTR
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_raw_ptr(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_RELATIVE_POSITION
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_RELATIVE_POSITION
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_relative_position(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_REMOVE_ATTRIBUTE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_REMOVE_ATTRIBUTE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_remove_attribute(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_REMOVE_CHILDREN
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_REMOVE_CHILDREN
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_remove_children(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_REMOVE_TEXT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_REMOVE_TEXT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_remove_text(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_RESOLVE_RELATIVE_POSITION
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_RESOLVE_RELATIVE_POSITION
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_resolve_relative_position(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_SET_ATTRIBUTE
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_SET_ATTRIBUTE
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_set_attribute(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TAG
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TAG
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_tag(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TEXT
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TEXT
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_text(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TEXT_ITEMS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSXMLNODE_TEXT_ITEMS
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsxmlnode_text_items(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_NEW
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_NEW
 uint16_t uniffi_uniffi_yniffi_checksum_constructor_yrsdoc_new(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_WITH_OPTIONS
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_CONSTRUCTOR_YRSDOC_WITH_OPTIONS
 uint16_t uniffi_uniffi_yniffi_checksum_constructor_yrsdoc_with_options(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAYEACHDELEGATE_CALL
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAYEACHDELEGATE_CALL
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarrayeachdelegate_call(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAYOBSERVATIONDELEGATE_CALL
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSARRAYOBSERVATIONDELEGATE_CALL
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsarrayobservationdelegate_call(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAPITERATORDELEGATE_CALL
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAPITERATORDELEGATE_CALL
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmapiteratordelegate_call(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAPKVITERATORDELEGATE_CALL
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAPKVITERATORDELEGATE_CALL
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmapkviteratordelegate_call(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAPOBSERVATIONDELEGATE_CALL
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSMAPOBSERVATIONDELEGATE_CALL
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsmapobservationdelegate_call(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXTOBSERVATIONDELEGATE_CALL
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSTEXTOBSERVATIONDELEGATE_CALL
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrstextobservationdelegate_call(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGEROBSERVATIONDELEGATE_CALL
 #define UNIFFI_FFIDEF_UNIFFI_UNIFFI_YNIFFI_CHECKSUM_METHOD_YRSUNDOMANAGEROBSERVATIONDELEGATE_CALL
 uint16_t uniffi_uniffi_yniffi_checksum_method_yrsundomanagerobservationdelegate_call(void
-
+    
 );
 #endif
 #ifndef UNIFFI_FFIDEF_FFI_UNIFFI_YNIFFI_UNIFFI_CONTRACT_VERSION
 #define UNIFFI_FFIDEF_FFI_UNIFFI_YNIFFI_UNIFFI_CONTRACT_VERSION
 uint32_t ffi_uniffi_yniffi_uniffi_contract_version(void
-
+    
 );
 #endif
 

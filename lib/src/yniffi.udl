@@ -312,6 +312,16 @@ interface YrsUndoManager {
     [Throws=YrsUndoError]
     boolean redo();
 
+    /// Undoes the last operation and returns that transaction's own lib0 v1
+    /// update, empty when the undo stack was empty.
+    [Throws=YrsUndoError]
+    bytes undo_update();
+
+    /// Redoes the last undone operation and returns that transaction's own
+    /// lib0 v1 update, empty when the redo stack was empty.
+    [Throws=YrsUndoError]
+    bytes redo_update();
+
     /// Wraps a set of recent changes together into a single undo operation. These
     /// changes will be be undone together on the next `undo` method call.
     void wrap_changes();

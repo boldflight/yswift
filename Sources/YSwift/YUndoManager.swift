@@ -84,6 +84,21 @@ public final class YUndoManager<T: AnyObject> {
         return try _manager.undo()
     }
 
+    /// Undoes like ``undo()`` and returns the undo transaction's own update
+    /// (lib0 v1), which carries only what it inserted and deleted; nil when
+    /// there was nothing to undo.
+    public func undoUpdate() throws -> Data? {
+        let update = try _manager.undoUpdate()
+        return update.isEmpty ? nil : Data(update)
+    }
+
+    /// Redoes like ``redo()`` and returns that transaction's own update; nil
+    /// when there was nothing to redo.
+    public func redoUpdate() throws -> Data? {
+        let update = try _manager.redoUpdate()
+        return update.isEmpty ? nil : Data(update)
+    }
+
     /// Replays a change forward from the Undo managers stack.
     /// - Returns: A Boolean value that indicates wether the change was replayed.
     public func redo() throws -> Bool {
